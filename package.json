@@ -3,12 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "serve": "vue-cli-service serve:custom",
+    "build": "vue-cli-service build:custom",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@tailwindcss/ui": "^0.6.2",
+    "axios": "^0.20.0",
     "core-js": "^3.6.5",
+    "https-localhost": "^4.6.3",
+    "penpal": "^5.2.1",
     "tailwindcss": "^1.9.2",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
@@ -31,6 +35,11 @@
     "eslint-plugin-vue": "^7.0.0-0",
     "prettier": "^1.19.1",
     "typescript": "~3.9.3"
+  },
+  "vuePlugins": {
+    "service": [
+      "config.js"
+    ]
   },
   "eslintConfig": {
     "root": true,
