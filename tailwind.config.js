@@ -5,6 +5,9 @@ module.exports = {
   purge: ['./public/**/*.html', './src/**/*.vue'],
   theme: {
     extend: {
+      spacing: {
+        '112': '28rem'
+      },
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans]
       }
