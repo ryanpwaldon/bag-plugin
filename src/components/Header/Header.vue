@@ -9,6 +9,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import CloseButton from '../CloseButton/CloseButton.vue'
+import { comms } from '@/services/comms/comms'
 export default defineComponent({
   components: {
     CloseButton
@@ -25,7 +26,7 @@ export default defineComponent({
   },
   methods: {
     close() {
-      this.$store.dispatch('close')
+      comms.triggerStateChange('close')
     }
   }
 })

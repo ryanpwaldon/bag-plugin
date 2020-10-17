@@ -3,7 +3,7 @@ import { connectToChild } from 'penpal'
 import axios from 'axios'
 
 class Checkout {
-  comms?: ChildMethods
+  comms = {} as ChildMethods
   frame: HTMLIFrameElement = this.createFrame()
   exposedMethods = {
     getCart: async () => {
@@ -25,9 +25,7 @@ class Checkout {
       const { data } = await axios({ url: '/cart/change.js', method: 'post', data: { id, quantity } })
       return data
     },
-    hideFrame: () => {
-      this.updateVisibility(false)
-    }
+    triggerStateChange: this.triggerStateChange.bind(this)
   }
 
   async init() {
@@ -56,8 +54,14 @@ class Checkout {
     return connectToChild({ iframe, methods }).promise as Promise<ChildMethods>
   }
 
-  updateVisibility(shouldShow: boolean) {
-    this.frame.style.display = shouldShow ? 'block' : 'none'
+  async triggerStateChange(state: 'open' | 'close') {
+    if (state === 'open') {
+      this.frame.style.display = 'block'
+      this.comms.open()
+    } else {
+      await this.comms.close()
+      this.frame.style.display = 'none'
+    }
   }
 
   attachEventListeners() {
@@ -65,8 +69,8 @@ class Checkout {
     for (const button of buttons) {
       button.addEventListener('click', e => {
         e.preventDefault()
-        this.updateVisibility(true)
-        this.comms?.open()
+        this.triggerStateChange('open')
+        this.comms.open()
       })
     }
   }

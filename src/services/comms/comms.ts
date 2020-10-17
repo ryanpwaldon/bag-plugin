@@ -1,22 +1,13 @@
-import store from '@/store/store'
 import { ParentMethods } from 'public/script'
 import { connectToParent } from 'penpal'
 
-const exposedMethods = {
-  open: () => store.dispatch('open')
+export type ChildMethods = {
+  open: () => void
+  close: () => void
 }
 
-export type ChildMethods = typeof exposedMethods
+export let comms: ParentMethods
 
-function connect() {
-  const methods = exposedMethods
-  return connectToParent({ methods }).promise as Promise<ParentMethods>
+export const connect = async (methods: ChildMethods) => {
+  comms = await (connectToParent({ methods }).promise as Promise<ParentMethods>)
 }
-
-let comms: ParentMethods | undefined
-
-export const init = async () => {
-  comms = await connect()
-}
-
-export default comms
