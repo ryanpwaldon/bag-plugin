@@ -2,7 +2,7 @@
   <div class="flex items-center justify-between">
     <div class="text-lg font-medium leading-6 text-gray-900">{{ title }}</div>
     <div v-if="meta" class="ml-auto mr-4 text-sm leading-5 text-gray-500">{{ meta }}</div>
-    <CloseButton class="-mr-2" />
+    <CloseButton @click="close" class="-mr-2" />
   </div>
 </template>
 
@@ -21,6 +21,11 @@ export default defineComponent({
     meta: {
       type: String,
       required: false
+    }
+  },
+  methods: {
+    close() {
+      this.$store.dispatch('close')
     }
   }
 })
