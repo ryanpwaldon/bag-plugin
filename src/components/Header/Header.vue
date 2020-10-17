@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-between">
+  <div class="flex items-center justify-between select-none">
     <div class="text-lg font-medium leading-6 text-gray-900">{{ title }}</div>
     <div v-if="meta" class="ml-auto mr-4 text-sm leading-5 text-gray-500">{{ meta }}</div>
     <CloseButton @click="close" class="-mr-2" />

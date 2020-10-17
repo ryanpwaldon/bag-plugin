@@ -1,5 +1,5 @@
 <template>
-  <span class="inline-flex rounded-md shadow" :class="[loading && 'cursor-not-allowed pointer-events-none']">
+  <span class="inline-flex rounded-md shadow select-none" :class="[loading && 'cursor-not-allowed pointer-events-none']">
     <button
       :type="type"
       :class="[classes]"

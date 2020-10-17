@@ -1,8 +1,8 @@
 <template>
-  <div class="relative flex items-end justify-end w-full h-full p-1 antialiased sm:p-6">
+  <div class="relative flex items-end justify-end w-full h-full p-1 antialiased sm:p-2">
     <div
       ref="backdrop"
-      class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50"
+      class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-75"
       style="will-change: transform"
       @click="handleBackdropClick"
     />

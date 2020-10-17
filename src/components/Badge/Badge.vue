@@ -1,5 +1,5 @@
 <template>
-  <span class="inline-flex items-center" :class="[classes]">
+  <span class="inline-flex items-center select-none" :class="[classes]">
     {{ text }}
   </span>
 </template>
