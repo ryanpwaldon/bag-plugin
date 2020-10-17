@@ -31,6 +31,7 @@ class Checkout {
   }
 
   async init() {
+    document.body.appendChild(this.frame)
     this.comms = await this.connect()
     this.attachEventListeners()
   }
@@ -50,8 +51,9 @@ class Checkout {
   }
 
   connect() {
+    const iframe = this.frame
     const methods = this.exposedMethods
-    return connectToChild({ iframe: this.frame, methods }).promise as Promise<ChildMethods>
+    return connectToChild({ iframe, methods }).promise as Promise<ChildMethods>
   }
 
   updateVisibility(shouldShow: boolean) {
