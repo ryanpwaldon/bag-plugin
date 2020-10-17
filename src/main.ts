@@ -5,7 +5,7 @@ import store from './store/store'
 import setup from '@/setup/setup'
 import '@/assets/styles/index.css'
 
-async function start() {
+async function init() {
   await setup()
   createApp(App)
     .use(store)
@@ -13,4 +13,4 @@ async function start() {
     .mount('#app')
 }
 
-start()
+init()
