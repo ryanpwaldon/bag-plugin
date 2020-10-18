@@ -21,7 +21,7 @@
         image="https://cdn.shopify.com/s/files/1/0277/3070/6514/products/TB-8051513920066.01.jpg?v=1592390773"
         quantity="2"
       />
-      <DividerLabel text="Offers" class="z-20 py-5" />
+      <DividerLabel text="Offers" class="z-20 py-1" />
       <Offer
         title="Urban Monochrome Drinking Bottle"
         subtitle="Only $4.99"

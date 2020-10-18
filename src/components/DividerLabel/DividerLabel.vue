@@ -1,7 +1,7 @@
 <template>
-  <div class="relative w-full">
-    <div class="w-full h-px bg-gray-200" />
-    <Badge :text="text" theme="gray" class="absolute transform -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2" />
+  <div class="relative flex justify-center w-full">
+    <div class="absolute w-full h-px transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 left-1/2 top-1/2" />
+    <Badge :text="text" theme="gray" class="z-10" />
   </div>
 </template>
 
