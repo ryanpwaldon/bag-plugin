@@ -12,5 +12,9 @@ module.exports = {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans]
       }
     }
+  },
+  variants: {
+    opacity: ({ after }) => after(['focus-within']),
+    pointerEvents: ({ after }) => after(['group-focus', 'focus-within'])
   }
 }
