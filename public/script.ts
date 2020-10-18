@@ -1,12 +1,13 @@
 import { ChildMethods } from '@/services/comms/comms'
 import { connectToChild } from 'penpal'
 import axios from 'axios'
+import { CartResponse, ProductResponse } from '@/types/shopify'
 
 class Checkout {
   comms = {} as ChildMethods
   frame: HTMLIFrameElement = this.createFrame()
   exposedMethods = {
-    getCart: async () => {
+    getCart: async (): Promise<CartResponse> => {
       const { data } = await axios({ url: '/cart.js', method: 'get' })
       return data
     },
@@ -17,11 +18,11 @@ class Checkout {
     getParentOrigin: () => {
       return window.location.origin
     },
-    getProductDetails: async (slug: string) => {
+    getProduct: async (slug: string): Promise<ProductResponse> => {
       const { data } = await axios({ url: `/products/${slug}.js`, method: 'get' })
       return data
     },
-    updateQuantity: async (id: string, quantity: string) => {
+    updateQuantity: async (id: string, quantity: string): Promise<CartResponse> => {
       const { data } = await axios({ url: '/cart/change.js', method: 'post', data: { id, quantity } })
       return data
     },
