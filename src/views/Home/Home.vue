@@ -4,22 +4,14 @@
     <div class="relative grid gap-5 px-5 overflow-scroll auto-rows-max">
       <div class="w-full h-px" />
       <LineItem
-        title="2021 Studio Art Diary"
-        price="$44.95"
-        :variants="[{ name: 'Size', value: 'A4' }]"
-        image="https://cdn.shopify.com/s/files/1/0277/3070/6514/products/MG-2021_AGENDA_A5_ART_01.jpg?"
-        quantity="1"
-      />
-      <LineItem
-        title="Urban Monochrome Drinking Bottle"
-        price="$34.95"
-        original-price="$44.95"
-        :variants="[
-          { name: 'Color', value: 'Black' },
-          { name: 'Size', value: '500ml' }
-        ]"
-        image="https://cdn.shopify.com/s/files/1/0277/3070/6514/products/TB-8051513920066.01.jpg?v=1592390773"
-        quantity="2"
+        :key="i"
+        v-for="(lineItem, i) in lineItems"
+        :title="lineItem.title"
+        :price="lineItem.final_line_price"
+        :options="lineItem.options_with_values"
+        :image="lineItem.featured_image.url"
+        :quantity="lineItem.quantity"
+        @click="$emit('route', { name: 'Edit', props: { lineItem } })"
       />
       <DividerLabel text="Offers" class="z-20 py-1" />
       <Offer
@@ -50,7 +42,9 @@ import Offer from '@/components/Offer/Offer.vue'
 import Balance from '@/components/Balance/Balance.vue'
 import Button from '@/components/Button/Button.vue'
 import DividerLabel from '@/components/DividerLabel/DividerLabel.vue'
-import { defineComponent } from 'vue'
+import { Cart } from '@/types/shopify'
+import { comms } from '@/services/comms/comms'
+import { computed, defineComponent, Ref, ref, watchEffect } from 'vue'
 export default defineComponent({
   components: {
     Header,
@@ -59,6 +53,19 @@ export default defineComponent({
     Balance,
     Button,
     DividerLabel
+  },
+  setup() {
+    const cart: Ref<Cart | null> = ref(null)
+    const loading = ref(false)
+    const lineItems = computed(() => cart.value?.items || [])
+    const fetchCart = async () => {
+      loading.value = true
+      const { getCart } = await comms
+      cart.value = await getCart()
+      loading.value = false
+    }
+    watchEffect(fetchCart)
+    return { cart, lineItems, loading, fetchCart }
   }
 })
 </script>

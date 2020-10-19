@@ -1,13 +1,23 @@
-import { ParentMethods } from 'public/script'
 import { connectToParent } from 'penpal'
+import { ParentMethods } from 'public/script'
+import { ref, Ref, watch } from 'vue'
 
 export type ChildMethods = {
   open: () => void
   close: () => void
 }
 
-export let comms: ParentMethods
+const parentMethods: Ref<ParentMethods | null> = ref(null)
 
-export const connect = async (methods: ChildMethods) => {
-  comms = await (connectToParent({ methods }).promise as Promise<ParentMethods>)
+export const comms: Promise<ParentMethods> = new Promise(resolve => {
+  if (parentMethods.value) return resolve(parentMethods.value)
+  const watcher = watch(parentMethods, value => {
+    if (!value) return
+    watcher()
+    return resolve(value)
+  })
+})
+
+export const connect = async (childMethods: ChildMethods) => {
+  parentMethods.value = await (connectToParent({ methods: childMethods }).promise as Promise<ParentMethods>)
 }

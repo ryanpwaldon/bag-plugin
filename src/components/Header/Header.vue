@@ -25,8 +25,9 @@ export default defineComponent({
     }
   },
   methods: {
-    close() {
-      comms.triggerStateChange('close')
+    async close() {
+      const { triggerStateChange } = await comms
+      triggerStateChange('close')
     }
   }
 })

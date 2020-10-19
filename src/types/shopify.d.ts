@@ -100,7 +100,7 @@ interface FeaturedMedia {
   preview_image: PreviewImage
 }
 
-interface LineItem {
+export interface LineItem {
   id: number
   properties: any | null
   quantity: number
@@ -151,7 +151,7 @@ interface OptionsWithValue {
   value: string
 }
 
-export interface CartResponse {
+export interface Cart {
   token: string
   note: null
   attributes: any
@@ -169,10 +169,6 @@ export interface CartResponse {
 
 export interface CartAddResponse {
   items: LineItem[]
-}
-
-export interface ProductResponse {
-  (...Product)
 }
 
 export interface ProductRecommendationsResponse {

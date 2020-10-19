@@ -50,8 +50,9 @@ export default defineComponent({
       })
       await tl.finished
     },
-    handleBackdropClick() {
-      comms.triggerStateChange('close')
+    async handleBackdropClick() {
+      const { triggerStateChange } = await comms
+      triggerStateChange('close')
     }
   }
 })

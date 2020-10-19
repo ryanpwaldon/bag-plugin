@@ -6,10 +6,10 @@
     <div class="flex self-center justify-between w-full p-4 overflow-hidden text-xs leading-4 text-gray-500">
       <div class="relative flex flex-col w-full overflow-hidden text-left">
         <p class="text-sm font-medium leading-5 text-gray-900">{{ title }}</p>
-        <p v-if="variants">
-          <span v-for="({ name, value }, i) of variants" :key="i">
+        <p v-if="options">
+          <span v-for="({ name, value }, i) of options" :key="i">
             {{ name }}: {{ value }}
-            <span v-if="variants && i !== variants.length - 1"> · </span>
+            <span v-if="options && i !== options.length - 1"> · </span>
           </span>
         </p>
         <p>Quantity: {{ quantity }} · <span class="text-blue-700">Edit</span></p>
@@ -27,7 +27,7 @@
 import { defineComponent, PropType } from 'vue'
 import GradientSpacer from '../GradientSpacer/GradientSpacer.vue'
 
-interface Variant {
+interface Option {
   name: string
   value: string
 }
@@ -49,8 +49,8 @@ export default defineComponent({
       type: String,
       required: false
     },
-    variants: {
-      type: Array as PropType<Variant[]>,
+    options: {
+      type: Array as PropType<Option[]>,
       defualt: () => []
     },
     quantity: {
