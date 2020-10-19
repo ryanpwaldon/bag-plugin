@@ -10,6 +10,21 @@
         :image="lineItem.featured_image.url"
         :quantity="lineItem.quantity"
       />
+      <Card>
+        <InputNumber
+          name="quantity"
+          label="Quantity"
+          :rules="
+            $yup
+              .number()
+              .typeError('Quantity must be a number.')
+              .required('Quantity is required.')
+              .integer('Quantity cannot be a decimal.')
+              .min(1, 'Quantity must be equal to 1 or more.')
+          "
+          :initial-value="lineItem.quantity"
+        />
+      </Card>
       <div class="w-full h-px" />
     </div>
     <div class="grid flex-shrink-0 gap-4 p-5 mt-auto border-t border-gray-200">
@@ -23,13 +38,17 @@
 import Header from '@/components/Header/Header.vue'
 import LineItem from '@/components/LineItem/LineItem.vue'
 import Button from '@/components/Button/Button.vue'
+import Card from '@/components/Card/Card.vue'
+import InputNumber from '@/components/InputNumber/InputNumber.vue'
 import { defineComponent, PropType } from 'vue'
 import { LineItem as LineItemType } from '@/types/shopify'
 export default defineComponent({
   components: {
     Header,
     LineItem,
-    Button
+    Button,
+    Card,
+    InputNumber
   },
   props: {
     lineItem: {

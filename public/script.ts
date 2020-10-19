@@ -22,8 +22,14 @@ class Checkout {
       const { data } = await axios({ url: `/products/${slug}.js`, method: 'get' })
       return data
     },
-    updateLineItemQuantity: async (id: string, quantity: string): Promise<Cart> => {
-      const { data } = await axios({ url: '/cart/change.js', method: 'post', data: { id, quantity } })
+    addVariantToCart: async (variantId: string, quantity: number): Promise<Product> => {
+      const body = { items: [{ id: variantId, quantity }] }
+      const { data } = await axios({ url: `/cart/add.js`, method: 'post', data: body })
+      return data
+    },
+    changeLineItemQuantity: async (lineItemKey: string, quantity: number): Promise<Cart> => {
+      const body = { id: lineItemKey, quantity }
+      const { data } = await axios({ url: '/cart/change.js', method: 'post', data: body })
       return data
     },
     triggerStateChange: this.triggerStateChange.bind(this)
