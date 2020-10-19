@@ -42,11 +42,11 @@ export default defineComponent({
       required: true
     },
     price: {
-      type: String,
+      type: [String, Number],
       required: true
     },
     originalPrice: {
-      type: String,
+      type: [String, Number],
       required: false
     },
     options: {
@@ -54,7 +54,7 @@ export default defineComponent({
       defualt: () => []
     },
     quantity: {
-      type: String,
+      type: [String, Number],
       required: true
     },
     image: {
