@@ -34,12 +34,12 @@
               >
                 <div
                   class="relative py-2 pl-3 cursor-default select-none"
-                  :class="active ? 'text-white bg-blue-600 pr-9' : variant.inStock ? 'text-gray-900' : 'text-gray-400 pr-24'"
+                  :class="[active && 'bg-gray-100 pr-9', variant.inStock ? 'text-gray-900' : 'text-gray-400 pr-24']"
                 >
                   <span :class="`${selected ? 'font-medium' : 'font-normal'} block truncate`">
                     {{ variant.name }}
                   </span>
-                  <span :class="`${active ? 'text-white' : 'text-blue-600'} absolute inset-y-0 right-0 flex items-center pr-4`">
+                  <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-900">
                     <svg v-if="selected" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                       <path
                         fill-rule="evenodd"
