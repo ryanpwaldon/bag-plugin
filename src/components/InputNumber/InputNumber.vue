@@ -56,8 +56,8 @@ export default defineComponent({
       required: false
     },
     rules: {
-      type: String,
-      required: false
+      type: Object,
+      required: true
     },
     initialValue: {
       type: Number,
@@ -65,7 +65,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { value, errorMessage, handleChange } = useField(props.name, props.rules as string, { initialValue: props.initialValue })
+    const { value, errorMessage, handleChange } = useField(props.name, props.rules, { initialValue: props.initialValue })
     return { value, errorMessage, handleChange }
   },
   methods: {

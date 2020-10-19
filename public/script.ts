@@ -18,8 +18,8 @@ class Checkout {
     getParentOrigin: () => {
       return window.location.origin
     },
-    getProduct: async (slug: string): Promise<Product> => {
-      const { data } = await axios({ url: `/products/${slug}.js`, method: 'get' })
+    getProduct: async (handle: string): Promise<Product> => {
+      const { data } = await axios({ url: `/products/${handle}.js`, method: 'get' })
       return data
     },
     addVariantToCart: async (variantId: string, quantity: number): Promise<Product> => {

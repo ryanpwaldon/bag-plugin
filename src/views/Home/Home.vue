@@ -62,8 +62,8 @@ export default defineComponent({
     LoaderCard
   },
   setup() {
-    const cart: Ref<Cart | null> = ref(null)
     const loading = ref(false)
+    const cart: Ref<Cart | null> = ref(null)
     const lineItems = computed(() => cart.value?.items || [])
     const fetchCart = async () => {
       loading.value = true

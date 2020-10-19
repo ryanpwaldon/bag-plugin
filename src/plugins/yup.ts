@@ -1,8 +1,11 @@
 import { App } from 'vue'
-import { number } from 'yup'
+import { string, number } from 'yup'
 
 export default {
   install: (app: App) => {
-    app.config.globalProperties.$yup = { number }
+    app.config.globalProperties.$yup = {
+      string,
+      number
+    }
   }
 }
