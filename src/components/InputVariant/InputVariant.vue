@@ -90,10 +90,6 @@ export default defineComponent({
       type: String,
       required: true
     },
-    placeholder: {
-      type: String,
-      required: true
-    },
     rules: {
       type: Object,
       required: true
