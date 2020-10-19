@@ -44,7 +44,7 @@
     </div>
     <div class="grid flex-shrink-0 gap-4 p-5 border-t border-gray-200">
       <Button text="Save" theme="black" />
-      <Button text="Back" theme="white" @click="$emit('route', { name: 'Home' })" />
+      <Button text="Cancel" theme="white" @click="$emit('route', { name: 'Home' })" />
     </div>
   </div>
 </template>
