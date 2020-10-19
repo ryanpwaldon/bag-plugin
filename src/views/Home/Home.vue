@@ -10,7 +10,7 @@
         <LineItem
           :key="i"
           v-for="(lineItem, i) in lineItems"
-          :title="lineItem.title"
+          :title="lineItem.product_title"
           :price="lineItem.final_line_price"
           :options="lineItem.options_with_values"
           :image="lineItem.featured_image.url"

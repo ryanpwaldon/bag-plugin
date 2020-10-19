@@ -4,7 +4,7 @@
     <div class="relative grid flex-1 gap-5 px-5 overflow-scroll auto-rows-max">
       <div class="w-full h-px" />
       <LineItem
-        :title="lineItem.title"
+        :title="lineItem.product_title"
         :price="lineItem.final_line_price"
         :options="lineItem.options_with_values"
         :image="lineItem.featured_image.url"
