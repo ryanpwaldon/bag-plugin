@@ -1,5 +1,6 @@
 <template>
-  <button
+  <component
+    :is="editMode ? 'div' : 'button'"
     class="flex flex-shrink-0 overflow-hidden whitespace-no-wrap transition duration-150 ease-in-out bg-white border border-transparent rounded-lg shadow focus:border-blue-300 focus:shadow-outline-blue focus:outline-none group"
   >
     <div class="flex-shrink-0 w-24 h-24 bg-center bg-cover" :style="{ backgroundImage: `url(${image})` }" />
@@ -12,7 +13,10 @@
             <span v-if="options && i !== options.length - 1"> · </span>
           </span>
         </p>
-        <p>Quantity: {{ quantity }} · <span class="text-blue-700">Edit</span></p>
+        <p>
+          Quantity: {{ quantity }}
+          <template v-if="!editMode"> · <span class="text-blue-700">Edit</span> </template>
+        </p>
       </div>
       <div class="relative flex flex-col items-end pl-4 text-right">
         <GradientSpacer />
@@ -20,7 +24,7 @@
         <p class="line-through">{{ originalPrice }}</p>
       </div>
     </div>
-  </button>
+  </component>
 </template>
 
 <script lang="ts">
@@ -60,6 +64,10 @@ export default defineComponent({
     image: {
       type: String,
       required: true
+    },
+    editMode: {
+      type: Boolean,
+      default: false
     }
   }
 })

@@ -15,6 +15,7 @@
         </CardLayout>
         <CardLayout v-else>
           <LineItem
+            edit-mode
             :title="lineItem.product_title"
             :price="lineItem.final_line_price"
             :options="lineItem.options_with_values"
