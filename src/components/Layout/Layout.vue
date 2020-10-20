@@ -19,8 +19,13 @@ import anime from 'animejs'
 export default defineComponent({
   mounted() {
     connect({ open: this.open, close: this.close })
+    this.set()
   },
   methods: {
+    set() {
+      const { backdrop, cart } = this.$refs
+      anime.set([backdrop, cart], { opacity: 0 })
+    },
     async open() {
       const tl = anime.timeline()
       const { backdrop, cart } = this.$refs
