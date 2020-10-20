@@ -1,8 +1,10 @@
 <template>
   <div class="flex flex-col h-full">
     <Header title="Back to Cart" :back="() => $emit('route', { name: 'Home' })" />
-    <div class="relative grid flex-1 gap-5 px-5 overflow-scroll auto-rows-max">
-      <div class="w-full h-px" />
+    <CardLayout v-if="loading">
+      <LoaderCard v-for="n in 2" :key="n" />
+    </CardLayout>
+    <CardLayout v-else>
       <LineItem
         :title="lineItem.product_title"
         :price="lineItem.final_line_price"
@@ -10,10 +12,7 @@
         :image="lineItem.featured_image.url"
         :quantity="lineItem.quantity"
       />
-      <template v-if="loading">
-        <LoaderCard v-for="n in 2" :key="n" />
-      </template>
-      <Card v-else class="grid gap-4">
+      <Card class="grid gap-4">
         <InputNumber
           name="quantity"
           label="Quantity"
@@ -40,9 +39,8 @@
           "
         />
       </Card>
-      <div class="w-full h-px" />
-    </div>
-    <div class="grid flex-shrink-0 gap-4 p-5 border-t border-gray-200">
+    </CardLayout>
+    <div class="grid flex-shrink-0 gap-4 p-5 mt-auto border-t border-gray-200">
       <Button text="Save" theme="black" />
       <Button text="Cancel" theme="white" @click="$emit('route', { name: 'Home' })" />
     </div>
@@ -57,6 +55,7 @@ import InputNumber from '@/components/InputNumber/InputNumber.vue'
 import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
 import InputVariant from '@/components/InputVariant/InputVariant.vue'
 import Header from '@/components/Header/Header.vue'
+import CardLayout from '@/components/CardLayout/CardLayout.vue'
 import { computed, defineComponent, PropType, ref, Ref, watchEffect } from 'vue'
 import { LineItem as LineItemType, Product } from '@/types/shopify'
 import { comms } from '@/services/comms/comms'
@@ -68,7 +67,8 @@ export default defineComponent({
     InputNumber,
     LoaderCard,
     InputVariant,
-    Header
+    Header,
+    CardLayout
   },
   props: {
     lineItem: {
