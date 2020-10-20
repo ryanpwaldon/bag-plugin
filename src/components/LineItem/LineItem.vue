@@ -6,7 +6,9 @@
     <div class="flex-shrink-0 w-24 h-24 bg-center bg-cover" :style="{ backgroundImage: `url(${image})` }" />
     <div class="flex self-center justify-between w-full p-4 overflow-hidden text-xs leading-4 text-gray-500">
       <div class="relative flex flex-col w-full overflow-hidden text-left">
-        <p class="text-sm font-medium leading-5 text-gray-900">{{ title }}</p>
+        <p class="text-sm font-medium leading-5 text-gray-900 transition duration-150 ease-in-out" :class="!editMode && 'group-hover:text-gray-500'">
+          {{ title }}
+        </p>
         <p v-if="options">
           <span v-for="({ name, value }, i) of options" :key="i">
             {{ name }}: {{ value }}
@@ -20,7 +22,9 @@
       </div>
       <div class="relative flex flex-col items-end pl-4 text-right">
         <GradientSpacer />
-        <p class="text-sm font-medium leading-5 text-gray-900">{{ price }}</p>
+        <p class="text-sm font-medium leading-5 text-gray-900 transition duration-150 ease-in-out" :class="!editMode && 'group-hover:text-gray-500'">
+          {{ price }}
+        </p>
         <p class="line-through">{{ originalPrice }}</p>
       </div>
     </div>

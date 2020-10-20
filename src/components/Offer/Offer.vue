@@ -5,7 +5,7 @@
     <div class="flex-shrink-0 w-24 h-24 bg-center bg-cover" :style="{ backgroundImage: `url(${image})` }" />
     <div class="flex self-center justify-between w-full p-4 overflow-hidden">
       <div class="relative flex flex-col w-full overflow-hidden text-left">
-        <p class="text-sm font-medium leading-5 text-gray-900">{{ title }}</p>
+        <p class="text-sm font-medium leading-5 text-gray-900 transition duration-150 ease-in-out group-hover:text-gray-500">{{ title }}</p>
         <p class="text-xs leading-4 text-gray-500">{{ subtitle }}</p>
       </div>
       <div class="relative flex items-center pl-4 transition duration-150 ease-in-out">
