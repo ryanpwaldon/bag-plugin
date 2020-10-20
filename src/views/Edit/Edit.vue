@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col h-full">
-    <Header title="Edit" class="flex-shrink-0 p-5 border-b border-gray-200" />
+    <Header title="Back to Cart" :back="() => $emit('route', { name: 'Home' })" />
     <div class="relative grid flex-1 gap-5 px-5 overflow-scroll auto-rows-max">
       <div class="w-full h-px" />
       <LineItem
@@ -50,25 +50,25 @@
 </template>
 
 <script lang="ts">
-import Header from '@/components/Header/Header.vue'
 import LineItem from '@/components/LineItem/LineItem.vue'
 import Button from '@/components/Button/Button.vue'
 import Card from '@/components/Card/Card.vue'
 import InputNumber from '@/components/InputNumber/InputNumber.vue'
 import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
 import InputVariant from '@/components/InputVariant/InputVariant.vue'
+import Header from '@/components/Header/Header.vue'
 import { computed, defineComponent, PropType, ref, Ref, watchEffect } from 'vue'
 import { LineItem as LineItemType, Product } from '@/types/shopify'
 import { comms } from '@/services/comms/comms'
 export default defineComponent({
   components: {
-    Header,
     LineItem,
     Button,
     Card,
     InputNumber,
     LoaderCard,
-    InputVariant
+    InputVariant,
+    Header
   },
   props: {
     lineItem: {

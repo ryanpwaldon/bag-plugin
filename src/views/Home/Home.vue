@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col h-full">
-    <Header title="Your Cart" :meta="`${2} items`" class="flex-shrink-0 p-5 border-b border-gray-200" />
+    <Header title="Your Cart" :meta="`${2} items`" />
     <div class="relative grid gap-5 px-5 overflow-scroll auto-rows-max">
       <div class="w-full h-px" />
       <template v-if="loading">
