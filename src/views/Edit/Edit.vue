@@ -17,7 +17,7 @@
           <LineItem
             edit-mode
             :title="lineItem.product_title"
-            :price="lineItem.final_line_price"
+            :price="$formatter.currency(lineItem.final_line_price, currencyCode)"
             :options="lineItem.options_with_values"
             :image="lineItem.featured_image.url"
             :quantity="lineItem.quantity"
@@ -85,6 +85,10 @@ export default defineComponent({
   props: {
     lineItem: {
       type: Object as PropType<LineItemType>,
+      required: true
+    },
+    currencyCode: {
+      type: String,
       required: true
     }
   },
