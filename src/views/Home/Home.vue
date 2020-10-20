@@ -1,35 +1,46 @@
 <template>
   <div class="flex flex-col h-full">
     <Header title="Your Cart" :meta="`${2} items`" />
-    <CardLayout v-if="loading">
-      <LoaderCard v-for="n in 3" :key="n" />
-    </CardLayout>
-    <CardLayout v-else>
-      <LineItem
-        :key="i"
-        v-for="(lineItem, i) in lineItems"
-        :title="lineItem.product_title"
-        :price="lineItem.final_line_price"
-        :options="lineItem.options_with_values"
-        :image="lineItem.featured_image.url"
-        :quantity="lineItem.quantity"
-        @click="$emit('route', { name: 'Edit', props: { lineItem } })"
-      />
-      <DividerLabel text="Offers" class="z-20 py-1" />
-      <Offer
-        title="Urban Monochrome Drinking Bottle"
-        subtitle="Only $4.99"
-        image="https://cdn.shopify.com/s/files/1/0277/3070/6514/products/CR-9020_large.jpg?v=159244352733"
-        quantity="2"
-      />
-      <Offer
-        title="Add an infuser lid"
-        subtitle="Only $24.99"
-        image="https://cdn.shopify.com/s/files/1/0277/3070/6514/products/TB-8051513924095.01.jpg?v=1589864316"
-        quantity="2"
-      />
-    </CardLayout>
-    <div class="grid flex-shrink-0 gap-4 p-5 mt-auto border-t border-gray-200">
+    <div class="relative flex-1 overflow-scroll">
+      <transition
+        enter-active-class="transition duration-150 ease-out"
+        enter-from-class="opacity-0"
+        enter-to-class="opacity-100"
+        leave-active-class="transition duration-150 ease-in"
+        leave-from-class="opacity-100"
+        leave-to-class="opacity-0"
+      >
+        <CardLayout v-if="loading" class="absolute top-0 left-0 w-full h-full">
+          <LoaderCard v-for="n in 3" :key="n" />
+        </CardLayout>
+        <CardLayout v-else>
+          <LineItem
+            :key="i"
+            v-for="(lineItem, i) in lineItems"
+            :title="lineItem.product_title"
+            :price="lineItem.final_line_price"
+            :options="lineItem.options_with_values"
+            :image="lineItem.featured_image.url"
+            :quantity="lineItem.quantity"
+            @click="$emit('route', { name: 'Edit', props: { lineItem } })"
+          />
+          <DividerLabel text="Offers" class="z-20 py-1" />
+          <Offer
+            title="Urban Monochrome Drinking Bottle"
+            subtitle="Only $4.99"
+            image="https://cdn.shopify.com/s/files/1/0277/3070/6514/products/CR-9020_large.jpg?v=159244352733"
+            quantity="2"
+          />
+          <Offer
+            title="Add an infuser lid"
+            subtitle="Only $24.99"
+            image="https://cdn.shopify.com/s/files/1/0277/3070/6514/products/TB-8051513924095.01.jpg?v=1589864316"
+            quantity="2"
+          />
+        </CardLayout>
+      </transition>
+    </div>
+    <div class="grid flex-shrink-0 gap-4 p-5 border-t border-gray-200">
       <Balance subtotal="$109.00" />
       <Button text="Checkout" theme="black" />
     </div>

@@ -1,6 +1,6 @@
 <template>
-  <div class="flex items-center p-4 space-x-4 bg-white rounded-lg shadow">
-    <div class="flex-shrink-0 bg-gray-200 rounded-md w-18 h-18 animate-pulse" />
+  <div class="flex items-center p-4 space-x-4 bg-white border border-transparent rounded-lg shadow">
+    <div class="flex-shrink-0 w-16 h-16 bg-gray-200 rounded-md animate-pulse" />
     <div class="grid w-full gap-2">
       <div class="flex justify-between w-full">
         <div class="w-7/12 h-4 bg-gray-200 rounded-full animate-pulse" />
