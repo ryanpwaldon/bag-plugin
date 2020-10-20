@@ -18,10 +18,11 @@
             :key="i"
             v-for="(lineItem, i) in lineItems"
             :title="lineItem.product_title"
-            :price="$formatter.currency(lineItem.final_line_price, cart && cart.currency)"
-            :options="lineItem.options_with_values"
-            :image="lineItem.featured_image.url"
             :quantity="lineItem.quantity"
+            :image="lineItem.featured_image.url"
+            :options="lineItem.options_with_values"
+            :original-price="$formatter.currency(lineItem.original_line_price, cart && cart.currency)"
+            :price="$formatter.currency(lineItem.final_line_price, cart && cart.currency)"
             @click="$emit('route', { name: 'Edit', props: { lineItem, currencyCode: cart && cart.currency } })"
           />
           <DividerLabel text="Offers" class="z-20 py-1" />
@@ -79,6 +80,7 @@ export default defineComponent({
       const { getCart } = await comms
       cart.value = await getCart()
       loading.value = false
+      console.log(cart)
     }
     watchEffect(fetchCart)
     return { cart, lineItems, loading, fetchCart }

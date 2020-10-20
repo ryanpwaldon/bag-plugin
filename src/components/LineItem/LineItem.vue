@@ -25,7 +25,7 @@
         <p class="text-sm font-medium leading-5 text-gray-900 transition duration-150 ease-in-out" :class="!editMode && 'group-hover:text-gray-500'">
           {{ price }}
         </p>
-        <p class="line-through">{{ originalPrice }}</p>
+        <p v-if="price !== originalPrice" class="line-through">{{ originalPrice }}</p>
       </div>
     </div>
   </component>
@@ -55,7 +55,7 @@ export default defineComponent({
     },
     originalPrice: {
       type: [String, Number],
-      required: false
+      required: true
     },
     options: {
       type: Array as PropType<Option[]>,

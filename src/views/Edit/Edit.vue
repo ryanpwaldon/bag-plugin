@@ -17,10 +17,11 @@
           <LineItem
             edit-mode
             :title="lineItem.product_title"
-            :price="$formatter.currency(lineItem.final_line_price, currencyCode)"
-            :options="lineItem.options_with_values"
-            :image="lineItem.featured_image.url"
             :quantity="lineItem.quantity"
+            :image="lineItem.featured_image.url"
+            :options="lineItem.options_with_values"
+            :price="$formatter.currency(lineItem.final_line_price, currencyCode)"
+            :original-price="$formatter.currency(lineItem.original_line_price, currencyCode)"
           />
           <Card class="grid gap-4">
             <InputNumber
@@ -108,6 +109,7 @@ export default defineComponent({
       const { getProduct } = await comms
       product.value = await getProduct(props.lineItem.handle)
       loading.value = false
+      console.log(product.value)
     }
     watchEffect(fetchProduct)
     return { product, variants, loading, fetchProduct }
