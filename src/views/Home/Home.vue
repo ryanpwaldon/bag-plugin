@@ -22,7 +22,7 @@
             :image="lineItem.featured_image.url"
             :options="lineItem.options_with_values"
             :price="$formatter.currency(lineItem.final_line_price, cart && cart.currency)"
-            @click="$emit('route', { name: 'Edit', props: { lineItem, currencyCode: cart && cart.currency } })"
+            @click="$emit('route', { name: 'Edit', props: { initialLineItem: lineItem, currencyCode: cart && cart.currency } })"
           />
           <DividerLabel text="Offers" class="z-20 py-1" />
           <Offer
@@ -79,7 +79,6 @@ export default defineComponent({
       const { getCart } = await comms
       cart.value = await getCart()
       loading.value = false
-      console.log(cart)
     }
     watchEffect(fetchCart)
     return { cart, lineItems, loading, fetchCart }

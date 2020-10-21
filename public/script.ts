@@ -1,7 +1,7 @@
 import { ChildMethods } from '@/services/comms/comms'
 import { connectToChild } from 'penpal'
+import { Cart, Product, AddToCartResponse, LineItem } from '@/types/shopify'
 import axios from 'axios'
-import { Cart, Product } from '@/types/shopify'
 
 class Checkout {
   comms = {} as ChildMethods
@@ -22,10 +22,10 @@ class Checkout {
       const { data } = await axios({ url: `/products/${handle}.js`, method: 'get' })
       return data
     },
-    addVariantToCart: async (variantId: string, quantity: number): Promise<Product> => {
+    addToCart: async (variantId: number, quantity: number): Promise<LineItem> => {
       const body = { items: [{ id: variantId, quantity }] }
-      const { data } = await axios({ url: `/cart/add.js`, method: 'post', data: body })
-      return data
+      const { data }: { data: AddToCartResponse } = await axios({ url: `/cart/add.js`, method: 'post', data: body })
+      return data.items[0]
     },
     changeLineItemQuantity: async (lineItemKey: string, quantity: number): Promise<Cart> => {
       const body = { id: lineItemKey, quantity }

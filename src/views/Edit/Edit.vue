@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col h-full">
+  <Form class="flex flex-col h-full" @submit="handleSubmit">
     <Header title="Back to Cart" :back="() => $emit('route', { name: 'Home' })" />
     <div class="relative flex-1 overflow-scroll">
       <transition
@@ -26,7 +26,7 @@
             <InputNumber
               name="quantity"
               label="Quantity"
-              :initial-value="lineItem.quantity"
+              :initial-value="initialValues.quantity"
               :rules="
                 $yup
                   .number()
@@ -39,7 +39,7 @@
             <InputVariant
               name="variant"
               label="Variant"
-              :initial-value="lineItem.variant_id"
+              :initial-value="initialValues.variant"
               :variants="variants"
               :rules="
                 $yup
@@ -53,10 +53,10 @@
       </transition>
     </div>
     <div class="grid flex-shrink-0 gap-4 p-5 mt-auto border-t border-gray-200">
-      <Button text="Save" theme="black" />
+      <Button type="submit" text="Save" theme="black" />
       <Button text="Cancel" theme="white" @click="$emit('route', { name: 'Home' })" />
     </div>
-  </div>
+  </Form>
 </template>
 
 <script lang="ts">
@@ -71,19 +71,21 @@ import InputVariant from '@/components/InputVariant/InputVariant.vue'
 import { computed, defineComponent, PropType, ref, Ref, watchEffect } from 'vue'
 import { LineItem as LineItemType, Product } from '@/types/shopify'
 import { comms } from '@/services/comms/comms'
+import { Form } from 'vee-validate'
 export default defineComponent({
   components: {
-    LineItem,
-    Button,
+    Form,
     Card,
-    InputNumber,
-    LoaderCard,
-    InputVariant,
+    Button,
     Header,
-    CardLayout
+    LineItem,
+    CardLayout,
+    LoaderCard,
+    InputNumber,
+    InputVariant
   },
   props: {
-    lineItem: {
+    initialLineItem: {
       type: Object as PropType<LineItemType>,
       required: true
     },
@@ -95,6 +97,7 @@ export default defineComponent({
   setup(props) {
     const loading = ref(false)
     const product: Ref<Product | null> = ref(null)
+    const lineItem = ref(Object.assign({}, props.initialLineItem))
     const variants = computed(
       () =>
         product.value?.variants.map(item => ({
@@ -103,15 +106,29 @@ export default defineComponent({
           inStock: item.available
         })) || []
     )
-    const fetchProduct = async () => {
+    const initialValues = computed(() => ({
+      quantity: lineItem.value.quantity,
+      variant: lineItem.value.variant_id
+    }))
+    watchEffect(async () => {
       loading.value = true
       const { getProduct } = await comms
-      product.value = await getProduct(props.lineItem.handle)
+      product.value = await getProduct(lineItem.value.handle)
       loading.value = false
-      console.log(product.value)
+    })
+    const handleSubmit = async ({ quantity, variant }: typeof initialValues.value) => {
+      const { addToCart, changeLineItemQuantity } = await comms
+      if (variant !== initialValues.value.variant) {
+        await changeLineItemQuantity(lineItem.value.key, 0)
+        const newLineItem = await addToCart(variant, quantity)
+        lineItem.value = newLineItem
+      } else if (quantity !== initialValues.value.quantity) {
+        const cart = await changeLineItemQuantity(lineItem.value.key, quantity)
+        const newLineItem = cart.items.find(item => item.key === lineItem.value.key) as LineItemType
+        lineItem.value = newLineItem
+      }
     }
-    watchEffect(fetchProduct)
-    return { product, variants, loading, fetchProduct }
+    return { loading, lineItem, product, variants, initialValues, handleSubmit }
   }
 })
 </script>

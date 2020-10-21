@@ -167,7 +167,7 @@ export interface Cart {
   cart_level_discount_applications: any[]
 }
 
-export interface CartAddResponse {
+export interface AddToCartResponse {
   items: LineItem[]
 }
 
