@@ -60,14 +60,14 @@
 </template>
 
 <script lang="ts">
-import LineItem from '@/components/LineItem/LineItem.vue'
-import Button from '@/components/Button/Button.vue'
 import Card from '@/components/Card/Card.vue'
-import InputNumber from '@/components/InputNumber/InputNumber.vue'
-import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
-import InputVariant from '@/components/InputVariant/InputVariant.vue'
 import Header from '@/components/Header/Header.vue'
+import Button from '@/components/Button/Button.vue'
+import LineItem from '@/components/LineItem/LineItem.vue'
+import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
 import CardLayout from '@/components/CardLayout/CardLayout.vue'
+import InputNumber from '@/components/InputNumber/InputNumber.vue'
+import InputVariant from '@/components/InputVariant/InputVariant.vue'
 import { computed, defineComponent, PropType, ref, Ref, watchEffect } from 'vue'
 import { LineItem as LineItemType, Product } from '@/types/shopify'
 import { comms } from '@/services/comms/comms'
