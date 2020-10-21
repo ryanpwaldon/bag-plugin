@@ -21,7 +21,6 @@
             :image="lineItem.featured_image.url"
             :options="lineItem.options_with_values"
             :price="$formatter.currency(lineItem.final_line_price, currencyCode)"
-            :original-price="$formatter.currency(lineItem.original_line_price, currencyCode)"
           />
           <Card class="grid gap-4">
             <InputNumber

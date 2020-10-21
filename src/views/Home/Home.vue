@@ -21,13 +21,12 @@
             :quantity="lineItem.quantity"
             :image="lineItem.featured_image.url"
             :options="lineItem.options_with_values"
-            :original-price="$formatter.currency(lineItem.original_line_price, cart && cart.currency)"
             :price="$formatter.currency(lineItem.final_line_price, cart && cart.currency)"
             @click="$emit('route', { name: 'Edit', props: { lineItem, currencyCode: cart && cart.currency } })"
           />
           <DividerLabel text="Offers" class="z-20 py-1" />
           <Offer
-            title="Urban Monochrome Drinking Bottle"
+            title="Add a pencil"
             subtitle="Only $4.99"
             image="https://cdn.shopify.com/s/files/1/0277/3070/6514/products/CR-9020_large.jpg?v=159244352733"
             quantity="2"
