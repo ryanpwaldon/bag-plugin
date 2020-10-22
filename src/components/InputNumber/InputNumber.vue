@@ -16,10 +16,10 @@
         :id="name"
         type="text"
         class="z-10 block w-full -ml-px text-center transition duration-150 ease-in-out rounded-none form-input sm:text-sm sm:leading-5"
-        :class="[errorMessage && 'text-red-900 placeholder-red-300 border-red-300 focus:border-red-300 focus:shadow-outline-red']"
+        :class="[error && 'text-red-900 placeholder-red-300 border-red-300 focus:border-red-300 focus:shadow-outline-red']"
         :placeholder="placeholder"
         :value="value"
-        @input="handleChange"
+        @input="$emit('update:value', $event.target.value)"
       />
       <button
         type="button"
@@ -32,15 +32,14 @@
         </svg>
       </button>
     </span>
-    <p v-if="errorMessage" class="mt-2 text-sm" :class="[errorMessage ? 'text-red-600' : 'text-gray-500']">
-      {{ errorMessage }}
+    <p v-if="error" class="mt-2 text-sm" :class="[error ? 'text-red-600' : 'text-gray-500']">
+      {{ error }}
     </p>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { useField } from 'vee-validate'
 export default defineComponent({
   props: {
     name: {
@@ -55,27 +54,23 @@ export default defineComponent({
       type: String,
       required: false
     },
-    rules: {
-      type: Object,
-      required: true
-    },
-    initialValue: {
+    value: {
       type: Number,
       required: true
+    },
+    error: {
+      type: String,
+      required: false
     }
-  },
-  setup(props) {
-    const { value, errorMessage, handleChange } = useField(props.name, props.rules, { initialValue: props.initialValue })
-    return { value, errorMessage, handleChange }
   },
   methods: {
     increment() {
-      const value = parseInt(this.value) + 1
-      this.handleChange(value)
+      const value = this.value + 1
+      this.$emit('update:value', value)
     },
     decrement() {
-      const value = Math.max(parseInt(this.value) - 1, 1)
-      this.handleChange(value)
+      const value = Math.max(this.value - 1, 1)
+      this.$emit('update:value', value)
     }
   }
 })

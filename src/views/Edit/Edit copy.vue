@@ -1,5 +1,5 @@
 <template>
-  <form class="flex flex-col h-full" @submit.prevent="attemptSubmit">
+  <form class="flex flex-col h-full" @submit="onSubmit">
     <Header title="Back to Cart" :back="() => $emit('route', { name: 'Home' })" />
     <div class="relative flex-1 overflow-scroll">
       <transition
@@ -26,17 +26,27 @@
             <InputNumber
               name="quantity"
               label="Quantity"
-              :value="values.quantity"
-              @update:value="updateValue('quantity', $event)"
-              :error="errors.quantity"
+              :initial-value="initialValues.quantity"
+              :rules="
+                $yup
+                  .number()
+                  .typeError('Quantity must be a number.')
+                  .required('Quantity is required.')
+                  .integer('Quantity cannot be a decimal.')
+                  .min(1, 'Quantity must be equal to 1 or more.')
+              "
             />
             <InputVariant
               name="variant"
               label="Variant"
-              :value="values.variantId"
-              @update:value="updateValue('variant', $event)"
-              :errors="errors.variantId"
+              :initial-value="initialValues.variantId"
               :variants="variants"
+              :rules="
+                $yup
+                  .string()
+                  .typeError('Variant must be a string.')
+                  .required('Variant is required.')
+              "
             />
           </Card>
         </CardLayout>
@@ -58,11 +68,10 @@ import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
 import CardLayout from '@/components/CardLayout/CardLayout.vue'
 import InputNumber from '@/components/InputNumber/InputNumber.vue'
 import InputVariant from '@/components/InputVariant/InputVariant.vue'
-import { computed, defineComponent, PropType, ref, Ref, watchEffect } from 'vue'
+import { computed, ComputedRef, defineComponent, PropType, ref, Ref, watchEffect } from 'vue'
 import { LineItem as LineItemType, Product } from '@/types/shopify'
 import { comms } from '@/services/comms/comms'
-import useForm from '@/composables/useForm'
-import * as yup from 'yup'
+import { useForm } from 'vee-validate'
 
 type Values = {
   variantId: number
@@ -94,6 +103,7 @@ export default defineComponent({
     const loading = ref(false)
     const product: Ref<Product | null> = ref(null)
     const lineItem = ref(Object.assign({}, props.initialLineItem))
+    const { handleSubmit, meta } = useForm()
     const variants = computed(
       () =>
         product.value?.variants.map(item => ({
@@ -102,34 +112,33 @@ export default defineComponent({
           inStock: item.available
         })) || []
     )
+    const initialValues: ComputedRef<Values> = computed(() => ({
+      quantity: lineItem.value.quantity,
+      variantId: lineItem.value.variant_id
+    }))
     watchEffect(async () => {
       loading.value = true
       const { getProduct } = await comms
       product.value = await getProduct(lineItem.value.handle)
       loading.value = false
     })
-    const schema = yup
-      .object({
-        quantity: yup
-          .number()
-          .typeError('Quantity must be a number.')
-          .required('Quantity is required.')
-          .integer('Quantity cannot be a decimal.')
-          .min(1, 'Quantity must be equal to 1 or more.')
-          .default(lineItem.value.quantity),
-        variantId: yup
-          .number()
-          .typeError('Variant must be a number.')
-          .required('Variant is required.')
-          .default(lineItem.value.variant_id)
-      })
-      .defined()
-    const handleSubmit = (values: any) => {
-      console.log('handleSubmit')
-      console.log(values)
-    }
-    const { values, errors, modified, attemptSubmit } = useForm(schema, handleSubmit)
-    return { loading, lineItem, product, variants, values, errors, modified, attemptSubmit }
+    watchEffect(() => {
+      console.log(meta.value.dirty)
+    })
+    const onSubmit = handleSubmit(async values => {
+      const { addToCart, changeLineItemQuantity } = await comms
+      const { quantity, variantId } = values as Values
+      if (variantId !== initialValues.value.variantId) {
+        await changeLineItemQuantity(lineItem.value.key, 0)
+        const newLineItem = await addToCart(variantId, quantity)
+        lineItem.value = newLineItem
+      } else if (quantity !== initialValues.value.quantity) {
+        const cart = await changeLineItemQuantity(lineItem.value.key, quantity)
+        const newLineItem = cart.items.find(item => item.key === lineItem.value.key) as LineItemType
+        lineItem.value = newLineItem
+      }
+    })
+    return { loading, lineItem, product, variants, initialValues, onSubmit }
   }
 })
 </script>

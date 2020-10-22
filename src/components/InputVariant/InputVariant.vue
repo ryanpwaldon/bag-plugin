@@ -1,5 +1,5 @@
 <template>
-  <Listbox as="div" class="space-y-1" v-model="value" v-slot="{ open }">
+  <Listbox as="div" class="space-y-1" :value="value" @update:value="$emit('update:value', $event)" v-slot="{ open }">
     <ListboxLabel class="block text-sm font-medium leading-5 text-gray-700">
       {{ label }}
     </ListboxLabel>
@@ -62,8 +62,7 @@
 
 <script lang="ts">
 import { Listbox, ListboxLabel, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
-import { computed, defineComponent, PropType } from 'vue'
-import { useField } from 'vee-validate'
+import { defineComponent, PropType } from 'vue'
 import Badge from '../Badge/Badge.vue'
 
 interface Variant {
@@ -90,23 +89,26 @@ export default defineComponent({
       type: String,
       required: true
     },
-    rules: {
-      type: Object,
-      required: true
-    },
-    initialValue: {
-      type: [String, Number],
+    value: {
+      type: Number,
       required: true
     },
     variants: {
       type: Array as PropType<Variant[]>,
       required: true
+    },
+    error: {
+      type: String,
+      required: false
     }
   },
-  setup(props) {
-    const { value, errorMessage } = useField(props.name, props.rules, { initialValue: props.initialValue })
-    const selectedVariant = computed(() => props.variants.find(({ id }) => id === value.value))
-    return { value, errorMessage, selectedVariant }
+  mounted() {
+    console.log(this.value)
+  },
+  computed: {
+    selectedVariant(): Variant | undefined {
+      return this.variants.find(({ id }) => id === this.value)
+    }
   }
 })
 </script>
