@@ -38,6 +38,10 @@
               :error="errors.variantId"
               :variants="variants"
             />
+            <div>
+              <p class="block text-sm font-medium leading-5 text-gray-700">Remove</p>
+              <Button class="w-full mt-1" text="Remove from cart" theme="white-outline" size="md" @click="removeFromCart" />
+            </div>
           </Card>
         </CardLayout>
       </transition>
@@ -59,7 +63,7 @@ import CardLayout from '@/components/CardLayout/CardLayout.vue'
 import InputNumber from '@/components/InputNumber/InputNumber.vue'
 import InputVariant from '@/components/InputVariant/InputVariant.vue'
 import { computed, defineComponent, PropType, ref, Ref, watchEffect } from 'vue'
-import { LineItem as LineItemType, Product } from '@/types/shopify'
+import { Cart, LineItem as LineItemType, Product } from '@/types/shopify'
 import { comms } from '@/services/comms/comms'
 import useForm from '@/composables/useForm'
 import { number, object } from 'yup'
@@ -75,7 +79,7 @@ export default defineComponent({
     InputVariant
   },
   props: {
-    initialLineItem: {
+    lineItem: {
       type: Object as PropType<LineItemType>,
       required: true
     },
@@ -84,10 +88,9 @@ export default defineComponent({
       required: true
     }
   },
-  setup(props) {
+  setup(props, { emit }) {
     const loading = ref(false)
     const product: Ref<Product | null> = ref(null)
-    const lineItem = ref(Object.assign({}, props.initialLineItem))
     const variants = computed(
       () =>
         product.value?.variants.map(item => ({
@@ -99,7 +102,7 @@ export default defineComponent({
     watchEffect(async () => {
       loading.value = true
       const { getProduct } = await comms
-      product.value = await getProduct(lineItem.value.handle)
+      product.value = await getProduct(props.lineItem.handle)
       loading.value = false
     })
     const schema = object({
@@ -108,34 +111,39 @@ export default defineComponent({
         .required('Quantity is required.')
         .integer('Quantity cannot be a decimal.')
         .min(1, 'Quantity must be equal to 1 or more.')
-        .default(lineItem.value.quantity),
+        .default(props.lineItem.quantity),
       variantId: number()
         .typeError('Variant is required.')
         .required('Variant is required.')
-        .default(lineItem.value.variant_id)
+        .default(props.lineItem.variant_id)
     }).defined()
     const { values, errors, modified, updateValue, submit, onSuccessfulSubmit } = useForm(schema)
+    const returnToCart = (cart: Cart) => emit('route', { name: 'Home', props: { cart } })
     onSuccessfulSubmit(async ({ quantity, variantId }, defaults) => {
       const { addToCart, changeLineItemQuantity } = await comms
       if (variantId !== defaults.variantId) {
-        await changeLineItemQuantity(lineItem.value.key, 0)
-        const newLineItem = await addToCart(variantId, quantity)
-        lineItem.value = newLineItem
+        await addToCart(variantId, quantity)
+        const cart = await changeLineItemQuantity(props.lineItem.key, 0)
+        returnToCart(cart)
       } else if (quantity !== defaults.quantity) {
-        const cart = await changeLineItemQuantity(lineItem.value.key, quantity)
-        const newLineItem = cart.items.find(item => item.key === lineItem.value.key) as LineItemType
-        lineItem.value = newLineItem
+        const cart = await changeLineItemQuantity(props.lineItem.key, quantity)
+        returnToCart(cart)
       }
     })
+    const removeFromCart = async () => {
+      const { changeLineItemQuantity } = await comms
+      const cart = await changeLineItemQuantity(props.lineItem.key, 0)
+      returnToCart(cart)
+    }
     return {
       loading,
-      lineItem,
       product,
       variants,
       values,
       errors,
       modified,
       updateValue,
+      removeFromCart,
       submit
     }
   }

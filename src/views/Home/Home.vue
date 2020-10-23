@@ -22,7 +22,7 @@
             :image="lineItem.featured_image.url"
             :options="lineItem.options_with_values"
             :price="$formatter.currency(lineItem.final_line_price, cart && cart.currency)"
-            @click="$emit('route', { name: 'Edit', props: { initialLineItem: lineItem, currencyCode: cart && cart.currency } })"
+            @click="$emit('route', { name: 'Edit', props: { lineItem, currencyCode: cart && cart.currency } })"
           />
           <DividerLabel text="Offers" class="z-20 py-1" />
           <Offer
@@ -58,7 +58,7 @@ import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
 import CardLayout from '@/components/CardLayout/CardLayout.vue'
 import { Cart } from '@/types/shopify'
 import { comms } from '@/services/comms/comms'
-import { computed, defineComponent, Ref, ref, watchEffect } from 'vue'
+import { computed, defineComponent, PropType, Ref, ref } from 'vue'
 export default defineComponent({
   components: {
     Header,
@@ -70,9 +70,15 @@ export default defineComponent({
     LoaderCard,
     CardLayout
   },
-  setup() {
+  props: {
+    initialCart: {
+      type: Object as PropType<Cart>,
+      required: false
+    }
+  },
+  setup(props) {
     const loading = ref(false)
-    const cart: Ref<Cart | null> = ref(null)
+    const cart: Ref<Cart | null> = ref(props.initialCart || null)
     const lineItems = computed(() => cart.value?.items || [])
     const fetchCart = async () => {
       loading.value = true
@@ -80,7 +86,7 @@ export default defineComponent({
       cart.value = await getCart()
       loading.value = false
     }
-    watchEffect(fetchCart)
+    if (!cart.value) fetchCart()
     return { cart, lineItems, loading, fetchCart }
   }
 })

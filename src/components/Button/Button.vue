@@ -1,8 +1,8 @@
 <template>
-  <span class="inline-flex rounded-md shadow select-none" :class="[loading && 'cursor-not-allowed pointer-events-none']">
+  <span class="inline-flex rounded-md select-none" :class="[containerClasses, loading && 'cursor-not-allowed pointer-events-none']">
     <button
       :type="type"
-      :class="[classes]"
+      :class="[buttonClasses]"
       class="inline-flex items-center justify-center w-full transition duration-150 ease-in-out border focus:outline-none"
     >
       <Spinner v-if="loading" class="w-4 h-4 mr-1 -ml-1" />
@@ -13,7 +13,12 @@
 
 <script lang="ts">
 import Spinner from '@/components/Spinner/Spinner.vue'
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
+
+type Sizes = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+type Themes = 'white-outline' | 'white' | 'black'
+type Classes<T extends string> = { [K in T]: string }
+
 export default defineComponent({
   components: {
     Spinner
@@ -28,11 +33,11 @@ export default defineComponent({
       default: 'button'
     },
     size: {
-      type: String,
+      type: String as PropType<Sizes>,
       default: 'lg'
     },
     theme: {
-      type: String,
+      type: String as PropType<Themes>,
       default: 'black'
     },
     loading: {
@@ -42,19 +47,26 @@ export default defineComponent({
   },
   computed: {
     // prettier-ignore
-    classes(): string {
-      const sizeClasses = ({
+    containerClasses(): string {
+      const sizeClasses: Classes<Sizes> = { xs: 'shadow-sm', sm: 'shadow', md: 'shadow', lg: 'shadow', xl: 'shadow' }
+      const themeClasses: Classes<Themes> = { 'white-outline': '', white: '', black: '' }
+      return `${sizeClasses[this.size]} ${themeClasses[this.theme]}`
+    },
+    // prettier-ignore
+    buttonClasses(): string {
+      const sizeClasses: Classes<Sizes> = {
         xs: 'rounded px-2.5 py-1.5 text-xs font-medium leading-4',
         sm: 'rounded-md px-3 py-2 text-sm font-medium leading-4',
         md: 'rounded-md px-4 py-2 text-sm font-medium leading-5',
         lg: 'rounded-md px-4 py-2 text-base font-medium leading-6',
         xl: 'rounded-md px-6 py-3 text-base font-medium leading-6'
-      } as { [key: string]: string })[this.size]
-      const themeClasses = ({
+      }
+      const themeClasses: Classes<Themes> = {
+        'white-outline': 'text-gray-500 bg-white border-gray-200 hover:text-gray-600 focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50',
         white: 'text-gray-700 bg-white border-transparent hover:text-gray-500 focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50',
-        black: 'text-white border-transparent focus:shadow-outline-gray bg-gray-900 hover:bg-gray-800 active:bg-gray-700',
-      } as { [key: string]: string })[this.theme]
-      return `${sizeClasses} ${themeClasses}`
+        black: 'text-white border-transparent focus:shadow-outline-gray bg-gray-900 hover:bg-gray-800 active:bg-gray-700'
+      }
+      return `${sizeClasses[this.size]} ${themeClasses[this.theme]}`
     }
   }
 })
