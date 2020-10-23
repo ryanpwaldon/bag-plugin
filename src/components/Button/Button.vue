@@ -48,8 +48,8 @@ export default defineComponent({
   computed: {
     // prettier-ignore
     containerClasses(): string {
-      const sizeClasses: Classes<Sizes> = { xs: 'shadow-sm', sm: 'shadow', md: 'shadow', lg: 'shadow', xl: 'shadow' }
-      const themeClasses: Classes<Themes> = { 'white-outline': '', white: '', black: '' }
+      const sizeClasses: Classes<Sizes> = { xs: '', sm: '', md: '', lg: '', xl: '' }
+      const themeClasses: Classes<Themes> = { 'white-outline': 'shadow-sm', white: 'shadow', black: 'shadow' }
       return `${sizeClasses[this.size]} ${themeClasses[this.theme]}`
     },
     // prettier-ignore
@@ -62,7 +62,7 @@ export default defineComponent({
         xl: 'rounded-md px-6 py-3 text-base font-medium leading-6'
       }
       const themeClasses: Classes<Themes> = {
-        'white-outline': 'text-gray-500 bg-white border-gray-200 hover:text-gray-600 focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50',
+        'white-outline': 'text-gray-500 bg-white border-gray-300 hover:text-gray-600 focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50',
         white: 'text-gray-700 bg-white border-transparent hover:text-gray-500 focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50',
         black: 'text-white border-transparent focus:shadow-outline-gray bg-gray-900 hover:bg-gray-800 active:bg-gray-700'
       }
