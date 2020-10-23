@@ -1,5 +1,5 @@
 <template>
-  <form class="flex flex-col h-full" @submit.prevent="attemptSubmit">
+  <form class="flex flex-col h-full" @submit="submit">
     <Header title="Back to Cart" :back="() => $emit('route', { name: 'Home' })" />
     <div class="relative flex-1 overflow-scroll">
       <transition
@@ -60,9 +60,9 @@ import InputNumber from '@/components/InputNumber/InputNumber.vue'
 import InputVariant from '@/components/InputVariant/InputVariant.vue'
 import { computed, defineComponent, PropType, ref, Ref, watchEffect } from 'vue'
 import { LineItem as LineItemType, Product } from '@/types/shopify'
-import { InferType, number, object } from 'yup'
 import { comms } from '@/services/comms/comms'
 import useForm from '@/composables/useForm'
+import { number, object } from 'yup'
 export default defineComponent({
   components: {
     Card,
@@ -114,11 +114,19 @@ export default defineComponent({
         .required('Variant is required.')
         .default(lineItem.value.variant_id)
     }).defined()
-    const handleSubmit = (values: InferType<typeof schema>) => {
-      console.log('handleSubmit')
-      console.log(values)
-    }
-    const { values, errors, modified, updateValue, attemptSubmit } = useForm(schema, handleSubmit)
+    const { values, errors, modified, updateValue, submit, onSuccessfulSubmit } = useForm(schema)
+    onSuccessfulSubmit(async ({ quantity, variantId }, defaults) => {
+      const { addToCart, changeLineItemQuantity } = await comms
+      if (variantId !== defaults.variantId) {
+        await changeLineItemQuantity(lineItem.value.key, 0)
+        const newLineItem = await addToCart(variantId, quantity)
+        lineItem.value = newLineItem
+      } else if (quantity !== defaults.quantity) {
+        const cart = await changeLineItemQuantity(lineItem.value.key, quantity)
+        const newLineItem = cart.items.find(item => item.key === lineItem.value.key) as LineItemType
+        lineItem.value = newLineItem
+      }
+    })
     return {
       loading,
       lineItem,
@@ -128,8 +136,7 @@ export default defineComponent({
       errors,
       modified,
       updateValue,
-      attemptSubmit,
-      console
+      submit
     }
   }
 })
