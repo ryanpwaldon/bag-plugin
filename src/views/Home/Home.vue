@@ -21,6 +21,7 @@
             :quantity="lineItem.quantity"
             :image="lineItem.featured_image.url"
             :options="lineItem.options_with_values"
+            :has-options="!lineItem.product_has_only_default_variant"
             :price="$formatter.currency(lineItem.final_line_price, cart && cart.currency)"
             @click="$emit('route', { name: 'Edit', props: { lineItem, currencyCode: cart && cart.currency } })"
           />

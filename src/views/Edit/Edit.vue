@@ -23,20 +23,22 @@
             :price="$formatter.currency(lineItem.final_line_price, currencyCode)"
           />
           <Card class="grid gap-4">
+            <InputVariant
+              v-if="!lineItem.product_has_only_default_variant"
+              name="options"
+              label="Options"
+              :value="values.variantId"
+              @update="updateValue('variantId', $event)"
+              :error="errors.variantId"
+              :variants="variants"
+              class="z-10"
+            />
             <InputNumber
               name="quantity"
               label="Quantity"
               :value="values.quantity"
               @update="updateValue('quantity', $event)"
               :error="errors.quantity"
-            />
-            <InputVariant
-              name="variant"
-              label="Variant"
-              :value="values.variantId"
-              @update="updateValue('variantId', $event)"
-              :error="errors.variantId"
-              :variants="variants"
             />
             <div>
               <p class="block text-sm font-medium leading-5 text-gray-700">Remove</p>
