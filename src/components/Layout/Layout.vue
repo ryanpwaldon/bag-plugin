@@ -7,7 +7,7 @@
       @click="handleBackdropClick"
     />
     <div ref="cart" class="w-full overflow-hidden shadow-lg h-10/12 sm:h-full bg-gray-50 rounded-2xl sm:w-112" style="will-change: transform">
-      <slot />
+      <slot v-if="open" />
     </div>
   </div>
 </template>
@@ -18,15 +18,19 @@ import { connect, comms } from '@/services/comms/comms'
 import anime from 'animejs'
 export default defineComponent({
   mounted() {
-    connect({ open: this.open, close: this.close })
+    connect({ open: this.handleOpen, close: this.handleClose })
     this.set()
   },
+  data: () => ({
+    open: false
+  }),
   methods: {
     set() {
       const { backdrop, cart } = this.$refs
       anime.set([backdrop, cart], { opacity: 0 })
     },
-    async open() {
+    async handleOpen() {
+      this.open = true
       const tl = anime.timeline()
       const { backdrop, cart } = this.$refs
       tl.add({
@@ -44,7 +48,7 @@ export default defineComponent({
       })
       await tl.finished
     },
-    async close() {
+    async handleClose() {
       const tl = anime.timeline()
       const { backdrop, cart } = this.$refs
       tl.add({
@@ -54,6 +58,8 @@ export default defineComponent({
         opacity: [1, 0]
       })
       await tl.finished
+      this.open = false
+      this.$emit('route', { name: 'Home', props: {} })
     },
     async handleBackdropClick() {
       const { triggerStateChange } = await comms

@@ -1,5 +1,5 @@
 <template>
-  <Layout>
+  <Layout @route="handleRoute">
     <transition mode="out-in" @enter="enter" @leave="leave">
       <component :is="name" v-bind="props" @route="handleRoute" />
     </transition>
