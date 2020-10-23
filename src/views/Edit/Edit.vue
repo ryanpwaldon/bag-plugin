@@ -34,7 +34,7 @@
               name="variant"
               label="Variant"
               :value="values.variantId"
-              @input="updateValue('variantId', $event)"
+              @update="updateValue('variantId', $event)"
               :error="errors.variantId"
               :variants="variants"
             />
