@@ -41,7 +41,7 @@
       </transition>
     </div>
     <div class="grid flex-shrink-0 gap-4 p-5 border-t border-gray-200">
-      <Balance subtotal="$109.00" />
+      <Balance :subtotal="cart && $formatter.currency(cart.total_price, cart.currency)" />
       <Button text="Checkout" theme="black" />
     </div>
   </div>
