@@ -19,7 +19,7 @@
         :class="[error && 'text-red-900 placeholder-red-300 border-red-300 focus:border-red-300 focus:shadow-outline-red']"
         :placeholder="placeholder"
         :value="value"
-        @input="$emit('update:value', $event.target.value)"
+        @input="this.update($event.target.value)"
       />
       <button
         type="button"
@@ -32,9 +32,7 @@
         </svg>
       </button>
     </span>
-    <p v-if="error" class="mt-2 text-sm" :class="[error ? 'text-red-600' : 'text-gray-500']">
-      {{ error }}
-    </p>
+    <p v-if="error" class="mt-2 text-sm" :class="[error ? 'text-red-600' : 'text-gray-500']">{{ error }}</p>
   </div>
 </template>
 
@@ -55,7 +53,7 @@ export default defineComponent({
       required: false
     },
     value: {
-      type: Number,
+      type: String,
       required: true
     },
     error: {
@@ -64,13 +62,16 @@ export default defineComponent({
     }
   },
   methods: {
+    update<T>(value: T) {
+      this.$emit('update', value)
+    },
     increment() {
-      const value = this.value + 1
-      this.$emit('update:value', value)
+      const value = parseInt(this.value) + 1
+      this.update(value)
     },
     decrement() {
-      const value = Math.max(this.value - 1, 1)
-      this.$emit('update:value', value)
+      const value = Math.max(parseInt(this.value) - 1, 1)
+      this.update(value)
     }
   }
 })

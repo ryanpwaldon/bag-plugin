@@ -27,15 +27,15 @@
               name="quantity"
               label="Quantity"
               :value="values.quantity"
-              @update:value="updateValue('quantity', $event)"
+              @update="updateValue('quantity', $event)"
               :error="errors.quantity"
             />
             <InputVariant
               name="variant"
               label="Variant"
               :value="values.variantId"
-              @update:value="updateValue('variant', $event)"
-              :errors="errors.variantId"
+              @input="updateValue('variantId', $event)"
+              :error="errors.variantId"
               :variants="variants"
             />
           </Card>
@@ -60,15 +60,9 @@ import InputNumber from '@/components/InputNumber/InputNumber.vue'
 import InputVariant from '@/components/InputVariant/InputVariant.vue'
 import { computed, defineComponent, PropType, ref, Ref, watchEffect } from 'vue'
 import { LineItem as LineItemType, Product } from '@/types/shopify'
+import { InferType, number, object } from 'yup'
 import { comms } from '@/services/comms/comms'
 import useForm from '@/composables/useForm'
-import * as yup from 'yup'
-
-type Values = {
-  variantId: number
-  quantity: number
-}
-
 export default defineComponent({
   components: {
     Card,
@@ -108,28 +102,35 @@ export default defineComponent({
       product.value = await getProduct(lineItem.value.handle)
       loading.value = false
     })
-    const schema = yup
-      .object({
-        quantity: yup
-          .number()
-          .typeError('Quantity must be a number.')
-          .required('Quantity is required.')
-          .integer('Quantity cannot be a decimal.')
-          .min(1, 'Quantity must be equal to 1 or more.')
-          .default(lineItem.value.quantity),
-        variantId: yup
-          .number()
-          .typeError('Variant must be a number.')
-          .required('Variant is required.')
-          .default(lineItem.value.variant_id)
-      })
-      .defined()
-    const handleSubmit = (values: any) => {
+    const schema = object({
+      quantity: number()
+        .typeError('Quantity must be a number.')
+        .required('Quantity is required.')
+        .integer('Quantity cannot be a decimal.')
+        .min(1, 'Quantity must be equal to 1 or more.')
+        .default(lineItem.value.quantity),
+      variantId: number()
+        .typeError('Variant is required.')
+        .required('Variant is required.')
+        .default(lineItem.value.variant_id)
+    }).defined()
+    const handleSubmit = (values: InferType<typeof schema>) => {
       console.log('handleSubmit')
       console.log(values)
     }
-    const { values, errors, modified, attemptSubmit } = useForm(schema, handleSubmit)
-    return { loading, lineItem, product, variants, values, errors, modified, attemptSubmit }
+    const { values, errors, modified, updateValue, attemptSubmit } = useForm(schema, handleSubmit)
+    return {
+      loading,
+      lineItem,
+      product,
+      variants,
+      values,
+      errors,
+      modified,
+      updateValue,
+      attemptSubmit,
+      console
+    }
   }
 })
 </script>
