@@ -118,7 +118,7 @@ export default defineComponent({
         .default(props.lineItem.variant_id)
     }).defined()
     const { values, errors, modified, updateValue, submit, onSuccessfulSubmit } = useForm(schema)
-    const returnToCart = (cart: Cart) => emit('route', { name: 'Home', props: { cart } })
+    const returnToCart = (cart: Cart) => emit('route', { name: 'Home', props: { initialCart: cart } })
     onSuccessfulSubmit(async ({ quantity, variantId }, defaults) => {
       const { addToCart, changeLineItemQuantity } = await comms
       if (variantId !== defaults.variantId) {
