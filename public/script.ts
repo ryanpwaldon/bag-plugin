@@ -1,6 +1,6 @@
 import { ChildMethods } from '@/services/comms/comms'
-import { connectToChild } from 'penpal'
 import { Cart, Product, AddToCartResponse, LineItem } from '@/types/shopify'
+import { connectToChild } from 'penpal'
 import axios from 'axios'
 
 class Checkout {
