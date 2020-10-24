@@ -2,7 +2,9 @@
   <div class="flex items-center justify-between flex-shrink-0 p-5 border-b border-gray-200 select-none">
     <BackButton v-if="back" :text="title" class="-mr-2" @click="back" />
     <div v-else class="text-lg font-medium leading-6 text-gray-900">{{ title }}</div>
-    <div v-if="meta" class="ml-auto mr-4 text-sm leading-5 text-gray-500">{{ meta }}</div>
+    <transition enter-from-class="opacity-0" enter-to-class="opacity-100">
+      <div v-if="meta" class="ml-auto mr-4 text-sm leading-5 text-gray-500 transition duration-150 ease-in-out">{{ meta }}</div>
+    </transition>
     <CloseButton class="-mr-2" />
   </div>
 </template>

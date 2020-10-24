@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col h-full">
-    <Header title="Your Cart" :meta="`${2} items`" />
+    <Header title="Your Cart" :meta="cart && `${cart.item_count} items`" />
     <div class="relative flex-1 overflow-scroll">
       <transition
         enter-active-class="transition duration-150 ease-out"
@@ -10,7 +10,7 @@
         leave-from-class="opacity-100"
         leave-to-class="opacity-0"
       >
-        <CardLayout v-if="loading" class="absolute top-0 left-0 w-full h-full">
+        <CardLayout v-if="!cart" class="absolute top-0 left-0 w-full h-full">
           <LoaderCard v-for="n in 3" :key="n" />
         </CardLayout>
         <CardLayout v-else>
@@ -78,17 +78,14 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const loading = ref(false)
     const cart: Ref<Cart | null> = ref(props.initialCart || null)
     const lineItems = computed(() => cart.value?.items || [])
-    const fetchCart = async () => {
-      loading.value = true
-      const { getCart } = await comms
-      cart.value = await getCart()
-      loading.value = false
-    }
-    if (!cart.value) fetchCart()
-    return { cart, lineItems, loading, fetchCart }
+    if (!cart.value)
+      (async () => {
+        const { getCart } = await comms
+        cart.value = await getCart()
+      })()
+    return { cart, lineItems }
   }
 })
 </script>
