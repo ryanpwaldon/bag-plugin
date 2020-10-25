@@ -1,6 +1,6 @@
 <template>
   <form class="flex flex-col h-full" @submit="submit">
-    <Header title="Back to Cart" :back="() => $emit('route', { name: 'Home' })" />
+    <Header title="Edit item" :close="returnToCart" />
     <div class="relative flex-1 overflow-scroll">
       <transition
         enter-active-class="transition duration-150 ease-out"
@@ -50,7 +50,7 @@
     </div>
     <div class="grid flex-shrink-0 gap-4 p-5 mt-auto border-t border-gray-200">
       <Button type="submit" text="Save" theme="black" />
-      <Button text="Cancel" theme="white" @click="$emit('route', { name: 'Home' })" />
+      <Button text="Go back" theme="white" @click="$emit('route', { name: 'Home' })" />
     </div>
   </form>
 </template>
@@ -145,6 +145,7 @@ export default defineComponent({
       errors,
       modified,
       updateValue,
+      returnToCart,
       removeFromCart,
       submit
     }
