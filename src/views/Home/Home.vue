@@ -22,7 +22,7 @@
             :image="lineItem.featured_image.url"
             :options="lineItem.options_with_values"
             :has-options="!lineItem.product_has_only_default_variant"
-            :price="$formatter.currency(lineItem.final_line_price, cart && cart.currency)"
+            :price="cart && formatter.currency(lineItem.final_line_price, cart.currency)"
             @click="$emit('route', { name: 'Edit', props: { lineItem, currencyCode: cart && cart.currency } })"
           />
           <DividerLabel text="Offers" class="z-20 py-1" />
@@ -42,7 +42,7 @@
       </transition>
     </div>
     <div class="grid flex-shrink-0 gap-4 p-5 border-t border-gray-200">
-      <Balance :subtotal="cart && $formatter.currency(cart.total_price, cart.currency)" />
+      <Balance :subtotal="cart && formatter.currency(cart.total_price, cart.currency)" />
       <Button text="Checkout" theme="black" />
     </div>
   </div>
@@ -62,6 +62,7 @@ import { Offer as OfferInterface } from '@/services/api/services/offerService'
 import { comms } from '@/services/comms/comms'
 import { Cart } from '@/types/shopify'
 import store from '@/store/store'
+import useFormatter from '@/composables/useFormatter'
 export default defineComponent({
   components: {
     Header,
@@ -80,15 +81,15 @@ export default defineComponent({
     }
   },
   setup(props) {
+    const formatter = useFormatter()
     const cart: Ref<Cart | null> = ref(props.initialCart || null)
     const lineItems = computed(() => cart.value?.items || [])
-    const offers: Ref<OfferInterface[] | null> = ref(null)
+    const offers: Ref<OfferInterface[]> = ref([])
     const fetchCart = async () => (cart.value = await (await comms).getCart())
     const fetchOffers = async () => (offers.value = await store.dispatch('fetchOffers'))
     if (!cart.value) fetchCart()
     fetchOffers()
-    watch(offers, () => console.log(offers.value))
-    return { cart, lineItems }
+    return { cart, lineItems, offers, formatter }
   }
 })
 </script>

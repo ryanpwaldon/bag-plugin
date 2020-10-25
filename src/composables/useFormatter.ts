@@ -1,6 +1,7 @@
-import { App } from 'vue'
+import { composeGid } from '@shopify/admin-graphql-api-utilities'
 
 const getLocale = () => (navigator.languages && navigator.languages.length ? navigator.languages[0] : navigator.language)
+
 const currency = (amount: number, currencyCode: string) => {
   return new Intl.NumberFormat(getLocale(), {
     style: 'currency',
@@ -8,10 +9,11 @@ const currency = (amount: number, currencyCode: string) => {
   }).format(amount / 100)
 }
 
-export default {
-  install: (app: App) => {
-    app.config.globalProperties.$formatter = {
-      currency
-    }
-  }
+const toGid = (key: string, id: string | number) => {
+  return composeGid(key, id)
 }
+
+export default () => ({
+  currency,
+  toGid
+})

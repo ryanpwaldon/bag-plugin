@@ -20,7 +20,7 @@
             :quantity="lineItem.quantity"
             :image="lineItem.featured_image.url"
             :options="lineItem.options_with_values"
-            :price="$formatter.currency(lineItem.final_line_price, currencyCode)"
+            :price="formatter.currency(lineItem.final_line_price, currencyCode)"
           />
           <Card class="grid gap-4">
             <InputVariant
@@ -69,6 +69,7 @@ import { Cart, LineItem as LineItemType, Product } from '@/types/shopify'
 import { comms } from '@/services/comms/comms'
 import useForm from '@/composables/useForm'
 import { number, object } from 'yup'
+import useFormatter from '@/composables/useFormatter'
 export default defineComponent({
   components: {
     Card,
@@ -137,6 +138,7 @@ export default defineComponent({
       const cart = await changeLineItemQuantity(props.lineItem.key, 0)
       returnToCart(cart)
     }
+    const formatter = useFormatter()
     return {
       loading,
       product,
@@ -147,6 +149,7 @@ export default defineComponent({
       updateValue,
       returnToCart,
       removeFromCart,
+      formatter,
       submit
     }
   }
