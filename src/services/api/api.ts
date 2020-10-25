@@ -7,8 +7,7 @@ const api = axios.create({
 })
 
 api.interceptors.request.use(async config => {
-  const { getShopOrigin } = await comms
-  config.params.shopOrigin = getShopOrigin()
+  config.headers['shop-origin'] = await (await comms).getShopOrigin()
   config.paramsSerializer = params => qs.stringify(params, { encode: false, skipNulls: true })
   return config
 })

@@ -6,7 +6,7 @@ export enum OfferType {
   ProductUpgrade = 'productUpgrade'
 }
 
-interface Offer {
+export interface Offer {
   user: string
   type: OfferType
   active: boolean
@@ -19,8 +19,11 @@ interface Offer {
 }
 
 export default {
-  async findActiveOffers(): Promise<Offer> {
-    const params = { active: true }
-    return (await api({ url: `/offer`, method: 'get', params })).data
+  async findActiveOffers(): Promise<Offer[]> {
+    const params = {
+      query: { active: true },
+      limit: Number.MAX_SAFE_INTEGER
+    }
+    return (await api({ url: `/offer`, method: 'get', params })).data.docs
   }
 }

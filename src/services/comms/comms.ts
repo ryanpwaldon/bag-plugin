@@ -11,10 +11,10 @@ const parentMethods: Ref<ParentMethods | null> = ref(null)
 
 export const comms: Promise<ParentMethods> = new Promise(resolve => {
   if (parentMethods.value) return resolve(parentMethods.value)
-  const watcher = watch(parentMethods, value => {
+  const cancel = watch(parentMethods, value => {
     if (!value) return
-    watcher()
-    return resolve(value)
+    resolve(value)
+    cancel()
   })
 })
 

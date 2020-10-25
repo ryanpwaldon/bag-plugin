@@ -57,9 +57,11 @@ import Button from '@/components/Button/Button.vue'
 import DividerLabel from '@/components/DividerLabel/DividerLabel.vue'
 import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
 import CardLayout from '@/components/CardLayout/CardLayout.vue'
-import { Cart } from '@/types/shopify'
+import { computed, defineComponent, PropType, Ref, ref, watch } from 'vue'
+import { Offer as OfferInterface } from '@/services/api/services/offerService'
 import { comms } from '@/services/comms/comms'
-import { computed, defineComponent, PropType, Ref, ref } from 'vue'
+import { Cart } from '@/types/shopify'
+import store from '@/store/store'
 export default defineComponent({
   components: {
     Header,
@@ -80,11 +82,12 @@ export default defineComponent({
   setup(props) {
     const cart: Ref<Cart | null> = ref(props.initialCart || null)
     const lineItems = computed(() => cart.value?.items || [])
-    if (!cart.value)
-      (async () => {
-        const { getCart } = await comms
-        cart.value = await getCart()
-      })()
+    const offers: Ref<OfferInterface[] | null> = ref(null)
+    const fetchCart = async () => (cart.value = await (await comms).getCart())
+    const fetchOffers = async () => (offers.value = await store.dispatch('fetchOffers'))
+    if (!cart.value) fetchCart()
+    fetchOffers()
+    watch(offers, () => console.log(offers.value))
     return { cart, lineItems }
   }
 })
