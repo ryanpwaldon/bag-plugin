@@ -10,7 +10,7 @@
         leave-from-class="opacity-100"
         leave-to-class="opacity-0"
       >
-        <CardLayout v-if="loading" class="absolute top-0 left-0 w-full h-full">
+        <CardLayout v-if="!product" class="absolute top-0 left-0 w-full h-full">
           <LoaderCard v-for="n in 2" :key="n" />
         </CardLayout>
         <CardLayout v-else>
@@ -92,22 +92,9 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
-    const loading = ref(false)
     const product: Ref<Product | null> = ref(null)
-    const variants = computed(
-      () =>
-        product.value?.variants.map(item => ({
-          id: item.id,
-          name: item.title,
-          inStock: item.available
-        })) || []
-    )
-    watchEffect(async () => {
-      loading.value = true
-      const { getProduct } = await comms
-      product.value = await getProduct(props.lineItem.handle)
-      loading.value = false
-    })
+    const variants = computed(() => product.value?.variants.map(item => ({ id: item.id, name: item.title, inStock: item.available })) || [])
+    watchEffect(async () => (product.value = await (await comms).getProduct(props.lineItem.handle)))
     const schema = object({
       quantity: number()
         .typeError('Quantity must be a number.')
@@ -140,7 +127,6 @@ export default defineComponent({
     }
     const formatter = useFormatter()
     return {
-      loading,
       product,
       variants,
       values,

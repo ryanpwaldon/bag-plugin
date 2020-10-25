@@ -26,18 +26,7 @@
             @click="$emit('route', { name: 'Edit', props: { lineItem, currencyCode: cart && cart.currency } })"
           />
           <DividerLabel text="Offers" class="z-20 py-1" />
-          <Offer
-            title="Add a pencil"
-            subtitle="Only $4.99"
-            image="https://cdn.shopify.com/s/files/1/0277/3070/6514/products/CR-9020_large.jpg?v=159244352733"
-            quantity="2"
-          />
-          <Offer
-            title="Add an infuser lid"
-            subtitle="Only $24.99"
-            image="https://cdn.shopify.com/s/files/1/0277/3070/6514/products/TB-8051513924095.01.jpg?v=1589864316"
-            quantity="2"
-          />
+          <Offer :key="offer.id" v-for="offer in offers" :offer="offer" :cart="cart" />
         </CardLayout>
       </transition>
     </div>
@@ -57,7 +46,7 @@ import Button from '@/components/Button/Button.vue'
 import DividerLabel from '@/components/DividerLabel/DividerLabel.vue'
 import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
 import CardLayout from '@/components/CardLayout/CardLayout.vue'
-import { computed, defineComponent, PropType, Ref, ref, watch } from 'vue'
+import { computed, defineComponent, PropType, Ref, ref } from 'vue'
 import { Offer as OfferInterface } from '@/services/api/services/offerService'
 import { comms } from '@/services/comms/comms'
 import { Cart } from '@/types/shopify'

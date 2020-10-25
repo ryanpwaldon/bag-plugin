@@ -7,6 +7,7 @@ export enum OfferType {
 }
 
 export interface Offer {
+  id: string
   user: string
   type: OfferType
   active: boolean
