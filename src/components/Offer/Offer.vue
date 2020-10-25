@@ -15,23 +15,14 @@
         </svg>
       </div>
     </div>
-    <div
-      class="absolute top-0 right-0 grid content-center h-full gap-2 px-4 transition duration-150 ease-in-out bg-white opacity-0 pointer-events-none auto-rows-max focus-within:opacity-100 group-focus:opacity-100 group-focus:pointer-events-auto focus-within:pointer-events-auto"
-    >
-      <GradientSpacer />
-      <Button size="xs" text="View item" theme="white" />
-      <Button size="xs" text="Add to cart" theme="black" />
-    </div>
   </button>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import Button from '../Button/Button.vue'
 import GradientSpacer from '../GradientSpacer/GradientSpacer.vue'
 export default defineComponent({
   components: {
-    Button,
     GradientSpacer
   },
   props: {
