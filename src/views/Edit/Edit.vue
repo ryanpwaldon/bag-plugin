@@ -1,7 +1,7 @@
 <template>
   <form class="flex flex-col h-full" @submit="submit">
     <Header title="Edit item" :close="returnToCart" />
-    <div class="relative flex-1 overflow-scroll">
+    <Scroller>
       <transition
         enter-active-class="transition duration-150 ease-out"
         enter-from-class="opacity-0"
@@ -10,10 +10,7 @@
         leave-from-class="opacity-100"
         leave-to-class="opacity-0"
       >
-        <CardLayout v-if="!product" class="absolute top-0 left-0 w-full h-full">
-          <LoaderCard v-for="n in 2" :key="n" />
-        </CardLayout>
-        <CardLayout v-else>
+        <CardLayout v-if="product">
           <LineItem
             edit-mode
             :title="lineItem.product_title"
@@ -46,8 +43,11 @@
             </div>
           </Card>
         </CardLayout>
+        <CardLayout v-else class="absolute top-0 left-0 w-full h-full">
+          <LoaderCard />
+        </CardLayout>
       </transition>
-    </div>
+    </Scroller>
     <div class="grid flex-shrink-0 gap-4 p-5 mt-auto border-t border-gray-200">
       <Button type="submit" text="Save" theme="black" />
       <Button text="Go back" theme="white" @click="$emit('route', { name: 'Home' })" />
@@ -59,6 +59,7 @@
 import Card from '@/components/Card/Card.vue'
 import Header from '@/components/Header/Header.vue'
 import Button from '@/components/Button/Button.vue'
+import Scroller from '@/components/Scroller/Scroller.vue'
 import LineItem from '@/components/LineItem/LineItem.vue'
 import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
 import CardLayout from '@/components/CardLayout/CardLayout.vue'
@@ -75,6 +76,7 @@ export default defineComponent({
     Card,
     Button,
     Header,
+    Scroller,
     LineItem,
     CardLayout,
     LoaderCard,

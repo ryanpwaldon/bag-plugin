@@ -3,7 +3,7 @@ import offerService, { Offer } from '@/services/api/services/offerService'
 
 const offers: Ref<Offer[]> = ref([])
 const fetchOffers = async () => {
-  if (offers.value) return offers.value
+  if (offers.value.length) return offers.value
   offers.value = await offerService.findAll()
   return offers.value
 }
