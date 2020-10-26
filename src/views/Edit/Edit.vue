@@ -125,7 +125,7 @@ export default defineComponent({
       const cart = await changeLineItemQuantity(props.lineItem.key, 0)
       returnToCart(cart)
     }
-    const formatter = useFormatter()
+    const { formatter } = useFormatter()
     return {
       product,
       variants,

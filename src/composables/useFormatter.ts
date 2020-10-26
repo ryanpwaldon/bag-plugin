@@ -14,6 +14,8 @@ const toGid = (key: string, id: string | number) => {
 }
 
 export default () => ({
-  currency,
-  toGid
+  formatter: {
+    currency,
+    toGid
+  }
 })

@@ -14,7 +14,7 @@ export default createStore({
   actions: {
     async fetchOffers({ state, commit }) {
       if (state.offers) return state.offers
-      commit('setOffers', await offerService.findActiveOffers())
+      commit('setOffers', await offerService.findAll())
       return state.offers
     }
   }

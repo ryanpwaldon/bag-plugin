@@ -20,7 +20,7 @@ export interface Offer {
 }
 
 export default {
-  async findActiveOffers(): Promise<Offer[]> {
+  async findAll(): Promise<Offer[]> {
     const params = {
       query: { active: true },
       limit: Number.MAX_SAFE_INTEGER

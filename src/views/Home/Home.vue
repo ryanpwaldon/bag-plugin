@@ -25,8 +25,7 @@
             :price="cart && formatter.currency(lineItem.final_line_price, cart.currency)"
             @click="$emit('route', { name: 'Edit', props: { lineItem, currencyCode: cart && cart.currency } })"
           />
-          <DividerLabel text="Offers" class="z-20 py-1" />
-          <Offer :key="offer.id" v-for="offer in offers" :offer="offer" :cart="cart" />
+          <Offers :cart="cart" />
         </CardLayout>
       </transition>
     </div>
@@ -40,26 +39,23 @@
 <script lang="ts">
 import Header from '@/components/Header/Header.vue'
 import LineItem from '@/components/LineItem/LineItem.vue'
-import Offer from '@/components/Offer/Offer.vue'
+import Offers from '@/components/Offers/Offers.vue'
 import Balance from '@/components/Balance/Balance.vue'
 import Button from '@/components/Button/Button.vue'
-import DividerLabel from '@/components/DividerLabel/DividerLabel.vue'
 import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
 import CardLayout from '@/components/CardLayout/CardLayout.vue'
 import { computed, defineComponent, PropType, Ref, ref } from 'vue'
 import { Offer as OfferInterface } from '@/services/api/services/offerService'
 import { comms } from '@/services/comms/comms'
 import { Cart } from '@/types/shopify'
-import store from '@/store/store'
 import useFormatter from '@/composables/useFormatter'
 export default defineComponent({
   components: {
     Header,
     LineItem,
-    Offer,
+    Offers,
     Balance,
     Button,
-    DividerLabel,
     LoaderCard,
     CardLayout
   },
@@ -70,14 +66,12 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const formatter = useFormatter()
+    const { formatter } = useFormatter()
     const cart: Ref<Cart | null> = ref(props.initialCart || null)
     const lineItems = computed(() => cart.value?.items || [])
     const offers: Ref<OfferInterface[]> = ref([])
     const fetchCart = async () => (cart.value = await (await comms).getCart())
-    const fetchOffers = async () => (offers.value = await store.dispatch('fetchOffers'))
     if (!cart.value) fetchCart()
-    fetchOffers()
     return { cart, lineItems, offers, formatter }
   }
 })
