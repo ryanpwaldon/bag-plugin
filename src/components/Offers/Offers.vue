@@ -22,17 +22,15 @@
 </template>
 
 <script lang="ts">
+import intersection from 'lodash/intersection'
+import useOffers from '@/composables/useOffers'
+import useProduct from '@/composables/useProduct'
 import Offer from '@/components/Offer/Offer.vue'
 import CardLayout from '@/components/CardLayout/CardLayout.vue'
 import DividerLabel from '@/components/DividerLabel/DividerLabel.vue'
-import useOffers from '@/composables/useOffers'
-import useProduct from '@/composables/useProduct'
-import useFormatter from '@/composables/useFormatter'
-import intersection from 'lodash/intersection'
-import { Cart } from '@/types/shopify'
 import { Product } from '@/services/api/services/productService'
 import { Offer as OfferType } from '@/services/api/services/offerService'
-import { defineComponent, PropType, Ref, ref, watchEffect } from 'vue'
+import { computed, defineComponent, PropType, Ref, ref, watchEffect } from 'vue'
 export default defineComponent({
   components: {
     Offer,
@@ -40,26 +38,18 @@ export default defineComponent({
     DividerLabel
   },
   props: {
-    cart: {
-      type: Object as PropType<Cart>,
+    lineItemsAsProductIds: {
+      type: Array as PropType<string[]>,
       required: true
     }
   },
   setup(props) {
-    const { offers } = useOffers()
+    const { offers: allOffers } = useOffers()
     const { fetchProduct } = useProduct()
-    const { formatter } = useFormatter()
-    const lineItemsAsProductIds = props.cart.items.map(item => formatter.toGid('Product', item.product_id))
+    const offers = computed(() => allOffers.value.filter(item => intersection(props.lineItemsAsProductIds, item.triggers).length))
+    const products = computed(() => offers.value.map(item => fetchProduct(item.productId)))
     const offerData: Ref<[OfferType, Product][]> = ref([])
-    const fetchOfferData = async () => {
-      console.log(offers.value)
-      offerData.value = await Promise.all(
-        offers.value
-          .filter(item => intersection(lineItemsAsProductIds, item.triggers).length)
-          .map(async item => [item, await fetchProduct(item.productId)] as [OfferType, Product])
-      )
-    }
-    watchEffect(fetchOfferData)
+    watchEffect(async () => (offerData.value = (await Promise.all(products.value)).map((item, i) => [offers.value[i], item] as [OfferType, Product])))
     return { offerData }
   },
   methods: {

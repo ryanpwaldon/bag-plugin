@@ -24,7 +24,7 @@
               @click="$emit('route', { name: 'Edit', props: { lineItem, currencyCode: cart && cart.currency } })"
             />
           </CardLayout>
-          <Offers :cart="cart" class="mt-5" />
+          <Offers :line-items-as-product-ids="lineItems.map(item => formatter.toGid('Product', item.product_id))" class="mt-5" />
         </div>
         <CardLayout v-else class="absolute top-0 left-0 w-full h-full">
           <LoaderCard />
