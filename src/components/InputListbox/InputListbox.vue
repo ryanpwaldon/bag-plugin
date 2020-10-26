@@ -6,12 +6,12 @@
     <div class="relative">
       <span class="inline-block w-full rounded-md shadow-sm">
         <ListboxButton
-          class="relative w-full py-2 pl-3 pr-10 text-left transition duration-150 ease-in-out bg-white border border-gray-300 rounded-md cursor-default focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5"
-          :class="[error && 'text-red-900 placeholder-red-300 border-red-300 focus:border-red-300 focus:shadow-outline-red']"
+          class="relative w-full py-2 pl-3 pr-10 text-left transition duration-150 ease-in-out bg-white border border-gray-300 rounded-md cursor-default focus:outline-none sm:text-sm sm:leading-5"
+          :class="[error ? 'border-red-300 focus:border-red-300 focus:shadow-outline-red' : 'focus:shadow-outline-blue focus:border-blue-300']"
         >
           <span class="block truncate">
             <span v-if="selectedOption">{{ selectedOption.title }}</span>
-            <span v-else class="text-gray-400">{{ placeholder }}</span>
+            <span v-else :class="error ? 'text-red-300' : 'text-gray-400'">{{ placeholder }}</span>
           </span>
           <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
             <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="none" stroke="currentColor">
@@ -20,7 +20,6 @@
           </span>
         </ListboxButton>
       </span>
-      <p v-if="error" class="mt-2 text-sm" :class="[error ? 'text-red-600' : 'text-gray-500']">{{ error }}</p>
       <transition leave-active-class="transition duration-100 ease-in" leave-from-class="opacity-100" leave-to-class="opacity-0">
         <div v-if="open" class="absolute w-full mt-1">
           <div class="bg-white rounded-md shadow-lg">
@@ -58,6 +57,7 @@
         </div>
       </transition>
     </div>
+    <p v-if="error" class="mt-2 text-sm" :class="[error ? 'text-red-600' : 'text-gray-500']">{{ error }}</p>
   </Listbox>
 </template>
 
@@ -85,7 +85,7 @@ export default defineComponent({
   props: {
     value: {
       type: String,
-      required: true
+      required: false
     },
     options: {
       type: Array as PropType<Option[]>,
@@ -97,7 +97,7 @@ export default defineComponent({
     },
     placeholder: {
       type: String,
-      defualt: 'Please select an item'
+      default: 'Select an item'
     },
     error: {
       type: String,

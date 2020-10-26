@@ -22,7 +22,7 @@
           />
           <Card class="grid gap-4">
             <InputListbox
-              label="Options"
+              label="Type"
               :value="values.variantId"
               :options="variantOptions"
               :error="errors.variantId"
@@ -114,8 +114,8 @@ export default defineComponent({
         .min(1, 'Quantity must be equal to 1 or more.')
         .default(props.lineItem.quantity),
       variantId: string()
-        .typeError('Variant is required.')
-        .required('Variant is required.')
+        .typeError('Type is required.')
+        .required('Type is required.')
         .default(props.lineItem.variant_id)
     }).defined()
     const { values, errors, modified, updateValue, submit, onSuccessfulSubmit } = useForm(schema)
