@@ -22,7 +22,7 @@ class Checkout {
       const { data } = await axios({ url: `/products/${handle}.js`, method: 'get' })
       return data
     },
-    addToCart: async (variantId: number, quantity: number): Promise<LineItem> => {
+    addToCart: async (variantId: string | number, quantity: string | number): Promise<LineItem> => {
       const body = { items: [{ id: variantId, quantity }] }
       const { data }: { data: AddToCartResponse } = await axios({ url: `/cart/add.js`, method: 'post', data: body })
       return data.items[0]

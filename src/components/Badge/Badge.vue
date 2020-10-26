@@ -30,7 +30,7 @@ export default defineComponent({
         'lg-rounded': 'px-2.5 py-0.5 rounded-md text-sm font-medium leading-5'
       } as { [key: string]: string })[this.size]
       const themeClasses = ({
-        'gray-light': 'bg-gray-50 text-gray-400',
+        white: 'bg-white text-gray-800',
         gray: 'bg-gray-100 text-gray-800',
         red: 'bg-red-100 text-red-800',
         orange: 'bg-orange-100 text-orange-800',

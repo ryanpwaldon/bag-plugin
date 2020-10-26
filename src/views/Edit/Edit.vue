@@ -12,22 +12,22 @@
       >
         <CardLayout v-if="product">
           <LineItem
-            edit-mode
             :title="lineItem.product_title"
             :quantity="lineItem.quantity"
             :image="lineItem.featured_image.url"
             :options="lineItem.options_with_values"
+            :has-options="!lineItem.product_has_only_default_variant"
             :price="formatter.currency(lineItem.final_line_price, currencyCode)"
+            edit-mode
           />
           <Card class="grid gap-4">
-            <InputVariant
-              v-if="!lineItem.product_has_only_default_variant"
-              name="options"
+            <InputListbox
               label="Options"
               :value="values.variantId"
-              @update="updateValue('variantId', $event)"
+              :options="variantOptions"
               :error="errors.variantId"
-              :variants="variants"
+              @update="updateValue('variantId', $event)"
+              v-if="!lineItem.product_has_only_default_variant"
               class="z-10"
             />
             <InputNumber
@@ -64,13 +64,13 @@ import LineItem from '@/components/LineItem/LineItem.vue'
 import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
 import CardLayout from '@/components/CardLayout/CardLayout.vue'
 import InputNumber from '@/components/InputNumber/InputNumber.vue'
-import InputVariant from '@/components/InputVariant/InputVariant.vue'
-import { computed, defineComponent, PropType, ref, Ref, watchEffect } from 'vue'
+import InputListbox, { Option } from '@/components/InputListbox/InputListbox.vue'
+import { computed, ComputedRef, defineComponent, PropType, ref, Ref, watchEffect } from 'vue'
 import { Cart, LineItem as LineItemType, Product } from '@/types/shopify'
+import useFormatter from '@/composables/useFormatter'
 import { comms } from '@/services/comms/comms'
 import useForm from '@/composables/useForm'
-import { number, object } from 'yup'
-import useFormatter from '@/composables/useFormatter'
+import { number, object, string } from 'yup'
 export default defineComponent({
   components: {
     Card,
@@ -81,7 +81,7 @@ export default defineComponent({
     CardLayout,
     LoaderCard,
     InputNumber,
-    InputVariant
+    InputListbox
   },
   props: {
     lineItem: {
@@ -94,8 +94,17 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
+    const { formatter } = useFormatter()
     const product: Ref<Product | null> = ref(null)
-    const variants = computed(() => product.value?.variants.map(item => ({ id: item.id, name: item.title, inStock: item.available })) || [])
+    const variantOptions: ComputedRef<Option[]> = computed(
+      () =>
+        product.value?.variants.map(item => ({
+          id: item.id.toString(),
+          title: item.title,
+          meta: formatter.currency(item.price, props.currencyCode),
+          disabled: !item.available
+        })) || []
+    )
     watchEffect(async () => (product.value = await (await comms).getProduct(props.lineItem.handle)))
     const schema = object({
       quantity: number()
@@ -104,7 +113,7 @@ export default defineComponent({
         .integer('Quantity cannot be a decimal.')
         .min(1, 'Quantity must be equal to 1 or more.')
         .default(props.lineItem.quantity),
-      variantId: number()
+      variantId: string()
         .typeError('Variant is required.')
         .required('Variant is required.')
         .default(props.lineItem.variant_id)
@@ -127,15 +136,14 @@ export default defineComponent({
       const cart = await changeLineItemQuantity(props.lineItem.key, 0)
       returnToCart(cart)
     }
-    const { formatter } = useFormatter()
     return {
       product,
-      variants,
       values,
       errors,
       modified,
       updateValue,
       returnToCart,
+      variantOptions,
       removeFromCart,
       formatter,
       submit

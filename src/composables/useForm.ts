@@ -1,4 +1,5 @@
 import set from 'lodash/set'
+import merge from 'lodash/merge'
 import isEqual from 'lodash/isEqual'
 import { cloneKeys } from '@/utils/cloneKeys'
 import { ValidationError, ObjectSchema } from 'yup'
@@ -6,7 +7,8 @@ import { computed, Ref, ref } from 'vue'
 
 export default <T extends object>(schema: ObjectSchema<T>) => {
   const defaults = schema.default()
-  const values = ref({ ...defaults }) as Ref<T>
+  const castedDefaults = merge(defaults, schema.cast(defaults))
+  const values = ref({ ...castedDefaults }) as Ref<T>
   const errors = ref(cloneKeys(values.value))
   const modified = computed(() => !isEqual(defaults, values.value))
   let onSuccessfulSubmitCallback: (values: T, defaults: T) => void = () => undefined

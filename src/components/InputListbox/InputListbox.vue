@@ -10,7 +10,8 @@
           :class="[error && 'text-red-900 placeholder-red-300 border-red-300 focus:border-red-300 focus:shadow-outline-red']"
         >
           <span class="block truncate">
-            {{ (selectedVariant && selectedVariant.name) || '&nbsp;' }}
+            <span v-if="selectedOption">{{ selectedOption.title }}</span>
+            <span v-else class="text-gray-400">{{ placeholder }}</span>
           </span>
           <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
             <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="none" stroke="currentColor">
@@ -28,28 +29,26 @@
               class="py-1 overflow-auto text-base leading-6 rounded-md shadow-xs max-h-60 focus:outline-none sm:text-sm sm:leading-5"
             >
               <ListboxOption
-                v-for="variant in variants"
-                :key="variant.id"
-                :value="variant.id"
-                :disabled="!variant.inStock"
-                v-slot="{ selected, active }"
+                v-for="option in options"
+                v-slot="{ selected, active, disabled }"
+                :disabled="option.disabled"
+                :value="option.id"
+                :key="option.id"
               >
                 <div
-                  class="relative py-2 pl-3 cursor-default select-none"
-                  :class="[active && 'bg-gray-100 pr-9', variant.inStock ? 'text-gray-900' : 'text-gray-400 pr-24']"
+                  class="flex justify-between py-2 pl-3 pr-4 space-x-4 cursor-default select-none"
+                  :class="[active && 'bg-gray-100', disabled ? 'text-gray-400' : 'text-gray-900']"
                 >
-                  <span :class="`${selected ? 'font-medium' : 'font-normal'} block truncate`">
-                    {{ variant.name }}
-                  </span>
-                  <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-900">
-                    <svg v-if="selected" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <span :class="`${selected ? 'font-medium' : 'font-normal'} flex-1 block truncate`">{{ option.title }}</span>
+                  <span class="flex items-center flex-shrink-0">
+                    <svg v-if="selected" class="w-5 h-5 text-blue-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                       <path
                         fill-rule="evenodd"
                         d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
                         clip-rule="evenodd"
                       />
                     </svg>
-                    <Badge v-if="!variant.inStock" text="Sold Out" theme="gray-light" />
+                    <Badge v-if="!option.disabled && !selected" :text="option.meta" :theme="active ? 'white' : 'gray'" />
                   </span>
                 </div>
               </ListboxOption>
@@ -63,41 +62,42 @@
 </template>
 
 <script lang="ts">
-import { Listbox, ListboxLabel, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
 import { defineComponent, PropType } from 'vue'
-import Badge from '../Badge/Badge.vue'
+import { Listbox, ListboxLabel, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
+import Badge from '@/components/Badge/Badge.vue'
 
-interface Variant {
-  id: string | number
-  name: string
-  inStock: boolean
+export interface Option {
+  id: string
+  meta: string
+  title: string
+  disabled: boolean
 }
 
 export default defineComponent({
   components: {
+    Badge,
     Listbox,
     ListboxLabel,
     ListboxButton,
     ListboxOptions,
-    ListboxOption,
-    Badge
+    ListboxOption
   },
   props: {
-    name: {
+    value: {
       type: String,
+      required: true
+    },
+    options: {
+      type: Array as PropType<Option[]>,
       required: true
     },
     label: {
       type: String,
       required: true
     },
-    value: {
-      type: Number,
-      required: true
-    },
-    variants: {
-      type: Array as PropType<Variant[]>,
-      required: true
+    placeholder: {
+      type: String,
+      defualt: 'Please select an item'
     },
     error: {
       type: String,
@@ -105,8 +105,8 @@ export default defineComponent({
     }
   },
   computed: {
-    selectedVariant(): Variant | undefined {
-      return this.variants.find(({ id }) => id === this.value)
+    selectedOption(): Option | undefined {
+      return this.options.find(item => this.value === item.id)
     }
   }
 })

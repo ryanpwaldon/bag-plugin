@@ -53,7 +53,7 @@ export default defineComponent({
       required: false
     },
     value: {
-      type: String,
+      type: [String, Number],
       required: true
     },
     error: {
@@ -65,12 +65,15 @@ export default defineComponent({
     update<T>(value: T) {
       this.$emit('update', value)
     },
+    ensureInt(value: string | number) {
+      return typeof value === 'string' ? parseInt(value) : value
+    },
     increment() {
-      const value = parseInt(this.value) + 1
+      const value = this.ensureInt(this.value) + 1
       this.update(value)
     },
     decrement() {
-      const value = Math.max(parseInt(this.value) - 1, 1)
+      const value = Math.max(this.ensureInt(this.value) - 1, 1)
       this.update(value)
     }
   }
