@@ -1,7 +1,7 @@
 import { ref, Ref } from 'vue'
-import productService, { Product } from '@/services/api/services/productService'
+import productService, { ServerProduct } from '@/services/api/services/productService'
 
-const products: Ref<Record<string, Product>> = ref({})
+const products: Ref<Record<string, ServerProduct>> = ref({})
 
 const fetchProduct = async (id: string) => {
   if (products.value[id]) return products.value[id]

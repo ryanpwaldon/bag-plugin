@@ -12,20 +12,20 @@
       >
         <CardLayout v-if="product">
           <LineItem
-            :title="lineItem.product_title"
-            :quantity="lineItem.quantity"
-            :image="lineItem.featured_image.url"
-            :options="lineItem.options_with_values"
+            :title="product.title"
+            :quantity="values.quantity"
+            :options="selectedVariant.map(item.)"
             :has-options="!lineItem.product_has_only_default_variant"
             :price="formatter.currency(lineItem.final_line_price, currencyCode)"
+            :image="image"
             edit-mode
           />
           <Card class="grid gap-4">
             <InputListbox
               label="Type"
               :value="values.variantId"
+              :options="variantListboxOptions"
               :error="errors.variantId"
-              :options="variantIdOptions"
               @update="updateValue('variantId', $event)"
               v-if="!lineItem.product_has_only_default_variant"
               class="z-10"
@@ -65,12 +65,13 @@ import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
 import CardLayout from '@/components/CardLayout/CardLayout.vue'
 import InputNumber from '@/components/InputNumber/InputNumber.vue'
 import InputListbox, { Option } from '@/components/InputListbox/InputListbox.vue'
-import { Cart, LineItem as LineItemType, Product } from '@/types/shopify'
+import productService, { Product } from '@/services/api/services/productService'
 import useFormatter from '@/composables/useFormatter'
-import { defineComponent, PropType } from 'vue'
-import { comms } from '@/services/comms/comms'
-import { number, object, string } from 'yup'
 import useForm from '@/composables/useForm'
+import { number, object, string } from 'yup'
+import { Cart, Variant } from '@/types/shopify'
+import { defineComponent } from 'vue'
+import { comms } from '@/services/comms/comms'
 export default defineComponent({
   components: {
     Card,
@@ -84,9 +85,21 @@ export default defineComponent({
     InputListbox
   },
   props: {
-    lineItem: {
-      type: Object as PropType<LineItemType>,
+    lineItemKey: {
+      type: String,
+      required: false
+    },
+    productId: {
+      type: Number,
       required: true
+    },
+    variantId: {
+      type: Number,
+      required: false
+    },
+    quantity: {
+      type: Number,
+      default: 1
     },
     currencyCode: {
       type: String,
@@ -95,38 +108,46 @@ export default defineComponent({
   },
   setup(props) {
     const { formatter } = useFormatter()
-    const { values, defaults, errors, modified, updateValue, handleSubmit } = useForm(
+    const { values, defaults, updateValue, errors, handleSubmit } = useForm(
       object({
         quantity: number()
           .typeError('Quantity must be a number.')
           .required('Quantity is required.')
           .integer('Quantity cannot be a decimal.')
           .min(1, 'Quantity must be equal to 1 or more.')
-          .default(props.lineItem.quantity),
+          .default(props.quantity),
         variantId: string()
           .typeError('Type is required.')
           .required('Type is required.')
-          .default(props.lineItem.variant_id)
+          .default(props.variantId)
       }).defined()
     )
     return {
       values,
       defaults,
       errors,
-      modified,
+      formatter,
       updateValue,
-      handleSubmit,
-      formatter
+      handleSubmit
     }
   },
   async created() {
-    this.product = await (await comms).getProduct(this.lineItem.handle)
+    this.product = await productService.findOne(this.productId)
   },
   data: () => ({
     product: null as Product | null
   }),
   computed: {
-    variantIdOptions(): Option[] {
+    image(): string | null {
+      return this.selectedVariant?.featured_image?.src || this.product?.image || null
+    },
+    selectedVariant(): Variant | null {
+      return this.product?.variants.find(item => item.id === this.variantId) || null
+    },
+    selectedVariantOptions(): Record<'name' | 'value', string>[] {
+      this.product.
+    },
+    variantListboxOptions(): Option[] {
       if (!this.product) return []
       return this.product.variants.map(item => ({
         id: item.id.toString(),
@@ -138,26 +159,22 @@ export default defineComponent({
   },
   methods: {
     async submit() {
+      if (!this.lineItemKey) return
       const { variantId, quantity } = this.values
       const { addToCart, changeLineItemQuantity } = await comms
       const variantIdWasModified = variantId !== this.defaults.variantId
       const quantityWasModified = quantity !== this.defaults.quantity
       if (variantIdWasModified) {
         await addToCart(variantId, quantity)
-        const cart = await changeLineItemQuantity(this.lineItem.key, 0)
+        const cart = await changeLineItemQuantity(this.lineItemKey, 0)
         this.returnToCart(cart)
       } else if (quantityWasModified) {
-        const cart = await changeLineItemQuantity(this.lineItem.key, quantity)
+        const cart = await changeLineItemQuantity(this.lineItemKey, quantity)
         this.returnToCart(cart)
       }
     },
     returnToCart(cart: Cart) {
       this.$emit('route', { name: 'Home', props: { initialCart: cart } })
-    },
-    async removeFromCart() {
-      const { changeLineItemQuantity } = await comms
-      const cart = await changeLineItemQuantity(this.lineItem.key, 0)
-      this.returnToCart(cart)
     }
   }
 })
