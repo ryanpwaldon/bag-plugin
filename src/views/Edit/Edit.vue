@@ -151,13 +151,13 @@ export default defineComponent({
         this.returnToCart(cart)
       }
     },
-    returnToCart(cart: AjaxCart) {
-      this.$emit('route', { name: 'Home', props: { initialCart: cart } })
-    },
     async removeFromCart() {
       const { changeLineItemQuantity } = await comms
       const cart = await changeLineItemQuantity(this.lineItem.key, 0)
       this.returnToCart(cart)
+    },
+    returnToCart(cart: AjaxCart) {
+      this.$emit('route', { name: 'Home', props: { initialCart: cart } })
     }
   }
 })
