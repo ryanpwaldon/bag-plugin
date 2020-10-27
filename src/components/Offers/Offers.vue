@@ -14,8 +14,8 @@
         v-for="[offer, product] in offerData"
         :title="offer.title"
         :subtitle="offer.subtitle"
-        :image="product.image"
-        @click="handleClick"
+        :image="product.featuredImage.originalSrc"
+        @click="handleClick(offer.productId)"
       />
     </CardLayout>
   </transition>
@@ -40,6 +40,10 @@ export default defineComponent({
     lineItemsAsProductIds: {
       type: Array as PropType<string[]>,
       required: true
+    },
+    currencyCode: {
+      type: String,
+      required: true
     }
   },
   setup(props) {
@@ -56,8 +60,8 @@ export default defineComponent({
     return { offerData }
   },
   methods: {
-    handleClick() {
-      console.log('hello')
+    handleClick(productId: string) {
+      this.$emit('route', { name: 'Add', props: { productId, currencyCode: this.currencyCode } })
     }
   }
 })

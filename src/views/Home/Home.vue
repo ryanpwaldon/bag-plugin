@@ -19,12 +19,17 @@
               :quantity="lineItem.quantity"
               :image="lineItem.featured_image.url"
               :options="lineItem.options_with_values"
-              :has-options="!lineItem.product_has_only_default_variant"
-              :price="cart && formatter.currency(lineItem.final_line_price, cart.currency)"
+              :hide-options="lineItem.product_has_only_default_variant"
+              :price="cart && formatter.currency(lineItem.final_line_price / 100, cart.currency)"
               @click="$emit('route', { name: 'Edit', props: { lineItem, currencyCode: cart && cart.currency } })"
             />
           </CardLayout>
-          <Offers :line-items-as-product-ids="lineItems.map(item => formatter.toGid('Product', item.product_id))" class="mt-5" />
+          <Offers
+            class="mt-5"
+            :currency-code="cart && cart.currency"
+            :line-items-as-product-ids="lineItems.map(item => formatter.toGid('Product', item.product_id))"
+            @route="$emit('route', $event)"
+          />
         </div>
         <CardLayout v-else class="absolute top-0 left-0 w-full h-full">
           <LoaderCard />
@@ -32,7 +37,7 @@
       </transition>
     </Scroller>
     <div class="grid flex-shrink-0 gap-4 p-5 border-t border-gray-200">
-      <Balance :subtotal="cart && formatter.currency(cart.total_price, cart.currency)" />
+      <Balance :subtotal="cart && formatter.currency(cart.total_price / 100, cart.currency)" />
       <Button text="Checkout" theme="black" />
     </div>
   </div>

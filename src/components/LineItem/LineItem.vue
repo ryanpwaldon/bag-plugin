@@ -9,7 +9,7 @@
         <p class="text-sm font-medium leading-5 text-gray-900 transition duration-150 ease-in-out" :class="!editMode && 'group-hover:text-gray-500'">
           {{ title }}
         </p>
-        <p v-if="hasOptions">
+        <p v-if="!hideOptions">
           <span v-for="({ name, value }, i) of options" :key="i">
             {{ name }}: {{ value }}
             <span v-if="options && i !== options.length - 1"> · </span>
@@ -61,7 +61,7 @@ export default defineComponent({
       type: Array as PropType<Option[]>,
       default: () => []
     },
-    hasOptions: {
+    hideOptions: {
       type: Boolean,
       defualt: false
     },

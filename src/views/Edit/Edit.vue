@@ -16,8 +16,8 @@
             :quantity="lineItem.quantity"
             :image="lineItem.featured_image.url"
             :options="lineItem.options_with_values"
-            :has-options="!lineItem.product_has_only_default_variant"
-            :price="formatter.currency(lineItem.final_line_price, currencyCode)"
+            :hide-options="lineItem.product_has_only_default_variant"
+            :price="formatter.currency(lineItem.final_line_price / 100, currencyCode)"
             edit-mode
           />
           <Card class="grid gap-4">
@@ -131,7 +131,7 @@ export default defineComponent({
       return this.product.variants.map(item => ({
         id: item.id.toString(),
         title: item.title,
-        meta: this.formatter.currency(item.price, this.currencyCode),
+        meta: this.formatter.currency(item.price / 100, this.currencyCode),
         disabled: !item.available
       }))
     }

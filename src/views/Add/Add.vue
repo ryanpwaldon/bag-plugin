@@ -1,6 +1,6 @@
 <template>
   <form class="flex flex-col h-full" @submit.prevent="handleSubmit(submit)">
-    <Header title="Edit item" :close="returnToCart" />
+    <Header title="Select options" :close="returnToCart" />
     <Scroller>
       <transition
         enter-active-class="transition duration-150 ease-out"
@@ -13,21 +13,21 @@
         <CardLayout v-if="product">
           <LineItem
             :title="product.title"
+            :image="lineItemImage"
             :quantity="values.quantity"
-            :options="selectedVariant.map(item.)"
-            :has-options="!lineItem.product_has_only_default_variant"
-            :price="formatter.currency(lineItem.final_line_price, currencyCode)"
-            :image="image"
+            :options="selectedVariantOptions"
+            :hide-options="product.hasOnlyDefaultVariant"
+            :price="selectedVariant && formatter.currency(selectedVariant.price, currencyCode)"
             edit-mode
           />
           <Card class="grid gap-4">
             <InputListbox
               label="Type"
               :value="values.variantId"
-              :options="variantListboxOptions"
+              :options="variantIdListboxOptions"
               :error="errors.variantId"
               @update="updateValue('variantId', $event)"
-              v-if="!lineItem.product_has_only_default_variant"
+              v-if="!product.hasOnlyDefaultVariant"
               class="z-10"
             />
             <InputNumber
@@ -37,10 +37,6 @@
               @update="updateValue('quantity', $event)"
               :error="errors.quantity"
             />
-            <div>
-              <p class="block text-sm font-medium leading-5 text-gray-700">Remove</p>
-              <Button class="w-full mt-1" text="Remove from cart" theme="white-outline" size="md" @click="removeFromCart" />
-            </div>
           </Card>
         </CardLayout>
         <CardLayout v-else class="absolute top-0 left-0 w-full h-full">
@@ -49,7 +45,7 @@
       </transition>
     </Scroller>
     <div class="grid flex-shrink-0 gap-4 p-5 mt-auto border-t border-gray-200">
-      <Button type="submit" text="Save" theme="black" />
+      <Button type="submit" text="Add to cart" theme="black" />
       <Button text="Go back" theme="white" @click="$emit('route', { name: 'Home' })" />
     </div>
   </form>
@@ -64,14 +60,15 @@ import LineItem from '@/components/LineItem/LineItem.vue'
 import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
 import CardLayout from '@/components/CardLayout/CardLayout.vue'
 import InputNumber from '@/components/InputNumber/InputNumber.vue'
-import InputListbox, { Option } from '@/components/InputListbox/InputListbox.vue'
-import productService, { Product } from '@/services/api/services/productService'
+import InputListbox, { ListboxOption } from '@/components/InputListbox/InputListbox.vue'
+import productService from '@/services/api/services/productService'
 import useFormatter from '@/composables/useFormatter'
 import useForm from '@/composables/useForm'
 import { number, object, string } from 'yup'
-import { Cart, Variant } from '@/types/shopify'
 import { defineComponent } from 'vue'
 import { comms } from '@/services/comms/comms'
+import { ServerProduct, ServerVariant } from '@/types/serverApi'
+import { AjaxCart } from '@/types/ajaxApi'
 export default defineComponent({
   components: {
     Card,
@@ -85,28 +82,16 @@ export default defineComponent({
     InputListbox
   },
   props: {
-    lineItemKey: {
-      type: String,
-      required: false
-    },
     productId: {
-      type: Number,
+      type: String,
       required: true
-    },
-    variantId: {
-      type: Number,
-      required: false
-    },
-    quantity: {
-      type: Number,
-      default: 1
     },
     currencyCode: {
       type: String,
       required: true
     }
   },
-  setup(props) {
+  setup() {
     const { formatter } = useFormatter()
     const { values, defaults, updateValue, errors, handleSubmit } = useForm(
       object({
@@ -115,11 +100,10 @@ export default defineComponent({
           .required('Quantity is required.')
           .integer('Quantity cannot be a decimal.')
           .min(1, 'Quantity must be equal to 1 or more.')
-          .default(props.quantity),
+          .default(1),
         variantId: string()
           .typeError('Type is required.')
           .required('Type is required.')
-          .default(props.variantId)
       }).defined()
     )
     return {
@@ -133,47 +117,46 @@ export default defineComponent({
   },
   async created() {
     this.product = await productService.findOne(this.productId)
+    if (this.product.hasOnlyDefaultVariant) this.values.variantId = this.variants[0].legacyResourceId
   },
   data: () => ({
-    product: null as Product | null
+    product: null as ServerProduct | null
   }),
   computed: {
-    image(): string | null {
-      return this.selectedVariant?.featured_image?.src || this.product?.image || null
+    lineItemPrice(): string | null {
+      return this.selectedVariant?.image?.originalSrc || this.product?.featuredImage?.originalSrc || null
     },
-    selectedVariant(): Variant | null {
-      return this.product?.variants.find(item => item.id === this.variantId) || null
+    lineItemImage(): string | null {
+      return this.selectedVariant?.image?.originalSrc || this.product?.featuredImage?.originalSrc || null
     },
-    selectedVariantOptions(): Record<'name' | 'value', string>[] {
-      this.product.
+    variants(): ServerVariant[] {
+      return this.product?.variants.edges.map(item => item.node) || []
     },
-    variantListboxOptions(): Option[] {
-      if (!this.product) return []
-      return this.product.variants.map(item => ({
-        id: item.id.toString(),
-        title: item.title,
+    selectedVariant(): ServerVariant | null {
+      return this.product?.hasOnlyDefaultVariant
+        ? this.variants[0]
+        : this.variants.find(item => item.legacyResourceId === this.values.variantId) || null
+    },
+    selectedVariantOptions(): Record<string, string>[] {
+      return this.selectedVariant?.selectedOptions || []
+    },
+    variantIdListboxOptions(): ListboxOption[] {
+      return this.variants.map(item => ({
+        id: item.legacyResourceId,
+        title: item.displayName,
         meta: this.formatter.currency(item.price, this.currencyCode),
-        disabled: !item.available
+        disabled: !item.availableForSale
       }))
     }
   },
   methods: {
     async submit() {
-      if (!this.lineItemKey) return
+      const { addToCart } = await comms
       const { variantId, quantity } = this.values
-      const { addToCart, changeLineItemQuantity } = await comms
-      const variantIdWasModified = variantId !== this.defaults.variantId
-      const quantityWasModified = quantity !== this.defaults.quantity
-      if (variantIdWasModified) {
-        await addToCart(variantId, quantity)
-        const cart = await changeLineItemQuantity(this.lineItemKey, 0)
-        this.returnToCart(cart)
-      } else if (quantityWasModified) {
-        const cart = await changeLineItemQuantity(this.lineItemKey, quantity)
-        this.returnToCart(cart)
-      }
+      await addToCart(variantId, quantity)
+      this.returnToCart()
     },
-    returnToCart(cart: Cart) {
+    returnToCart(cart?: AjaxCart) {
       this.$emit('route', { name: 'Home', props: { initialCart: cart } })
     }
   }

@@ -10,13 +10,15 @@
 import anime from 'animejs'
 import Home from './views/Home/Home.vue'
 import Edit from './views/Edit/Edit.vue'
+import Add from './views/Add/Add.vue'
 import Layout from './components/Layout/Layout.vue'
 import { defineComponent } from 'vue'
 export default defineComponent({
   components: {
     Layout,
     Home,
-    Edit
+    Edit,
+    Add
   },
   data: () => ({
     name: 'Home',
