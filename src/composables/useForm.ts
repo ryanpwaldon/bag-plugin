@@ -1,9 +1,16 @@
 import set from 'lodash/set'
 import merge from 'lodash/merge'
 import isEqual from 'lodash/isEqual'
-import { cloneKeys } from '@/utils/cloneKeys'
+import isPlainObject from 'lodash/isPlainObject'
 import { ValidationError, ObjectSchema } from 'yup'
 import { computed, Ref, ref } from 'vue'
+
+export const cloneKeys = <T>(target: T) => {
+  return Object.entries(target).reduce((clone: { [key: string]: object | undefined }, [key, value]) => {
+    clone[key] = isPlainObject(value) ? cloneKeys(value) : undefined
+    return clone
+  }, {})
+}
 
 export default <T extends object>(schema: ObjectSchema<T>) => {
   const defaults = merge(schema.default(), schema.cast(schema.default()))
