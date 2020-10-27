@@ -44,12 +44,16 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { offers: allOffers } = useOffers()
+    const { offers } = useOffers()
     const { fetchProduct } = useProduct()
-    const offers = computed(() => allOffers.value.filter(item => intersection(props.lineItemsAsProductIds, item.triggers).length))
-    const products = computed(() => offers.value.map(item => fetchProduct(item.productId)))
+    const filteredOffers = computed(() => offers.value.filter(item => intersection(props.lineItemsAsProductIds, item.triggers).length))
+    const filteredProducts = computed(() => filteredOffers.value.map(item => fetchProduct(item.productId)))
     const offerData: Ref<[OfferType, Product][]> = ref([])
-    watchEffect(async () => (offerData.value = (await Promise.all(products.value)).map((item, i) => [offers.value[i], item] as [OfferType, Product])))
+    const updateOfferData = async () => {
+      const products = await Promise.all(filteredProducts.value)
+      offerData.value = offers.value.map((item, i) => [item, products[i]] as [OfferType, Product])
+    }
+    watchEffect(updateOfferData)
     return { offerData }
   },
   methods: {
