@@ -1,5 +1,6 @@
 import { ref, Ref } from 'vue'
-import productService, { ServerProduct } from '@/services/api/services/productService'
+import { ServerProduct } from '@/types/serverApi'
+import productService from '@/services/api/services/productService'
 
 const products: Ref<Record<string, ServerProduct>> = ref({})
 

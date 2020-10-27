@@ -66,7 +66,7 @@ import { defineComponent, PropType } from 'vue'
 import { Listbox, ListboxLabel, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
 import Badge from '@/components/Badge/Badge.vue'
 
-export interface Option {
+export interface ListboxOption {
   id: string
   meta: string
   title: string
@@ -88,7 +88,7 @@ export default defineComponent({
       required: false
     },
     options: {
-      type: Array as PropType<Option[]>,
+      type: Array as PropType<ListboxOption[]>,
       required: true
     },
     label: {
@@ -105,7 +105,7 @@ export default defineComponent({
     }
   },
   computed: {
-    selectedOption(): Option | undefined {
+    selectedOption(): ListboxOption | undefined {
       return this.options.find(item => this.value === item.id)
     }
   }

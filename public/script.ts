@@ -1,13 +1,13 @@
-import { ChildMethods } from '@/services/comms/comms'
-import { Cart, Product, AddToCartResponse, LineItem } from '@/types/shopify'
 import { connectToChild } from 'penpal'
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
+import { ChildMethods } from '@/services/comms/comms'
+import { AjaxCart, AjaxProduct, AjaxLineItem, AjaxAddToCartResponse } from '@/types/ajaxApi'
 
 class Checkout {
   comms = {} as ChildMethods
   frame: HTMLIFrameElement = this.createFrame()
   exposedMethods = {
-    getCart: async (): Promise<Cart> => {
+    getCart: async (): Promise<AjaxCart> => {
       const { data } = await axios({ url: '/cart.js', method: 'get' })
       return data
     },
@@ -18,16 +18,16 @@ class Checkout {
     getParentOrigin: () => {
       return window.location.origin
     },
-    getProduct: async (handle: string): Promise<Product> => {
+    getProduct: async (handle: string): Promise<AjaxProduct> => {
       const { data } = await axios({ url: `/products/${handle}.js`, method: 'get' })
       return data
     },
-    addToCart: async (variantId: string | number, quantity: string | number): Promise<LineItem> => {
+    addToCart: async (variantId: string | number, quantity: string | number): Promise<AjaxLineItem> => {
       const body = { items: [{ id: variantId, quantity }] }
-      const { data }: { data: AddToCartResponse } = await axios({ url: `/cart/add.js`, method: 'post', data: body })
+      const { data } = (await axios({ url: `/cart/add.js`, method: 'post', data: body })) as AxiosResponse<AjaxAddToCartResponse>
       return data.items[0]
     },
-    changeLineItemQuantity: async (lineItemKey: string, quantity: number): Promise<Cart> => {
+    changeLineItemQuantity: async (lineItemKey: string, quantity: number): Promise<AjaxCart> => {
       const body = { id: lineItemKey, quantity }
       const { data } = await axios({ url: '/cart/change.js', method: 'post', data: body })
       return data

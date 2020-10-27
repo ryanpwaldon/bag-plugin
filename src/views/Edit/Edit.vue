@@ -25,7 +25,7 @@
               label="Type"
               :value="values.variantId"
               :error="errors.variantId"
-              :options="variantIdOptions"
+              :options="variantIdListboxOptions"
               @update="updateValue('variantId', $event)"
               v-if="!lineItem.product_has_only_default_variant"
               class="z-10"
@@ -64,13 +64,13 @@ import LineItem from '@/components/LineItem/LineItem.vue'
 import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
 import CardLayout from '@/components/CardLayout/CardLayout.vue'
 import InputNumber from '@/components/InputNumber/InputNumber.vue'
-import InputListbox, { Option } from '@/components/InputListbox/InputListbox.vue'
-import { Cart, LineItem as LineItemType, Product } from '@/types/shopify'
+import InputListbox, { ListboxOption } from '@/components/InputListbox/InputListbox.vue'
 import useFormatter from '@/composables/useFormatter'
-import { defineComponent, PropType } from 'vue'
+import useForm from '@/composables/useForm'
 import { comms } from '@/services/comms/comms'
 import { number, object, string } from 'yup'
-import useForm from '@/composables/useForm'
+import { defineComponent, PropType } from 'vue'
+import { AjaxCart, AjaxLineItem, AjaxProduct } from '@/types/ajaxApi'
 export default defineComponent({
   components: {
     Card,
@@ -85,7 +85,7 @@ export default defineComponent({
   },
   props: {
     lineItem: {
-      type: Object as PropType<LineItemType>,
+      type: Object as PropType<AjaxLineItem>,
       required: true
     },
     currencyCode: {
@@ -123,10 +123,10 @@ export default defineComponent({
     this.product = await (await comms).getProduct(this.lineItem.handle)
   },
   data: () => ({
-    product: null as Product | null
+    product: null as AjaxProduct | null
   }),
   computed: {
-    variantIdOptions(): Option[] {
+    variantIdListboxOptions(): ListboxOption[] {
       if (!this.product) return []
       return this.product.variants.map(item => ({
         id: item.id.toString(),
@@ -151,7 +151,7 @@ export default defineComponent({
         this.returnToCart(cart)
       }
     },
-    returnToCart(cart: Cart) {
+    returnToCart(cart: AjaxCart) {
       this.$emit('route', { name: 'Home', props: { initialCart: cart } })
     },
     async removeFromCart() {

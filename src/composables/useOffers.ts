@@ -1,7 +1,8 @@
 import { Ref, ref } from 'vue'
-import offerService, { Offer } from '@/services/api/services/offerService'
+import { ServerOffer } from '@/types/serverApi'
+import offerService from '@/services/api/services/offerService'
 
-const offers: Ref<Offer[]> = ref([])
+const offers: Ref<ServerOffer[]> = ref([])
 const fetchOffers = async () => {
   if (offers.value.length) return offers.value
   offers.value = await offerService.findAll()

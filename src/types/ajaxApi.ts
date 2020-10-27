@@ -1,4 +1,4 @@
-interface Product {
+export interface AjaxProduct {
   id: number
   title: string
   handle: string
@@ -17,44 +17,44 @@ interface Product {
   compare_at_price_min: number
   compare_at_price_max: number
   compare_at_price_varies: boolean
-  variants: Variant[]
+  variants: AjaxVariant[]
   images: string[]
   featured_image: string
-  options: Option[]
+  options: AjaxOption[]
   url: string
-  media: Media[]
+  media: AjaxMedia[]
 }
 
-interface Media {
+interface AjaxMedia {
   alt: null | string
   id: number
   position: number
-  preview_image: PreviewImage
+  preview_image: AjaxPreviewImage
   aspect_ratio: number
   height: number
-  media_type: MediaType
+  media_type: AjaxMediaType
   src: string
   width: number
 }
 
-enum MediaType {
+enum AjaxMediaType {
   Image = 'image'
 }
 
-interface PreviewImage {
+interface AjaxPreviewImage {
   aspect_ratio: number
   height: number
   width: number
   src: string
 }
 
-interface Option {
+interface AjaxOption {
   name: string
   position: number
   values: string[]
 }
 
-interface Variant {
+export interface AjaxVariant {
   id: number
   title: string
   option1: string
@@ -63,7 +63,7 @@ interface Variant {
   sku: string
   requires_shipping: boolean
   taxable: boolean
-  featured_image: VariantFeaturedImage | null
+  featured_image: AjaxVariantFeaturedImage | null
   available: boolean
   name: string
   public_title: null | string
@@ -71,12 +71,12 @@ interface Variant {
   price: number
   weight: number
   compare_at_price: number | null
-  inventory_management: InventoryManagement | null
+  inventory_management: AjaxInventoryManagement | null
   barcode: string
-  featured_media?: FeaturedMedia
+  featured_media?: AjaxFeaturedMedia
 }
 
-interface VariantFeaturedImage {
+interface AjaxVariantFeaturedImage {
   id: number
   product_id: number
   position: number
@@ -89,18 +89,18 @@ interface VariantFeaturedImage {
   variant_ids: number[]
 }
 
-enum InventoryManagement {
+enum AjaxInventoryManagement {
   Shopify = 'shopify'
 }
 
-interface FeaturedMedia {
+interface AjaxFeaturedMedia {
   alt: null | string
   id: number
   position: number
-  preview_image: PreviewImage
+  preview_image: AjaxPreviewImage
 }
 
-export interface LineItem {
+export interface AjaxLineItem {
   id: number
   properties: any | null
   quantity: number
@@ -124,7 +124,7 @@ export interface LineItem {
   final_price: number
   final_line_price: number
   url: string
-  featured_image: ItemFeaturedImage
+  featured_image: AjaxItemFeaturedImage
   image: string
   handle: string
   requires_shipping: boolean
@@ -133,12 +133,12 @@ export interface LineItem {
   product_description: string
   variant_title: null | string
   variant_options: string[]
-  options_with_values: OptionsWithValue[]
+  options_with_values: AjaxOptionsWithValue[]
   line_level_discount_allocations: any[]
   line_level_total_discount: number
 }
 
-interface ItemFeaturedImage {
+interface AjaxItemFeaturedImage {
   aspect_ratio: number
   alt: string
   height: number
@@ -146,12 +146,12 @@ interface ItemFeaturedImage {
   width: number
 }
 
-interface OptionsWithValue {
+interface AjaxOptionsWithValue {
   name: string
   value: string
 }
 
-export interface Cart {
+export interface AjaxCart {
   token: string
   note: null
   attributes: any
@@ -160,17 +160,17 @@ export interface Cart {
   total_discount: number
   total_weight: number
   item_count: number
-  items: LineItem[]
+  items: AjaxLineItem[]
   requires_shipping: boolean
   currency: string
   items_subtotal_price: number
   cart_level_discount_applications: any[]
 }
 
-export interface AddToCartResponse {
-  items: LineItem[]
+export interface AjaxAddToCartResponse {
+  items: AjaxLineItem[]
 }
 
-export interface ProductRecommendationsResponse {
-  products: Product[]
+export interface AjaxProductRecommendationsResponse {
+  products: AjaxProduct[]
 }

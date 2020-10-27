@@ -28,8 +28,7 @@ import useProduct from '@/composables/useProduct'
 import Offer from '@/components/Offer/Offer.vue'
 import CardLayout from '@/components/CardLayout/CardLayout.vue'
 import DividerLabel from '@/components/DividerLabel/DividerLabel.vue'
-import { ServerProduct } from '@/services/api/services/productService'
-import { Offer as OfferType } from '@/services/api/services/offerService'
+import { ServerOffer, ServerProduct } from '@/types/serverApi'
 import { computed, defineComponent, PropType, Ref, ref, watchEffect } from 'vue'
 export default defineComponent({
   components: {
@@ -48,10 +47,10 @@ export default defineComponent({
     const { fetchProduct } = useProduct()
     const filteredOffers = computed(() => offers.value.filter(item => intersection(props.lineItemsAsProductIds, item.triggers).length))
     const filteredProducts = computed(() => filteredOffers.value.map(item => fetchProduct(item.productId)))
-    const offerData: Ref<[OfferType, ServerProduct][]> = ref([])
+    const offerData: Ref<[ServerOffer, ServerProduct][]> = ref([])
     const updateOfferData = async () => {
       const products = await Promise.all(filteredProducts.value)
-      offerData.value = offers.value.map((item, i) => [item, products[i]] as [OfferType, ServerProduct])
+      offerData.value = offers.value.map((item, i) => [item, products[i]] as [ServerOffer, ServerProduct])
     }
     watchEffect(updateOfferData)
     return { offerData }

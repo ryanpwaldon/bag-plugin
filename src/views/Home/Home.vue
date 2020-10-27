@@ -47,11 +47,11 @@ import LineItem from '@/components/LineItem/LineItem.vue'
 import CardLayout from '@/components/CardLayout/CardLayout.vue'
 import Balance from '@/components/Balance/Balance.vue'
 import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
-import { computed, defineComponent, PropType, Ref, ref } from 'vue'
-import { Offer as OfferInterface } from '@/services/api/services/offerService'
-import { comms } from '@/services/comms/comms'
-import { Cart } from '@/types/shopify'
 import useFormatter from '@/composables/useFormatter'
+import { comms } from '@/services/comms/comms'
+import { AjaxCart } from '@/types/ajaxApi'
+import { ServerOffer } from '@/types/serverApi'
+import { computed, defineComponent, PropType, Ref, ref } from 'vue'
 export default defineComponent({
   components: {
     Header,
@@ -65,15 +65,15 @@ export default defineComponent({
   },
   props: {
     initialCart: {
-      type: Object as PropType<Cart>,
+      type: Object as PropType<AjaxCart>,
       required: false
     }
   },
   setup(props) {
     const { formatter } = useFormatter()
-    const cart: Ref<Cart | null> = ref(props.initialCart || null)
+    const cart: Ref<AjaxCart | null> = ref(props.initialCart || null)
     const lineItems = computed(() => cart.value?.items || [])
-    const offers: Ref<OfferInterface[]> = ref([])
+    const offers: Ref<ServerOffer[]> = ref([])
     const fetchCart = async () => (cart.value = await (await comms).getCart())
     if (!cart.value) fetchCart()
     return { cart, lineItems, offers, formatter }
