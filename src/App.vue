@@ -7,11 +7,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import Layout from './components/Layout/Layout.vue'
+import anime from 'animejs'
 import Home from './views/Home/Home.vue'
 import Edit from './views/Edit/Edit.vue'
-import anime from 'animejs'
+import Layout from './components/Layout/Layout.vue'
+import { defineComponent } from 'vue'
 export default defineComponent({
   components: {
     Layout,
