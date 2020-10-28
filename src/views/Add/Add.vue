@@ -17,7 +17,7 @@
             :quantity="values.quantity"
             :options="selectedVariantOptions"
             :hide-options="product.hasOnlyDefaultVariant"
-            :price="selectedVariant && formatter.currency(selectedVariant.price, currencyCode)"
+            :price="selectedVariant && formatter.currency(selectedVariant.price * values.quantity, currencyCode)"
             edit-mode
           />
           <Card class="grid gap-4">

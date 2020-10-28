@@ -51,7 +51,7 @@ export default defineComponent({
     },
     price: {
       type: [String, Number],
-      required: true
+      required: false
     },
     compareAtPrice: {
       type: [String, Number],

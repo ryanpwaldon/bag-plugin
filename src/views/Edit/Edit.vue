@@ -13,11 +13,11 @@
         <CardLayout v-if="product">
           <LineItem
             :title="lineItem.product_title"
-            :quantity="lineItem.quantity"
+            :quantity="values.quantity"
             :image="lineItem.featured_image.url"
-            :options="lineItem.options_with_values"
+            :options="selectedVariantOptions"
             :hide-options="lineItem.product_has_only_default_variant"
-            :price="formatter.currency(lineItem.final_line_price / 100, currencyCode)"
+            :price="selectedVariant && formatter.currency((selectedVariant.price / 100) * values.quantity, currencyCode)"
             edit-mode
           />
           <Card class="grid gap-4">
@@ -70,7 +70,7 @@ import useForm from '@/composables/useForm'
 import { comms } from '@/services/comms/comms'
 import { number, object, string } from 'yup'
 import { defineComponent, PropType } from 'vue'
-import { AjaxCart, AjaxLineItem, AjaxProduct } from '@/types/ajaxApi'
+import { AjaxCart, AjaxLineItem, AjaxProduct, AjaxVariant } from '@/types/ajaxApi'
 export default defineComponent({
   components: {
     Card,
@@ -126,6 +126,14 @@ export default defineComponent({
     product: null as AjaxProduct | null
   }),
   computed: {
+    selectedVariant(): AjaxVariant | undefined {
+      return this.lineItem?.product_has_only_default_variant
+        ? this.product?.variants[0]
+        : this.product?.variants.find(item => item.id.toString() === this.values.variantId)
+    },
+    selectedVariantOptions(): Record<string, string | undefined>[] {
+      return this.product?.options.map(({ name }, i) => ({ name, value: this.selectedVariant?.options[i] })) || []
+    },
     variantIdListboxOptions(): ListboxOption[] {
       if (!this.product) return []
       return this.product.variants.map(item => ({
