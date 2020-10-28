@@ -12,7 +12,9 @@
       >
         <div v-if="cart">
           <CardLayout>
+            <EmptyCart v-if="!lineItems.length" />
             <LineItem
+              v-else
               :key="i"
               v-for="(lineItem, i) in lineItems"
               :title="lineItem.product_title"
@@ -52,6 +54,7 @@ import LineItem from '@/components/LineItem/LineItem.vue'
 import CardLayout from '@/components/CardLayout/CardLayout.vue'
 import Balance from '@/components/Balance/Balance.vue'
 import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
+import EmptyCart from '@/components/EmptyCart/EmptyCart.vue'
 import useFormatter from '@/composables/useFormatter'
 import { comms } from '@/services/comms/comms'
 import { AjaxCart } from '@/types/ajaxApi'
@@ -66,7 +69,8 @@ export default defineComponent({
     Scroller,
     LineItem,
     CardLayout,
-    LoaderCard
+    LoaderCard,
+    EmptyCart
   },
   props: {
     initialCart: {

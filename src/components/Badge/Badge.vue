@@ -14,7 +14,7 @@ export default defineComponent({
     },
     size: {
       type: String,
-      default: 'sm-basic'
+      default: 'smallRounded'
     },
     theme: {
       type: String,
@@ -24,13 +24,14 @@ export default defineComponent({
   computed: {
     classes(): string {
       const sizeClasses = ({
-        'sm-basic': 'px-2.5 py-0.5 rounded-full text-xs font-medium leading-4',
-        'lg-basic': 'px-3 py-0.5 rounded-full text-sm font-medium leading-5',
-        'sm-rounded': 'px-2 py-0.5 rounded text-xs font-medium leading-4',
-        'lg-rounded': 'px-2.5 py-0.5 rounded-md text-sm font-medium leading-5'
+        smallRounded: 'px-2.5 py-0.5 rounded-full text-xs font-medium leading-4',
+        largeRounded: 'px-3 py-0.5 rounded-full text-sm font-medium leading-5',
+        smallSquare: 'px-2 py-0.5 rounded text-xs font-medium leading-4',
+        largeSquare: 'px-2.5 py-0.5 rounded-md text-sm font-medium leading-5'
       } as { [key: string]: string })[this.size]
       const themeClasses = ({
         white: 'bg-white text-gray-800',
+        lightGray: 'bg-gray-50 text-gray-800',
         gray: 'bg-gray-100 text-gray-800',
         red: 'bg-red-100 text-red-800',
         orange: 'bg-orange-100 text-orange-800',
