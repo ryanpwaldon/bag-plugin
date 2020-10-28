@@ -7,7 +7,7 @@ export interface ServerProduct {
 
 export interface ServerVariant {
   legacyResourceId: string
-  displayName: string
+  title: string
   price: number
   availableForSale: boolean
   image: { originalSrc: string }

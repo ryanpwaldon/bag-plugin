@@ -143,7 +143,7 @@ export default defineComponent({
     variantIdListboxOptions(): ListboxOption[] {
       return this.variants.map(item => ({
         id: item.legacyResourceId,
-        title: item.displayName,
+        title: item.title,
         meta: this.formatter.currency(item.price, this.currencyCode),
         disabled: !item.availableForSale
       }))
