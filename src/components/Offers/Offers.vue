@@ -7,15 +7,15 @@
     leave-from-class="opacity-100"
     leave-to-class="opacity-0"
   >
-    <CardLayout v-if="offerData.length">
+    <CardLayout v-if="filteredCrossSells.length">
       <DividerLabel text="Offers" class="z-20 py-1 transition ease-in-out" />
       <Offer
-        :key="offer.id"
-        v-for="[offer, product] in offerData"
-        :title="offer.title"
-        :subtitle="offer.subtitle"
-        :image="product.featuredImage.originalSrc"
-        @click="handleClick(offer.productId)"
+        :key="crossSell.id"
+        v-for="crossSell in filteredCrossSells"
+        :title="crossSell.title"
+        :subtitle="crossSell.subtitle"
+        :image="crossSell.product.featuredImage.originalSrc"
+        @click="handleClick(crossSell.productId)"
       />
     </CardLayout>
   </transition>
@@ -23,13 +23,11 @@
 
 <script lang="ts">
 import intersection from 'lodash/intersection'
-import useOffers from '@/composables/useOffers'
-import useProduct from '@/composables/useProduct'
 import Offer from '@/components/Offer/Offer.vue'
 import CardLayout from '@/components/CardLayout/CardLayout.vue'
 import DividerLabel from '@/components/DividerLabel/DividerLabel.vue'
-import { ServerOffer, ServerProduct } from '@/types/serverApi'
-import { computed, defineComponent, PropType, Ref, ref, watchEffect } from 'vue'
+import { computed, defineComponent, PropType, watch } from 'vue'
+import useCrossSells from '@/composables/useCrossSells'
 export default defineComponent({
   components: {
     Offer,
@@ -47,21 +45,16 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const { offers } = useOffers()
-    const { fetchProduct } = useProduct()
-    const filteredOffers = computed(() =>
-      offers.value.filter(
-        item => intersection(props.lineItemsAsProductIds, item.triggers).length && !props.lineItemsAsProductIds.includes(item.productId)
+    const { crossSells } = useCrossSells()
+    const filteredCrossSells = computed(() =>
+      crossSells.value.filter(
+        item => intersection(props.lineItemsAsProductIds, item.triggerProductIds).length && !props.lineItemsAsProductIds.includes(item.productId)
       )
     )
-    const filteredProducts = computed(() => filteredOffers.value.map(item => fetchProduct(item.productId)))
-    const offerData: Ref<[ServerOffer, ServerProduct][]> = ref([])
-    const updateOfferData = async () => {
-      const products = await Promise.all(filteredProducts.value)
-      offerData.value = filteredOffers.value.map((item, i) => [item, products[i]] as [ServerOffer, ServerProduct])
-    }
-    watchEffect(updateOfferData)
-    return { offerData }
+    watch(filteredCrossSells, () => {
+      console.log(filteredCrossSells)
+    })
+    return { filteredCrossSells }
   },
   methods: {
     handleClick(productId: string) {
