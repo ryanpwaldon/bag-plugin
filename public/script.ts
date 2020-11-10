@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from 'axios'
 import { ChildMethods } from '@/services/comms/comms'
 import { AjaxCart, AjaxProduct, AjaxLineItem, AjaxAddToCartResponse } from '@/types/ajaxApi'
 
-class Checkout {
+class Cart {
   comms = {} as ChildMethods
   frame: HTMLIFrameElement = this.createFrame()
   exposedMethods = {
@@ -83,7 +83,7 @@ class Checkout {
   }
 }
 
-const checkout = new Checkout()
+const checkout = new Cart()
 checkout.init()
 
 export type ParentMethods = typeof checkout.exposedMethods
