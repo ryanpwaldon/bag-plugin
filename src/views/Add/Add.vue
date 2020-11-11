@@ -61,7 +61,7 @@ import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
 import CardLayout from '@/components/CardLayout/CardLayout.vue'
 import InputNumber from '@/components/InputNumber/InputNumber.vue'
 import InputListbox, { ListboxOption } from '@/components/InputListbox/InputListbox.vue'
-import adminProductService from '@/services/api/services/adminProductService'
+import productService from '@/services/api/services/productService'
 import useFormatter from '@/composables/useFormatter'
 import useForm from '@/composables/useForm'
 import { number, object, string } from 'yup'
@@ -116,7 +116,7 @@ export default defineComponent({
     }
   },
   async created() {
-    this.product = await adminProductService.findOne(this.productId)
+    this.product = await productService.findOne(this.productId)
     if (this.product.hasOnlyDefaultVariant) this.values.variantId = this.variants[0].legacyResourceId
   },
   data: () => ({
