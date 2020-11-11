@@ -5,7 +5,6 @@ const crossSells: Ref<CrossSell[]> = ref([])
 const fetchCrossSells = async () => {
   if (crossSells.value.length) return crossSells.value
   crossSells.value = await crossSellService.findAll()
-  console.log(crossSells.value)
   return crossSells.value
 }
 

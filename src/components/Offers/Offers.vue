@@ -51,9 +51,6 @@ export default defineComponent({
         item => intersection(props.lineItemsAsProductIds, item.triggerProductIds).length && !props.lineItemsAsProductIds.includes(item.productId)
       )
     )
-    watch(filteredCrossSells, () => {
-      console.log(filteredCrossSells)
-    })
     return { filteredCrossSells }
   },
   methods: {
