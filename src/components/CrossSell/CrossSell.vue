@@ -19,6 +19,7 @@
 </template>
 
 <script lang="ts">
+import cartEventService, { CartEventType } from '@/services/api/services/cartEventService'
 import { defineComponent } from 'vue'
 import GradientSpacer from '../GradientSpacer/GradientSpacer.vue'
 export default defineComponent({
@@ -26,6 +27,10 @@ export default defineComponent({
     GradientSpacer
   },
   props: {
+    id: {
+      type: String,
+      required: true
+    },
     title: {
       type: String,
       required: true
@@ -37,7 +42,25 @@ export default defineComponent({
     image: {
       type: String,
       required: true
+    },
+    cartToken: {
+      type: String,
+      required: true
+    },
+    productId: {
+      type: String,
+      required: true
     }
+  },
+  setup(props) {
+    cartEventService.create({
+      cartToken: props.cartToken,
+      type: CartEventType.CrossSellImpression,
+      meta: {
+        crossSellId: props.id,
+        productId: props.productId
+      }
+    })
   }
 })
 </script>

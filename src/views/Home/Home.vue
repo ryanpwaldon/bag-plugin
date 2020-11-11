@@ -28,6 +28,7 @@
           </CardLayout>
           <Offers
             class="mt-5"
+            :cart-token="cart.token"
             :currency-code="cart && cart.currency"
             :line-items-as-product-ids="lineItems.map(item => formatter.toGid('Product', item.product_id))"
             @route="$emit('route', $event)"

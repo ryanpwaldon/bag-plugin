@@ -9,13 +9,16 @@
   >
     <CardLayout v-if="filteredCrossSells.length">
       <DividerLabel text="Offers" class="z-20 py-1 transition ease-in-out" />
-      <Offer
-        :key="crossSell.id"
+      <CrossSell
         v-for="crossSell in filteredCrossSells"
+        :id="crossSell.id"
+        :cart-token="cartToken"
         :title="crossSell.title"
         :subtitle="crossSell.subtitle"
+        :product-id="crossSell.productId"
         :image="crossSell.product.featuredImage.originalSrc"
         @click="handleClick(crossSell.productId)"
+        :key="crossSell.id"
       />
     </CardLayout>
   </transition>
@@ -23,20 +26,24 @@
 
 <script lang="ts">
 import intersection from 'lodash/intersection'
-import Offer from '@/components/Offer/Offer.vue'
+import CrossSell from '@/components/CrossSell/CrossSell.vue'
 import CardLayout from '@/components/CardLayout/CardLayout.vue'
 import DividerLabel from '@/components/DividerLabel/DividerLabel.vue'
 import { computed, defineComponent, PropType } from 'vue'
 import useCrossSells from '@/composables/useCrossSells'
 export default defineComponent({
   components: {
-    Offer,
+    CrossSell,
     CardLayout,
     DividerLabel
   },
   props: {
     lineItemsAsProductIds: {
       type: Array as PropType<string[]>,
+      required: true
+    },
+    cartToken: {
+      type: String,
       required: true
     },
     currencyCode: {
