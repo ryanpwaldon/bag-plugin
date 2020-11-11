@@ -26,7 +26,7 @@ import intersection from 'lodash/intersection'
 import Offer from '@/components/Offer/Offer.vue'
 import CardLayout from '@/components/CardLayout/CardLayout.vue'
 import DividerLabel from '@/components/DividerLabel/DividerLabel.vue'
-import { computed, defineComponent, PropType, watch } from 'vue'
+import { computed, defineComponent, PropType } from 'vue'
 import useCrossSells from '@/composables/useCrossSells'
 export default defineComponent({
   components: {
