@@ -1,6 +1,6 @@
 <template>
   <form class="flex flex-col h-full" @submit.prevent="handleSubmit(submit)">
-    <Header title="Select options" :close="returnToCart" />
+    <Header title="Add to cart" :close="returnToCart" />
     <Scroller>
       <transition
         enter-active-class="transition duration-150 ease-out"
@@ -46,7 +46,7 @@
     </Scroller>
     <div class="grid flex-shrink-0 gap-4 p-5 mt-auto border-t border-gray-300">
       <Button type="submit" text="Add to cart" theme="black" />
-      <Button text="Go back" theme="white" @click="$emit('route', { name: 'Home' })" />
+      <Button text="Back to cart" theme="white" @click="$emit('route', { name: 'Home' })" />
     </div>
   </form>
 </template>
