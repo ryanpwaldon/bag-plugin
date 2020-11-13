@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col h-full">
-    <Header title="Your Cart" :meta="cart && `${cart.item_count} items`" />
+    <Header title="Your cart" :meta="cart && `${cart.item_count} items`" />
     <Scroller>
       <transition
         enter-active-class="transition duration-150 ease-out"
@@ -39,7 +39,7 @@
         </CardLayout>
       </transition>
     </Scroller>
-    <div class="grid flex-shrink-0 gap-4 p-5 border-t border-gray-200">
+    <div class="grid flex-shrink-0 gap-4 p-5 border-t border-gray-300">
       <Balance :subtotal="cart && formatter.currency(cart.total_price / 100, cart.currency)" />
       <Button text="Checkout" theme="black" />
     </div>

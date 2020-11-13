@@ -48,7 +48,7 @@
         </CardLayout>
       </transition>
     </Scroller>
-    <div class="grid flex-shrink-0 gap-4 p-5 mt-auto border-t border-gray-200">
+    <div class="grid flex-shrink-0 gap-4 p-5 mt-auto border-t border-gray-300">
       <Button type="submit" text="Save" theme="black" />
       <Button text="Go back" theme="white" @click="$emit('route', { name: 'Home' })" />
     </div>

@@ -33,6 +33,7 @@
                 :disabled="option.disabled"
                 :value="option.id"
                 :key="option.id"
+                class="focus:outline-none"
               >
                 <div
                   class="flex justify-between py-2 pl-3 pr-4 space-x-4 cursor-default select-none"

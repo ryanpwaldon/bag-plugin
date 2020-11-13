@@ -1,7 +1,7 @@
 <template>
   <component
     :is="editMode ? 'div' : 'button'"
-    class="flex flex-shrink-0 overflow-hidden whitespace-no-wrap transition duration-150 ease-in-out bg-white border border-transparent rounded-lg shadow focus:border-blue-300 focus:shadow-outline-blue focus:outline-none group"
+    class="flex flex-shrink-0 overflow-hidden whitespace-no-wrap transition duration-150 ease-in-out bg-white border border-gray-300 rounded-lg shadow-sm focus:border-blue-300 focus:shadow-outline-blue focus:outline-none group"
   >
     <div class="flex-shrink-0 w-24 h-24 bg-center bg-cover" :style="{ backgroundImage: `url(${image})` }" />
     <div class="flex self-center justify-between w-full p-4 overflow-hidden text-xs leading-4 text-gray-500">
