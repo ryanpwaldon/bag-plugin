@@ -41,7 +41,7 @@
     </Scroller>
     <div class="grid flex-shrink-0 gap-4 p-5 border-t border-gray-300">
       <Balance :subtotal="cart && formatter.currency(cart.total_price / 100, cart.currency)" />
-      <Button text="Checkout" theme="black" />
+      <a :href="`${parentOrigin}/checkout`" target="_parent"><Button text="Checkout" theme="black" class="w-full"/></a>
     </div>
   </div>
 </template>
@@ -81,12 +81,15 @@ export default defineComponent({
   },
   setup(props) {
     const { formatter } = useFormatter()
-    const cart: Ref<AjaxCart | null> = ref(props.initialCart || null)
+    const cart = ref((props.initialCart || null) as null | AjaxCart)
     const lineItems = computed(() => cart.value?.items || [])
     const offers: Ref<ServerOffer[]> = ref([])
     const fetchCart = async () => (cart.value = await (await comms).getCart())
     if (!cart.value) fetchCart()
-    return { cart, lineItems, offers, formatter }
+    const parentOrigin = ref(null as null | string)
+    const getParentOrigin = async () => (parentOrigin.value = await (await comms).getParentOrigin())
+    getParentOrigin()
+    return { cart, lineItems, offers, formatter, parentOrigin }
   }
 })
 </script>
