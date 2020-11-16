@@ -98,7 +98,7 @@ export default defineComponent({
     },
     placeholder: {
       type: String,
-      default: 'Select an item'
+      default: 'Select an option'
     },
     error: {
       type: String,
