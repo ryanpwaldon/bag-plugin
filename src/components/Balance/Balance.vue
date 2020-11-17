@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex items-center justify-between text-base font-medium leading-6 text-true-gray-900">
+  <div class="relative flex items-center justify-between text-base font-medium leading-6 text-true-gray-700">
     <p>Subtotal</p>
     <transition
       enter-active-class="transition duration-150 ease-in-out"
@@ -11,7 +11,7 @@
     >
       <p v-if="subtotal">{{ subtotal }}</p>
       <div v-else class="absolute right-0 w-20 h-4 transform -translate-y-1/2 top-1/2">
-        <div class="w-full h-full bg-true-gray-200 rounded-full animate-pulse" />
+        <div class="w-full h-full rounded-full bg-true-gray-200 animate-pulse" />
       </div>
     </transition>
   </div>
