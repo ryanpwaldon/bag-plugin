@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-shrink-0 overflow-hidden whitespace-no-wrap bg-white border rounded-lg shadow-sm border-true-gray-200">
-    <div class="flex items-center flex-shrink-0 h-24 px-6">
-      <img class="w-10 h-10" src="@/assets/img/bag.svg" />
+    <div class="flex items-center flex-shrink-0 h-24 px-4">
+      <Cart class="h-16 text-gray-900" />
     </div>
     <div class="flex flex-col items-start justify-center w-full p-4 pl-0 overflow-hidden">
       <p class="text-sm font-medium leading-5 text-true-gray-900">Your cart is empty</p>
@@ -9,3 +9,11 @@
     </div>
   </div>
 </template>
+
+<script lang="ts">
+import Cart from '@/icons/Cart.vue'
+import { defineComponent } from 'vue'
+export default defineComponent({
+  components: { Cart }
+})
+</script>
