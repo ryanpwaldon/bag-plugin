@@ -62,7 +62,7 @@ export default defineComponent({
         xl: 'rounded-md px-6 py-3 text-base font-medium leading-6'
       }
       const themeClasses: Classes<Themes> = {
-        'white-outline': 'text-true-gray-500 bg-white border-true-gray-300 hover:text-true-gray-600 focus:border-blue-300 focus:shadow-outline-blue active:text-true-gray-800 active:bg-true-gray-50',
+        'white-outline': 'text-true-gray-700 bg-white border-true-gray-300 hover:text-true-gray-600 focus:border-blue-300 focus:shadow-outline-blue active:text-true-gray-800 active:bg-true-gray-50',
         white: 'text-true-gray-700 bg-white border-transparent hover:text-true-gray-500 focus:border-blue-300 focus:shadow-outline-blue active:text-true-gray-800 active:bg-true-gray-50',
         black: 'text-white border-transparent focus:shadow-outline-gray bg-true-gray-900 hover:bg-true-gray-800 active:bg-true-gray-700'
       }

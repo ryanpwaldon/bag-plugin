@@ -39,7 +39,7 @@
         </CardLayout>
       </transition>
     </Scroller>
-    <div class="grid flex-shrink-0 gap-4 p-5 border-t border-true-gray-300">
+    <div class="grid flex-shrink-0 gap-4 p-5 border-t border-true-gray-200">
       <Balance :subtotal="cart && formatter.currency(cart.total_price / 100, cart.currency)" />
       <a :href="`${parentOrigin}/checkout`" target="_parent"><Button text="Checkout" theme="black" class="w-full"/></a>
     </div>
