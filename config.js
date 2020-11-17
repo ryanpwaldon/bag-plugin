@@ -18,6 +18,7 @@ const updateWebpackConfig = api => {
 module.exports = api => {
   api.registerCommand('serve:custom', async args => {
     updateWebpackConfig(api)
+    await api.service.run('serve', args)
     await connect({
       region: 'au',
       addr: 8080,
@@ -26,7 +27,6 @@ module.exports = api => {
     })
       .then(console.log)
       .catch(console.log)
-    await api.service.run('serve', args)
   })
   api.registerCommand('build:custom', async args => {
     updateWebpackConfig(api)
