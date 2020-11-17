@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col h-full">
-    <Header title="Your cart" :meta="cart && `${cart.item_count} items`" />
+    <Header title="Your cart" :meta="cart && `${cart.item_count} ${cart.item_count === 1 ? 'item' : 'items'}`" />
     <Scroller>
       <transition
         enter-active-class="transition duration-150 ease-out"
