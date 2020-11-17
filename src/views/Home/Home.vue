@@ -41,7 +41,10 @@
     </Scroller>
     <div class="grid flex-shrink-0 gap-4 p-5 border-t border-true-gray-200">
       <Balance :subtotal="cart && formatter.currency(cart.total_price / 100, cart.currency)" />
-      <a :href="`${parentOrigin}/checkout`" target="_parent"><Button text="Check out" theme="black" class="w-full"/></a>
+      <a :href="`${parentOrigin}/checkout`" target="_parent" v-if="lineItems.length || !cart">
+        <Button text="Check out" theme="black" class="w-full" />
+      </a>
+      <Button @click="handleClose" class="w-full" text="Continue shopping" theme="black" v-else />
     </div>
   </div>
 </template>
@@ -89,7 +92,8 @@ export default defineComponent({
     const parentOrigin = ref(null as null | string)
     const getParentOrigin = async () => (parentOrigin.value = await (await comms).getParentOrigin())
     getParentOrigin()
-    return { cart, lineItems, offers, formatter, parentOrigin }
+    const handleClose = async () => (await comms).triggerStateChange('close')
+    return { cart, lineItems, offers, formatter, parentOrigin, handleClose }
   }
 })
 </script>
