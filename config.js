@@ -1,4 +1,4 @@
-const httpsLocalhost = require('https-localhost')()
+const { connect } = require('ngrok')
 
 const updateWebpackConfig = api => {
   api.chainWebpack(config => {
@@ -15,14 +15,17 @@ const updateWebpackConfig = api => {
   })
 }
 
-module.exports = (api, options) => {
+module.exports = api => {
   api.registerCommand('serve:custom', async args => {
     updateWebpackConfig(api)
-    const certs = await httpsLocalhost.getCerts()
-    options.devServer.hotOnly = true
-    options.devServer.disableHostCheck = true
-    options.devServer.https = certs
-    options.devServer.host = 'localhost'
+    await connect({
+      region: 'au',
+      addr: 8080,
+      subdomain: process.env.NGROK_SUBDOMAIN,
+      authtoken: process.env.NGROK_AUTH_TOKEN
+    })
+      .then(console.log)
+      .catch(console.log)
     await api.service.run('serve', args)
   })
   api.registerCommand('build:custom', async args => {
