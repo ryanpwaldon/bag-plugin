@@ -17,6 +17,7 @@
     "lodash": "^4.17.20",
     "penpal": "^5.2.1",
     "tailwindcss": "^1.9.2",
+    "tua-body-scroll-lock": "^1.2.0",
     "vue": "^3.0.0",
     "vuex": "^4.0.0-0",
     "yup": "^0.29.3"
