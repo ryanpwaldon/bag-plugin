@@ -37,8 +37,7 @@ export default defineComponent({
   methods: {
     async handleClose() {
       if (this.close) return this.close()
-      const { triggerStateChange } = await parentFrame
-      triggerStateChange('close')
+      ;(await parentFrame).close()
     }
   }
 })

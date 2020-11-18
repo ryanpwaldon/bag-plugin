@@ -6,17 +6,17 @@ import { AjaxCart, AjaxProduct, AjaxLineItem, AjaxAddToCartResponse } from '@/ty
 class Cart {
   childFrame = {} as ChildMethods
   frame: HTMLIFrameElement = this.createFrame()
-  exposedMethods = {
-    getCart: async (): Promise<AjaxCart> => {
-      const { data } = await axios({ url: '/cart.js', method: 'get' })
-      return data
-    },
+  parentMethods = {
     getShopOrigin: () => {
       // eslint-disable-next-line
       return (window as any).Shopify?.shop
     },
     getParentOrigin: () => {
       return window.location.origin
+    },
+    getCart: async (): Promise<AjaxCart> => {
+      const { data } = await axios({ url: '/cart.js', method: 'get' })
+      return data
     },
     getProduct: async (handle: string): Promise<AjaxProduct> => {
       const { data } = await axios({ url: `/products/${handle}.js`, method: 'get' })
@@ -32,7 +32,8 @@ class Cart {
       const { data } = await axios({ url: '/cart/change.js', method: 'post', data: body })
       return data
     },
-    triggerStateChange: this.triggerStateChange.bind(this)
+    open: this.open.bind(this),
+    close: this.close.bind(this)
   }
 
   async init() {
@@ -56,19 +57,17 @@ class Cart {
   }
 
   connect() {
-    const iframe = this.frame
-    const methods = this.exposedMethods
-    return connectToChild({ iframe, methods }).promise as Promise<ChildMethods>
+    return connectToChild({ iframe: this.frame, methods: this.parentMethods }).promise as Promise<ChildMethods>
   }
 
-  async triggerStateChange(state: 'open' | 'close') {
-    if (state === 'open') {
-      this.frame.style.display = 'block'
-      this.childFrame.open()
-    } else {
-      await this.childFrame.close()
-      this.frame.style.display = 'none'
-    }
+  open() {
+    this.frame.style.display = 'block'
+    this.childFrame.open()
+  }
+
+  async close() {
+    await this.childFrame.close()
+    this.frame.style.display = 'none'
   }
 
   attachEventListeners() {
@@ -76,8 +75,7 @@ class Cart {
     for (const button of buttons) {
       button.addEventListener('click', e => {
         e.preventDefault()
-        this.triggerStateChange('open')
-        this.childFrame.open()
+        this.open()
       })
     }
   }
@@ -86,4 +84,4 @@ class Cart {
 const checkout = new Cart()
 checkout.init()
 
-export type ParentMethods = typeof checkout.exposedMethods
+export type ParentMethods = typeof checkout.parentMethods

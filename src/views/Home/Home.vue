@@ -92,7 +92,7 @@ export default defineComponent({
     const parentOrigin = ref(null as null | string)
     const getParentOrigin = async () => (parentOrigin.value = await (await parentFrame).getParentOrigin())
     getParentOrigin()
-    const handleClose = async () => (await parentFrame).triggerStateChange('close')
+    const handleClose = async () => (await parentFrame).close()
     return { cart, lineItems, offers, formatter, parentOrigin, handleClose }
   }
 })

@@ -62,8 +62,7 @@ export default defineComponent({
       this.$emit('route', { name: 'Home', props: {} })
     },
     async handleBackdropClick() {
-      const { triggerStateChange } = await parentFrame
-      triggerStateChange('close')
+      ;(await parentFrame).close()
     }
   }
 })
