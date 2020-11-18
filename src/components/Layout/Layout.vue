@@ -13,10 +13,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { connect, parentFrame } from '@/services/parent-frame/parent-frame'
 import anime from 'animejs'
+import useScreen from '@/composables/useScreen'
+import { connect, parentFrame } from '@/services/parent-frame/parent-frame'
+import { defineComponent } from 'vue'
 export default defineComponent({
+  setup: () => ({
+    screen: useScreen()
+  }),
   mounted() {
     connect({ open: this.handleOpen, close: this.handleClose })
     this.set()
@@ -30,6 +34,7 @@ export default defineComponent({
       anime.set([backdrop, cart], { opacity: 0 })
     },
     async handleOpen() {
+      console.log(this.screen)
       this.open = true
       const tl = anime.timeline()
       const { backdrop, cart } = this.$refs
