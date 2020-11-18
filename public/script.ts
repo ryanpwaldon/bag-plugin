@@ -48,7 +48,7 @@ class Cart {
     frame.style.display = 'none'
     frame.style.position = 'fixed'
     frame.style.border = '0'
-    frame.style.height = '100vh'
+    frame.style.height = '100%'
     frame.style.width = '100vw'
     frame.style.bottom = '0'
     frame.style.left = '0'
