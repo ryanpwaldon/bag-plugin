@@ -9,7 +9,7 @@ export type ChildMethods = {
 
 const parentMethods: Ref<ParentMethods | null> = ref(null)
 
-export const comms: Promise<ParentMethods> = new Promise(resolve => {
+export const parentFrame: Promise<ParentMethods> = new Promise(resolve => {
   if (parentMethods.value) return resolve(parentMethods.value)
   const cancel = watch(parentMethods, value => {
     if (!value) return

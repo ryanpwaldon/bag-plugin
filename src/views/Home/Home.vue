@@ -60,7 +60,7 @@ import Balance from '@/components/Balance/Balance.vue'
 import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
 import EmptyCart from '@/components/EmptyCart/EmptyCart.vue'
 import useFormatter from '@/composables/useFormatter'
-import { comms } from '@/services/comms/comms'
+import { parentFrame } from '@/services/parent-frame/parent-frame'
 import { AjaxCart } from '@/types/ajaxApi'
 import { ServerOffer } from '@/types/serverApi'
 import { computed, defineComponent, PropType, Ref, ref } from 'vue'
@@ -87,12 +87,12 @@ export default defineComponent({
     const cart = ref((props.initialCart || null) as null | AjaxCart)
     const lineItems = computed(() => cart.value?.items || [])
     const offers: Ref<ServerOffer[]> = ref([])
-    const fetchCart = async () => (cart.value = await (await comms).getCart())
+    const fetchCart = async () => (cart.value = await (await parentFrame).getCart())
     if (!cart.value) fetchCart()
     const parentOrigin = ref(null as null | string)
-    const getParentOrigin = async () => (parentOrigin.value = await (await comms).getParentOrigin())
+    const getParentOrigin = async () => (parentOrigin.value = await (await parentFrame).getParentOrigin())
     getParentOrigin()
-    const handleClose = async () => (await comms).triggerStateChange('close')
+    const handleClose = async () => (await parentFrame).triggerStateChange('close')
     return { cart, lineItems, offers, formatter, parentOrigin, handleClose }
   }
 })

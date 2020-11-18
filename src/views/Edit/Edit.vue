@@ -67,7 +67,7 @@ import InputNumber from '@/components/InputNumber/InputNumber.vue'
 import InputListbox, { ListboxOption } from '@/components/InputListbox/InputListbox.vue'
 import useFormatter from '@/composables/useFormatter'
 import useForm from '@/composables/useForm'
-import { comms } from '@/services/comms/comms'
+import { parentFrame } from '@/services/parent-frame/parent-frame'
 import { number, object, string } from 'yup'
 import { defineComponent, PropType } from 'vue'
 import { AjaxCart, AjaxLineItem, AjaxProduct, AjaxVariant } from '@/types/ajaxApi'
@@ -120,7 +120,7 @@ export default defineComponent({
     }
   },
   async created() {
-    this.product = await (await comms).getProduct(this.lineItem.handle)
+    this.product = await (await parentFrame).getProduct(this.lineItem.handle)
   },
   data: () => ({
     product: null as AjaxProduct | null
@@ -147,7 +147,7 @@ export default defineComponent({
   methods: {
     async submit() {
       const { variantId, quantity } = this.values
-      const { addToCart, changeLineItemQuantity } = await comms
+      const { addToCart, changeLineItemQuantity } = await parentFrame
       const variantIdWasModified = variantId !== this.defaults.variantId
       const quantityWasModified = quantity !== this.defaults.quantity
       if (variantIdWasModified) {
@@ -160,7 +160,7 @@ export default defineComponent({
       }
     },
     async removeFromCart() {
-      const { changeLineItemQuantity } = await comms
+      const { changeLineItemQuantity } = await parentFrame
       const cart = await changeLineItemQuantity(this.lineItem.key, 0)
       this.returnToCart(cart)
     },

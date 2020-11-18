@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { comms } from '@/services/comms/comms'
+import { parentFrame } from '@/services/parent-frame/parent-frame'
 export default defineComponent({
   props: {
     title: {
@@ -37,7 +37,7 @@ export default defineComponent({
   methods: {
     async handleClose() {
       if (this.close) return this.close()
-      const { triggerStateChange } = await comms
+      const { triggerStateChange } = await parentFrame
       triggerStateChange('close')
     }
   }

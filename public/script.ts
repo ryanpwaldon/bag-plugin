@@ -1,10 +1,10 @@
 import { connectToChild } from 'penpal'
 import axios, { AxiosResponse } from 'axios'
-import { ChildMethods } from '@/services/comms/comms'
+import { ChildMethods } from '@/services/parent-frame/parent-frame'
 import { AjaxCart, AjaxProduct, AjaxLineItem, AjaxAddToCartResponse } from '@/types/ajaxApi'
 
 class Cart {
-  comms = {} as ChildMethods
+  childFrame = {} as ChildMethods
   frame: HTMLIFrameElement = this.createFrame()
   exposedMethods = {
     getCart: async (): Promise<AjaxCart> => {
@@ -37,7 +37,7 @@ class Cart {
 
   async init() {
     document.body.appendChild(this.frame)
-    this.comms = await this.connect()
+    this.childFrame = await this.connect()
     this.attachEventListeners()
   }
 
@@ -64,9 +64,9 @@ class Cart {
   async triggerStateChange(state: 'open' | 'close') {
     if (state === 'open') {
       this.frame.style.display = 'block'
-      this.comms.open()
+      this.childFrame.open()
     } else {
-      await this.comms.close()
+      await this.childFrame.close()
       this.frame.style.display = 'none'
     }
   }
@@ -77,7 +77,7 @@ class Cart {
       button.addEventListener('click', e => {
         e.preventDefault()
         this.triggerStateChange('open')
-        this.comms.open()
+        this.childFrame.open()
       })
     }
   }

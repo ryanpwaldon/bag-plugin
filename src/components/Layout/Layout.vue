@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { connect, comms } from '@/services/comms/comms'
+import { connect, parentFrame } from '@/services/parent-frame/parent-frame'
 import anime from 'animejs'
 export default defineComponent({
   mounted() {
@@ -62,7 +62,7 @@ export default defineComponent({
       this.$emit('route', { name: 'Home', props: {} })
     },
     async handleBackdropClick() {
-      const { triggerStateChange } = await comms
+      const { triggerStateChange } = await parentFrame
       triggerStateChange('close')
     }
   }

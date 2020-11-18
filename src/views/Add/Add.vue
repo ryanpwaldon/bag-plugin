@@ -66,7 +66,7 @@ import useFormatter from '@/composables/useFormatter'
 import useForm from '@/composables/useForm'
 import { number, object, string } from 'yup'
 import { defineComponent } from 'vue'
-import { comms } from '@/services/comms/comms'
+import { parentFrame } from '@/services/parent-frame/parent-frame'
 import { ServerProduct, ServerVariant } from '@/types/serverApi'
 import { AjaxCart } from '@/types/ajaxApi'
 export default defineComponent({
@@ -151,7 +151,7 @@ export default defineComponent({
   },
   methods: {
     async submit() {
-      const { addToCart } = await comms
+      const { addToCart } = await parentFrame
       const { variantId, quantity } = this.values
       await addToCart(variantId, quantity)
       this.returnToCart()
