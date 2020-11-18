@@ -23,7 +23,7 @@
       <transition leave-active-class="transition duration-100 ease-in" leave-from-class="opacity-100" leave-to-class="opacity-0">
         <ListboxOptions static v-if="open" class="absolute w-full mt-1 focus:outline-none">
           <div class="bg-white rounded-md shadow-lg">
-            <div class="py-1 overflow-auto text-base leading-6 rounded-md shadow-xs max-h-60 sm:text-sm sm:leading-5">
+            <div v-scroll class="py-1 overflow-auto text-base leading-6 rounded-md shadow-xs max-h-60 sm:text-sm sm:leading-5">
               <ListboxOption
                 v-for="option in options"
                 v-slot="{ selected, active, disabled }"

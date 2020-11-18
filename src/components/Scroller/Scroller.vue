@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 px-5 overflow-scroll">
+  <div v-scroll class="flex-1 px-5 overflow-scroll">
     <div class="w-full h-5" />
     <div class="relative">
       <slot />

@@ -1,8 +1,9 @@
 import App from './App.vue'
 import store from './store/store'
+import scroll from '@/directives/scroll'
 import { createApp } from 'vue'
 import '@/assets/styles/index.css'
 
-createApp(App)
-  .use(store)
-  .mount('#app')
+const app = createApp(App).use(store)
+app.directive('scroll', scroll)
+app.mount('#app')
