@@ -15,13 +15,16 @@ const updateWebpackConfig = api => {
   })
 }
 
-module.exports = api => {
+module.exports = (api, options) => {
   api.registerCommand('serve:custom', async args => {
     updateWebpackConfig(api)
+    options.devServer.hotOnly = true
+    options.devServer.host = 'localhost'
+    options.devServer.disableHostCheck = true
     await api.service.run('serve', args)
     await connect({
-      region: 'au',
       addr: 8080,
+      region: 'au',
       subdomain: process.env.NGROK_SUBDOMAIN,
       authtoken: process.env.NGROK_AUTH_TOKEN
     })
