@@ -17,6 +17,7 @@ import anime from 'animejs'
 import useScreen from '@/composables/useScreen'
 import { connect, parentFrame } from '@/services/parent-frame/parent-frame'
 import { defineComponent } from 'vue'
+
 export default defineComponent({
   setup: () => ({
     screen: useScreen()
@@ -34,34 +35,22 @@ export default defineComponent({
       anime.set([backdrop, cart], { opacity: 0 })
     },
     async handleOpen() {
-      console.log(this.screen)
       this.open = true
       const tl = anime.timeline()
+      const screen = this.screen()
       const { backdrop, cart } = this.$refs
-      tl.add({
-        targets: backdrop,
-        easing: 'easeInOutQuad',
-        duration: 200,
-        opacity: [0, 1]
-      })
-      tl.add({
-        targets: cart,
-        easing: 'easeInOutQuad',
-        duration: 200,
-        translateX: [10, 0],
-        opacity: [0, 1]
-      })
+      if (screen) {
+        tl.add({ targets: backdrop, easing: 'easeInOutQuad', duration: 200, opacity: [0, 1] })
+        tl.add({ targets: cart, easing: 'easeInOutQuad', duration: 200, translateX: [10, 0], opacity: [0, 1] })
+      } else {
+        tl.add({ targets: cart, easing: 'easeInOutQuad', duration: 200, opacity: [0, 1] })
+      }
       await tl.finished
     },
     async handleClose() {
       const tl = anime.timeline()
       const { backdrop, cart } = this.$refs
-      tl.add({
-        targets: [backdrop, cart],
-        easing: 'easeInOutQuad',
-        duration: 200,
-        opacity: [1, 0]
-      })
+      tl.add({ targets: [backdrop, cart], easing: 'easeInOutQuad', duration: 200, opacity: [1, 0] })
       await tl.finished
       this.open = false
       this.$emit('route', { name: 'Home', props: {} })
