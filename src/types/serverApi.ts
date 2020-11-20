@@ -13,22 +13,3 @@ export interface ServerVariant {
   image: { originalSrc: string }
   selectedOptions: [{ name: string; value: string }]
 }
-
-export interface ServerOffer {
-  id: string
-  user: string
-  type: OfferType
-  active: boolean
-  activeFor: number
-  discountId: string
-  title: string
-  subtitle: string
-  triggers: string[]
-  productId: string
-}
-
-enum OfferType {
-  MinimumSpend = 'minimumSpend',
-  ProductAddOn = 'productAddOn',
-  ProductUpgrade = 'productUpgrade'
-}

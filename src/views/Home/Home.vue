@@ -62,8 +62,7 @@ import EmptyCart from '@/components/EmptyCart/EmptyCart.vue'
 import useFormatter from '@/composables/useFormatter'
 import { parentFrame } from '@/services/parent-frame/parent-frame'
 import { AjaxCart } from '@/types/ajaxApi'
-import { ServerOffer } from '@/types/serverApi'
-import { computed, defineComponent, PropType, Ref, ref } from 'vue'
+import { computed, defineComponent, PropType, ref } from 'vue'
 export default defineComponent({
   components: {
     Header,
@@ -86,14 +85,13 @@ export default defineComponent({
     const { formatter } = useFormatter()
     const cart = ref((props.initialCart || null) as null | AjaxCart)
     const lineItems = computed(() => cart.value?.items || [])
-    const offers: Ref<ServerOffer[]> = ref([])
     const fetchCart = async () => (cart.value = await (await parentFrame).getCart())
     if (!cart.value) fetchCart()
     const parentOrigin = ref(null as null | string)
     const getParentOrigin = async () => (parentOrigin.value = await (await parentFrame).getParentOrigin())
     getParentOrigin()
     const handleClose = async () => (await parentFrame).close()
-    return { cart, lineItems, offers, formatter, parentOrigin, handleClose }
+    return { cart, lineItems, formatter, parentOrigin, handleClose }
   }
 })
 </script>
