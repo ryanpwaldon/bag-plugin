@@ -1,5 +1,5 @@
 <template>
-  <Listbox as="div" class="flex flex-col items-start space-y-1" :modelValue="value" @update:modelValue="$emit('update', $event)" v-slot="{ open }">
+  <Listbox as="div" class="flex flex-col items-start space-y-1" v-model="valueModelled" v-slot="{ open }">
     <ListboxLabel class="block text-sm font-medium leading-5 text-true-gray-700">
       {{ label }}
     </ListboxLabel>
@@ -63,6 +63,7 @@
 import { defineComponent, PropType } from 'vue'
 import { Listbox, ListboxLabel, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
 import Badge from '@/components/Badge/Badge.vue'
+import useModel from '@/composables/useModel'
 
 export interface ListboxOption {
   id: string
@@ -81,7 +82,7 @@ export default defineComponent({
     ListboxOption
   },
   props: {
-    value: {
+    modelValue: {
       type: String,
       required: false
     },
@@ -102,9 +103,14 @@ export default defineComponent({
       required: false
     }
   },
+  setup(props, { emit }) {
+    return {
+      valueModelled: useModel(props, emit, 'modelValue')
+    }
+  },
   computed: {
     selectedOption(): ListboxOption | undefined {
-      return this.options.find(item => this.value === item.id)
+      return this.options.find(item => this.modelValue === item.id)
     }
   }
 })

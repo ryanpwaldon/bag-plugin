@@ -1,5 +1,5 @@
 <template>
-  <form class="flex flex-col h-full" @submit.prevent="handleSubmit(submit)">
+  <form class="flex flex-col h-full" @submit="handleSubmit">
     <Header title="Add to cart" :close="returnToCart" />
     <Scroller>
       <transition
@@ -14,29 +14,22 @@
           <LineItem
             :title="product.title"
             :image="lineItemImage"
-            :quantity="values.quantity"
+            :quantity="fields.quantity.value.value"
             :options="selectedVariantOptions"
             :hide-options="product.hasOnlyDefaultVariant"
-            :price="selectedVariant && formatter.currency(selectedVariant.price * values.quantity, currencyCode)"
+            :price="selectedVariant && formatter.currency(selectedVariant.price * fields.quantity.value.value, currencyCode)"
             edit-mode
           />
           <Card class="grid gap-4">
             <InputListbox
-              label="Type"
-              :value="values.variantId"
-              :options="variantIdListboxOptions"
-              :error="errors.variantId"
-              @update="updateValue('variantId', $event)"
-              v-if="!product.hasOnlyDefaultVariant"
               class="z-10"
+              label="Type"
+              :options="variantIdListboxOptions"
+              :error="fields.variantId.error.value"
+              v-if="!product.hasOnlyDefaultVariant"
+              v-model="fields.variantId.value.value"
             />
-            <InputNumber
-              name="quantity"
-              label="Quantity"
-              :value="values.quantity"
-              @update="updateValue('quantity', $event)"
-              :error="errors.quantity"
-            />
+            <InputNumber name="quantity" label="Quantity" v-model="fields.quantity.value.value" :error="fields.quantity.error.value" />
           </Card>
         </CardLayout>
         <CardLayout v-else class="absolute top-0 left-0 w-full h-full">
@@ -91,33 +84,39 @@ export default defineComponent({
       required: true
     }
   },
-  setup() {
+  setup(props, { emit }) {
+    const schema = object({
+      quantity: number()
+        .typeError('Quantity must be a number.')
+        .required('Quantity is required.')
+        .integer('Quantity cannot be a decimal.')
+        .min(1, 'Quantity must be equal to 1 or more.')
+        .default(1),
+      variantId: string()
+        .typeError('Type is required.')
+        .required('Type is required.')
+    }).defined()
+    const { fields, modified, getValues, handleSubmit } = useForm(schema)
     const { formatter } = useFormatter()
-    const { values, defaults, updateValue, errors, handleSubmit } = useForm(
-      object({
-        quantity: number()
-          .typeError('Quantity must be a number.')
-          .required('Quantity is required.')
-          .integer('Quantity cannot be a decimal.')
-          .min(1, 'Quantity must be equal to 1 or more.')
-          .default(1),
-        variantId: string()
-          .typeError('Type is required.')
-          .required('Type is required.')
-      }).defined()
-    )
+    const returnToCart = (cart?: AjaxCart) => emit('route', { name: 'Home', props: { initialCart: cart } })
+    const onSubmit = async () => {
+      const { addToCart } = await parentFrame
+      const { variantId, quantity } = getValues()
+      await addToCart(variantId, quantity)
+      returnToCart()
+    }
     return {
-      values,
-      defaults,
-      errors,
+      fields,
+      modified,
       formatter,
-      updateValue,
-      handleSubmit
+      getValues,
+      returnToCart,
+      handleSubmit: handleSubmit(onSubmit)
     }
   },
   async created() {
     this.product = await productService.findOne(this.productId)
-    if (this.product.hasOnlyDefaultVariant) this.values.variantId = this.variants[0].legacyResourceId
+    if (this.product.hasOnlyDefaultVariant) this.fields.variantId.value.value = this.variants[0].legacyResourceId
   },
   data: () => ({
     product: null as ServerProduct | null
@@ -135,7 +134,7 @@ export default defineComponent({
     selectedVariant(): ServerVariant | null {
       return this.product?.hasOnlyDefaultVariant
         ? this.variants[0]
-        : this.variants.find(item => item.legacyResourceId === this.values.variantId) || null
+        : this.variants.find(item => item.legacyResourceId === this.fields.variantId.value.value) || null
     },
     selectedVariantOptions(): Record<string, string>[] {
       return this.selectedVariant?.selectedOptions || []
@@ -147,17 +146,6 @@ export default defineComponent({
         meta: this.formatter.currency(item.price, this.currencyCode),
         disabled: !item.availableForSale
       }))
-    }
-  },
-  methods: {
-    async submit() {
-      const { addToCart } = await parentFrame
-      const { variantId, quantity } = this.values
-      await addToCart(variantId, quantity)
-      this.returnToCart()
-    },
-    returnToCart(cart?: AjaxCart) {
-      this.$emit('route', { name: 'Home', props: { initialCart: cart } })
     }
   }
 })

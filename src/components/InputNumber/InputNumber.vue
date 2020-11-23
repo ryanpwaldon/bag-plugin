@@ -15,11 +15,11 @@
       <input
         :id="name"
         type="text"
+        :value="modelValue"
+        :placeholder="placeholder"
+        @input="this.update($event.target.value)"
         class="z-10 block w-full -ml-px text-center transition duration-150 ease-in-out rounded-none form-input sm:text-sm sm:leading-5"
         :class="[error && 'text-red-900 placeholder-red-300 border-red-300 focus:border-red-300 focus:shadow-outline-red']"
-        :placeholder="placeholder"
-        :value="value"
-        @input="this.update($event.target.value)"
       />
       <button
         type="button"
@@ -52,7 +52,7 @@ export default defineComponent({
       type: String,
       required: false
     },
-    value: {
+    modelValue: {
       type: [String, Number],
       required: true
     },
@@ -63,17 +63,17 @@ export default defineComponent({
   },
   methods: {
     update<T>(value: T) {
-      this.$emit('update', value)
+      this.$emit('update:modelValue', value)
     },
     ensureInt(value: string | number) {
       return typeof value === 'string' ? parseInt(value) : value
     },
     increment() {
-      const value = this.ensureInt(this.value) + 1
+      const value = this.ensureInt(this.modelValue) + 1
       this.update(value)
     },
     decrement() {
-      const value = Math.max(this.ensureInt(this.value) - 1, 1)
+      const value = Math.max(this.ensureInt(this.modelValue) - 1, 1)
       this.update(value)
     }
   }

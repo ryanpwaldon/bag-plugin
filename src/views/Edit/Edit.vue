@@ -1,5 +1,5 @@
 <template>
-  <form class="flex flex-col h-full" @submit.prevent="handleSubmit(submit)">
+  <form class="flex flex-col h-full" @submit="handleSubmit">
     <Header title="Edit item" :close="returnToCart" />
     <Scroller>
       <transition
@@ -13,30 +13,23 @@
         <CardLayout v-if="product">
           <LineItem
             :title="lineItem.product_title"
-            :quantity="values.quantity"
+            :quantity="fields.quantity.value.value"
             :image="lineItem.featured_image.url"
             :options="selectedVariantOptions"
             :hide-options="lineItem.product_has_only_default_variant"
-            :price="selectedVariant && formatter.currency((selectedVariant.price / 100) * values.quantity, currencyCode)"
+            :price="selectedVariant && formatter.currency((selectedVariant.price / 100) * fields.quantity.value.value, currencyCode)"
             edit-mode
           />
           <Card class="grid gap-4">
             <InputListbox
               label="Type"
-              :value="values.variantId"
-              :error="errors.variantId"
-              :options="variantIdListboxOptions"
-              @update="updateValue('variantId', $event)"
-              v-if="!lineItem.product_has_only_default_variant"
               class="z-10"
+              :options="variantIdListboxOptions"
+              :error="fields.variantId.error.value"
+              v-model="fields.variantId.value.value"
+              v-if="!lineItem.product_has_only_default_variant"
             />
-            <InputNumber
-              name="quantity"
-              label="Quantity"
-              :value="values.quantity"
-              @update="updateValue('quantity', $event)"
-              :error="errors.quantity"
-            />
+            <InputNumber name="quantity" label="Quantity" v-model="fields.quantity.value.value" :error="fields.quantity.error.value" />
             <div class="flex flex-col items-start">
               <p class="block text-sm font-medium leading-5 text-true-gray-700">Remove</p>
               <Button class="w-full mt-1" text="Remove from cart" theme="white-outline" size="md" @click="removeFromCart" />
@@ -93,30 +86,41 @@ export default defineComponent({
       required: true
     }
   },
-  setup(props) {
+  setup(props, { emit }) {
+    const schema = object({
+      quantity: number()
+        .typeError('Quantity must be a number.')
+        .required('Quantity is required.')
+        .integer('Quantity cannot be a decimal.')
+        .min(1, 'Quantity must be equal to 1 or more.')
+        .default(props.lineItem.quantity),
+      variantId: string()
+        .typeError('Type is required.')
+        .required('Type is required.')
+        .default(props.lineItem.variant_id)
+    }).defined()
+    const { fields, handleSubmit } = useForm(schema)
+    const returnToCart = (cart?: AjaxCart) => emit('route', { name: 'Home', props: { initialCart: cart } })
+    const onSubmit = async () => {
+      const { variantId, quantity } = fields
+      const { addToCart, changeLineItemQuantity } = await parentFrame
+      if (variantId.modified.value) {
+        await addToCart(variantId.value.value, quantity.value.value)
+        const cart = await changeLineItemQuantity(props.lineItem.key, 0)
+        returnToCart(cart)
+      } else if (quantity.modified.value) {
+        const cart = await changeLineItemQuantity(props.lineItem.key, quantity.value.value)
+        returnToCart(cart)
+      } else {
+        returnToCart()
+      }
+    }
     const { formatter } = useFormatter()
-    const { values, defaults, errors, modified, updateValue, handleSubmit } = useForm(
-      object({
-        quantity: number()
-          .typeError('Quantity must be a number.')
-          .required('Quantity is required.')
-          .integer('Quantity cannot be a decimal.')
-          .min(1, 'Quantity must be equal to 1 or more.')
-          .default(props.lineItem.quantity),
-        variantId: string()
-          .typeError('Type is required.')
-          .required('Type is required.')
-          .default(props.lineItem.variant_id)
-      }).defined()
-    )
     return {
-      values,
-      defaults,
-      errors,
-      modified,
-      updateValue,
-      handleSubmit,
-      formatter
+      fields,
+      formatter,
+      returnToCart,
+      handleSubmit: handleSubmit(onSubmit)
     }
   },
   async created() {
@@ -129,7 +133,7 @@ export default defineComponent({
     selectedVariant(): AjaxVariant | undefined {
       return this.lineItem?.product_has_only_default_variant
         ? this.product?.variants[0]
-        : this.product?.variants.find(item => item.id.toString() === this.values.variantId)
+        : this.product?.variants.find(item => item.id.toString() === this.fields.variantId.value.value)
     },
     selectedVariantOptions(): Record<string, string | undefined>[] {
       return this.product?.options.map(({ name }, i) => ({ name, value: this.selectedVariant?.options[i] })) || []
@@ -145,29 +149,10 @@ export default defineComponent({
     }
   },
   methods: {
-    async submit() {
-      const { variantId, quantity } = this.values
-      const { addToCart, changeLineItemQuantity } = await parentFrame
-      const variantIdWasModified = variantId !== this.defaults.variantId
-      const quantityWasModified = quantity !== this.defaults.quantity
-      if (variantIdWasModified) {
-        await addToCart(variantId, quantity)
-        const cart = await changeLineItemQuantity(this.lineItem.key, 0)
-        this.returnToCart(cart)
-      } else if (quantityWasModified) {
-        const cart = await changeLineItemQuantity(this.lineItem.key, quantity)
-        this.returnToCart(cart)
-      } else {
-        this.returnToCart()
-      }
-    },
     async removeFromCart() {
       const { changeLineItemQuantity } = await parentFrame
       const cart = await changeLineItemQuantity(this.lineItem.key, 0)
       this.returnToCart(cart)
-    },
-    returnToCart(cart?: AjaxCart) {
-      this.$emit('route', { name: 'Home', props: { initialCart: cart } })
     }
   }
 })
