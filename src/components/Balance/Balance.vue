@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex items-center justify-between text-base font-medium leading-6 text-true-gray-700">
+  <div class="relative flex items-center justify-between text-base font-medium leading-6 text-true-gray-900">
     <p>Subtotal</p>
     <transition
       enter-active-class="transition duration-150 ease-in-out"
