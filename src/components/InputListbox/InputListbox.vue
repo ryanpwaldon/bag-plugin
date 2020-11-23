@@ -55,7 +55,7 @@
         </ListboxOptions>
       </transition>
     </div>
-    <p v-if="error" class="mt-2 text-sm" :class="[error ? 'text-red-600' : 'text-true-gray-500']">{{ error }}</p>
+    <p v-if="error" class="mt-2 text-sm text-red-600">{{ error }}</p>
   </Listbox>
 </template>
 
