@@ -37,7 +37,7 @@
               @update="updateValue('quantity', $event)"
               :error="errors.quantity"
             />
-            <div>
+            <div class="flex flex-col items-start">
               <p class="block text-sm font-medium leading-5 text-true-gray-700">Remove</p>
               <Button class="w-full mt-1" text="Remove from cart" theme="white-outline" size="md" @click="removeFromCart" />
             </div>

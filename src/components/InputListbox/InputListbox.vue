@@ -1,9 +1,9 @@
 <template>
-  <Listbox as="div" class="space-y-1" :modelValue="value" @update:modelValue="$emit('update', $event)" v-slot="{ open }">
+  <Listbox as="div" class="flex flex-col items-start space-y-1" :modelValue="value" @update:modelValue="$emit('update', $event)" v-slot="{ open }">
     <ListboxLabel class="block text-sm font-medium leading-5 text-true-gray-700">
       {{ label }}
     </ListboxLabel>
-    <div class="relative">
+    <div class="relative w-full">
       <span class="inline-block w-full rounded-md shadow-sm">
         <ListboxButton
           class="relative w-full py-2 pl-3 pr-10 text-left transition duration-150 ease-in-out bg-white border rounded-md cursor-default border-true-gray-300 focus:outline-none sm:text-sm sm:leading-5"
@@ -95,7 +95,7 @@ export default defineComponent({
     },
     placeholder: {
       type: String,
-      default: 'Select an option'
+      default: 'Select a type'
     },
     error: {
       type: String,
