@@ -1,9 +1,9 @@
 <template>
-  <div v-scroll class="flex-1 px-5 overflow-scroll">
-    <div class="w-full h-5" />
+  <div v-scroll class="flex-1 px-6 overflow-scroll">
+    <div class="w-full h-6" />
     <div class="relative">
       <slot />
     </div>
-    <div class="w-full h-5" />
+    <div class="w-full h-6" />
   </div>
 </template>

@@ -3,7 +3,7 @@
     <button
       :type="type"
       :class="[buttonClasses]"
-      class="inline-flex items-center justify-center w-full transition duration-150 ease-in-out border focus:outline-none"
+      class="inline-flex items-center justify-center w-full transition duration-150 ease-in-out focus:outline-none"
     >
       <Spinner v-if="loading" class="w-4 h-4 mr-1 -ml-1" />
       <template v-else>{{ text }}</template>
@@ -49,7 +49,7 @@ export default defineComponent({
     // prettier-ignore
     containerClasses(): string {
       const sizeClasses: Classes<Sizes> = { xs: '', sm: '', md: '', lg: '', xl: '' }
-      const themeClasses: Classes<Themes> = { 'white-outline': 'shadow-sm', white: 'shadow', black: 'shadow' }
+      const themeClasses: Classes<Themes> = { 'white-outline': 'shadow-sm', white: 'shadow', black: 'shadow-lg' }
       return `${sizeClasses[this.size]} ${themeClasses[this.theme]}`
     },
     // prettier-ignore
@@ -58,13 +58,13 @@ export default defineComponent({
         xs: 'rounded px-2.5 py-1.5 text-xs font-medium leading-4',
         sm: 'rounded-md px-3 py-2 text-sm font-medium leading-4',
         md: 'rounded-md px-4 py-2 text-sm font-medium leading-5',
-        lg: 'rounded-md px-4 py-2 text-base font-medium leading-6',
+        lg: 'rounded-lg px-5 py-3 text-lg font-medium leading-6',
         xl: 'rounded-md px-6 py-3 text-base font-medium leading-6'
       }
       const themeClasses: Classes<Themes> = {
-        'white-outline': 'text-true-gray-700 bg-white border-true-gray-300 hover:text-true-gray-600 focus:border-blue-300 focus:shadow-outline-blue active:text-true-gray-800 active:bg-true-gray-50',
-        white: 'text-true-gray-700 bg-white border-transparent hover:text-true-gray-500 focus:border-blue-300 focus:shadow-outline-blue active:text-true-gray-800 active:bg-true-gray-50',
-        black: 'text-white border-transparent focus:shadow-outline-gray bg-true-gray-900 hover:bg-true-gray-800 active:bg-true-gray-700'
+        'white-outline': 'border text-true-gray-700 bg-white border-true-gray-300 hover:text-true-gray-600 focus:border-blue-300 focus:shadow-outline-blue active:text-true-gray-800 active:bg-true-gray-50',
+        white: 'border text-true-gray-700 bg-white border-transparent hover:text-true-gray-500 focus:border-blue-300 focus:shadow-outline-blue active:text-true-gray-800 active:bg-true-gray-50',
+        black: 'text-white focus:shadow-outline-gray bg-true-gray-900 hover:bg-true-gray-800 active:bg-true-gray-700'
       }
       return `${sizeClasses[this.size]} ${themeClasses[this.theme]}`
     }
