@@ -6,8 +6,8 @@
     <div class="relative w-full">
       <span class="inline-block w-full rounded-md shadow-sm">
         <ListboxButton
-          class="relative w-full py-2 pl-3 pr-10 text-left transition duration-150 ease-in-out bg-white border rounded-md cursor-default border-true-gray-300 focus:outline-none sm:text-sm sm:leading-5"
-          :class="[error ? 'border-red-300 focus:border-red-300 focus:shadow-outline-red' : 'focus:shadow-outline-blue focus:border-blue-300']"
+          class="relative w-full py-2 pl-3 pr-10 text-left transition duration-150 ease-in-out bg-white border rounded-md cursor-default focus:outline-none sm:text-sm sm:leading-5"
+          :class="error ? 'border-red-300 focus:shadow-outline-red' : 'border-true-gray-300 focus:shadow-outline-blue focus:border-blue-300'"
         >
           <span class="block truncate">
             <span v-if="selectedOption">{{ selectedOption.title }}</span>
