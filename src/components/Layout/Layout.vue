@@ -34,14 +34,15 @@ export default defineComponent({
       const { backdrop, cart } = this.$refs
       anime.set([backdrop, cart], { opacity: 0 })
     },
+    // prettier-ignore
     async handleOpen() {
       this.open = true
       const tl = anime.timeline()
       const screen = this.screen()
       const { backdrop, cart } = this.$refs
       if (screen) {
-        tl.add({ targets: [backdrop, cart], easing: 'easeInOutQuad', duration: 200, opacity: [0, 1] })
-        tl.add({ targets: cart, easing: 'easeOutQuad', duration: 200, translateX: [20, 0] }, 0)
+        tl.add({ targets: backdrop, easing: 'easeInOutQuad', duration: 200, opacity: [0, 1] })
+        tl.add({ targets: cart, duration: 200, translateX: { value: [20, 0], easing: 'easeOutQuad' }, opacity: { value: [0, 1], easing: 'easeInOutQuad' } })
       } else {
         tl.add({ targets: cart, easing: 'easeInOutQuad', duration: 200, opacity: [0, 1] })
       }
