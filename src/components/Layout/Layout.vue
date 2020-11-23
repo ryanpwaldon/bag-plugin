@@ -1,12 +1,12 @@
 <template>
-  <div class="relative flex items-end justify-end w-full h-full antialiased sm:p-6">
+  <div class="relative flex items-end justify-end w-full h-full antialiased">
     <div
       ref="backdrop"
       class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-75"
       style="will-change: transform"
       @click="handleBackdropClick"
     />
-    <div ref="cart" class="w-full h-full overflow-hidden shadow-lg bg-true-gray-50 sm:rounded-2xl sm:w-112" style="will-change: transform">
+    <div ref="cart" class="w-full h-full overflow-hidden shadow-lg bg-true-gray-50 sm:w-124" style="will-change: transform">
       <slot v-if="open" />
     </div>
   </div>
@@ -40,8 +40,8 @@ export default defineComponent({
       const screen = this.screen()
       const { backdrop, cart } = this.$refs
       if (screen) {
-        tl.add({ targets: backdrop, easing: 'easeInOutQuad', duration: 200, opacity: [0, 1] })
-        tl.add({ targets: cart, easing: 'easeInOutQuad', duration: 200, translateX: [10, 0], opacity: [0, 1] })
+        tl.add({ targets: [backdrop, cart], easing: 'easeInOutQuad', duration: 200, opacity: [0, 1] })
+        tl.add({ targets: cart, easing: 'easeOutQuad', duration: 200, translateX: [20, 0] }, 0)
       } else {
         tl.add({ targets: cart, easing: 'easeInOutQuad', duration: 200, opacity: [0, 1] })
       }
