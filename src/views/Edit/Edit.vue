@@ -157,6 +157,8 @@ export default defineComponent({
       } else if (quantityWasModified) {
         const cart = await changeLineItemQuantity(this.lineItem.key, quantity)
         this.returnToCart(cart)
+      } else {
+        this.returnToCart()
       }
     },
     async removeFromCart() {
@@ -164,7 +166,7 @@ export default defineComponent({
       const cart = await changeLineItemQuantity(this.lineItem.key, 0)
       this.returnToCart(cart)
     },
-    returnToCart(cart: AjaxCart) {
+    returnToCart(cart?: AjaxCart) {
       this.$emit('route', { name: 'Home', props: { initialCart: cart } })
     }
   }
