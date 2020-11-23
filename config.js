@@ -19,8 +19,8 @@ module.exports = (api, options) => {
   api.registerCommand('serve:custom', async args => {
     updateWebpackConfig(api)
     options.devServer.hotOnly = true
-    options.devServer.host = 'localhost'
     options.devServer.disableHostCheck = true
+    options.devServer.public = 'r2.au.ngrok.io'
     await api.service.run('serve', args)
     await connect({
       addr: 8080,
