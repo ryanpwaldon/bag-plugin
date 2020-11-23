@@ -9,6 +9,5 @@ const fetchCrossSells = async () => {
 }
 
 export default () => {
-  fetchCrossSells()
   return { crossSells, fetchCrossSells }
 }
