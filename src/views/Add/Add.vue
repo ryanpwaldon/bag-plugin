@@ -60,9 +60,9 @@ import useFormatter from '@/composables/useFormatter'
 import useForm from '@/composables/useForm'
 import { number, object, string } from 'yup'
 import { defineComponent } from 'vue'
-import { parentFrame } from '@/services/parent-frame/parent-frame'
 import { ServerProduct, ServerVariant } from '@/types/serverApi'
 import { AjaxCart } from '@/types/ajaxApi'
+import useParentFrame from '@/composables/useParentFrame'
 export default defineComponent({
   components: {
     Card,
@@ -101,9 +101,9 @@ export default defineComponent({
     const { formatter } = useFormatter()
     const returnToCart = (cart?: AjaxCart) => emit('route', { name: 'Home', props: { initialCart: cart } })
     const onSubmit = async () => {
-      const { addToCart } = await parentFrame
+      const { parentFrame } = useParentFrame()
       const { variantId, quantity } = getValues()
-      await addToCart(variantId, quantity)
+      await parentFrame.value.addToCart(variantId, quantity)
       returnToCart()
     }
     return {

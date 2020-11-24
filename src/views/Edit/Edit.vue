@@ -61,10 +61,10 @@ import InputNumber from '@/components/InputNumber/InputNumber.vue'
 import InputListbox, { ListboxOption } from '@/components/InputListbox/InputListbox.vue'
 import useFormatter from '@/composables/useFormatter'
 import useForm from '@/composables/useForm'
-import { parentFrame } from '@/services/parent-frame/parent-frame'
 import { number, object, string } from 'yup'
 import { defineComponent, PropType } from 'vue'
 import { AjaxCart, AjaxLineItem, AjaxProduct, AjaxVariant } from '@/types/ajaxApi'
+import useParentFrame from '@/composables/useParentFrame'
 export default defineComponent({
   components: {
     Card,
@@ -102,15 +102,15 @@ export default defineComponent({
     }).defined()
     const { fields, handleSubmit } = useForm(schema)
     const returnToCart = (cart?: AjaxCart) => emit('route', { name: 'Home', props: { initialCart: cart } })
+    const { parentFrame } = useParentFrame()
     const onSubmit = async () => {
       const { variantId, quantity } = fields
-      const { addToCart, changeLineItemQuantity } = await parentFrame
       if (variantId.modified.value) {
-        await addToCart(variantId.value.value, quantity.value.value)
-        const cart = await changeLineItemQuantity(props.lineItem.key, 0)
+        await parentFrame.value.addToCart(variantId.value.value, quantity.value.value)
+        const cart = await parentFrame.value.changeLineItemQuantity(props.lineItem.key, 0)
         returnToCart(cart)
       } else if (quantity.modified.value) {
-        const cart = await changeLineItemQuantity(props.lineItem.key, quantity.value.value)
+        const cart = await parentFrame.value.changeLineItemQuantity(props.lineItem.key, quantity.value.value)
         returnToCart(cart)
       } else {
         returnToCart()
@@ -120,12 +120,13 @@ export default defineComponent({
     return {
       fields,
       formatter,
+      parentFrame,
       returnToCart,
       handleSubmit: handleSubmit(onSubmit)
     }
   },
   async created() {
-    this.product = await (await parentFrame).getProduct(this.lineItem.handle)
+    this.product = await this.parentFrame.getProduct(this.lineItem.handle)
   },
   data: () => ({
     product: null as AjaxProduct | null
@@ -151,8 +152,7 @@ export default defineComponent({
   },
   methods: {
     async removeFromCart() {
-      const { changeLineItemQuantity } = await parentFrame
-      const cart = await changeLineItemQuantity(this.lineItem.key, 0)
+      const cart = await this.parentFrame.changeLineItemQuantity(this.lineItem.key, 0)
       this.returnToCart(cart)
     }
   }

@@ -15,15 +15,20 @@
 <script lang="ts">
 import anime from 'animejs'
 import useScreen from '@/composables/useScreen'
-import { connect, parentFrame } from '@/services/parent-frame/parent-frame'
+import useParentFrame from '@/composables/useParentFrame'
 import { defineComponent } from 'vue'
-
 export default defineComponent({
-  setup: () => ({
-    screen: useScreen()
-  }),
+  setup: () => {
+    const screen = useScreen()
+    const { connect, parentFrame } = useParentFrame()
+    return {
+      screen,
+      connect,
+      parentFrame
+    }
+  },
   mounted() {
-    connect({ open: this.handleOpen, close: this.handleClose })
+    this.connect({ open: this.handleOpen, close: this.handleClose })
     this.set()
   },
   data: () => ({
@@ -57,7 +62,7 @@ export default defineComponent({
       this.$emit('route', { name: 'Home', props: {} })
     },
     async handleBackdropClick() {
-      ;(await parentFrame).close()
+      this.parentFrame.close()
     }
   }
 })

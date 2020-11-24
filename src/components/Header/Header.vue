@@ -17,8 +17,8 @@
 </template>
 
 <script lang="ts">
+import useParentFrame from '@/composables/useParentFrame'
 import { defineComponent } from 'vue'
-import { parentFrame } from '@/services/parent-frame/parent-frame'
 export default defineComponent({
   props: {
     title: {
@@ -34,10 +34,14 @@ export default defineComponent({
       required: false
     }
   },
+  setup() {
+    const { parentFrame } = useParentFrame()
+    return { parentFrame }
+  },
   methods: {
     async handleClose() {
       if (this.close) return this.close()
-      ;(await parentFrame).close()
+      this.parentFrame.close()
     }
   }
 })
