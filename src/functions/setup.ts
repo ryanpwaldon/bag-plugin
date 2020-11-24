@@ -1,8 +1,9 @@
 import useCrossSells from '@/composables/useCrossSells'
-import pluginService from '@/services/api/services/pluginService'
-const { fetchCrossSells } = useCrossSells()
+import cartService from '@/services/api/services/cartService'
 
 export default async () => {
-  const settings = await pluginService.findSettings()
+  const cart = await cartService.findOne()
+  if (!cart.active) return
+  const { fetchCrossSells } = useCrossSells()
   fetchCrossSells()
 }
