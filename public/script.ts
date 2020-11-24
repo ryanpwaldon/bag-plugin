@@ -1,10 +1,14 @@
-import { connectToChild } from 'penpal'
-import axios, { AxiosResponse } from 'axios'
-import { ChildMethods } from '@/services/parent-frame/parent-frame'
 import { AjaxCart, AjaxProduct, AjaxLineItem, AjaxAddToCartResponse } from '@/types/ajaxApi'
+import { ChildMethods } from '@/services/parent-frame/parent-frame'
+import axios, { AxiosResponse } from 'axios'
+import { connectToChild } from 'penpal'
+
+type WindowExtended = Window & typeof globalThis & { Shopify: { shop: string } }
 
 class Cart {
   childFrame = {} as ChildMethods
+  parentOrigin = window.location.origin
+  shopOrigin = (window as WindowExtended).Shopify.shop
   frame: HTMLIFrameElement = this.createFrame()
   parentMethods = {
     getShopOrigin: () => {
@@ -44,7 +48,8 @@ class Cart {
 
   createFrame(): HTMLIFrameElement {
     const frame = document.createElement('iframe')
-    frame.src = `${process.env.VUE_APP_PLUGIN_URL}`
+    const querystring = `?${this.shopOrigin ? `shopOrigin=${this.shopOrigin}` : ''}&${this.parentOrigin ? `parentOrigin=${this.parentOrigin}` : ''}`
+    frame.src = `${process.env.VUE_APP_PLUGIN_URL}${querystring}`
     frame.style.display = 'none'
     frame.style.position = 'fixed'
     frame.style.border = '0'
