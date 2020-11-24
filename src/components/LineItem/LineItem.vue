@@ -1,34 +1,28 @@
 <template>
   <component
-    :is="editMode ? 'div' : 'button'"
+    :is="editMode ? 'a' : 'button'"
+    v-bind="editMode ? { href: link, target: '_parent' } : {}"
     class="flex flex-shrink-0 overflow-hidden whitespace-no-wrap transition duration-150 ease-in-out bg-white border border-transparent rounded-lg shadow focus:border-blue-300 focus:shadow-outline-blue focus:outline-none group"
   >
     <div class="flex-shrink-0 w-24 h-24 bg-center bg-cover" :style="{ backgroundImage: `url(${image})` }" />
     <div class="flex self-center justify-between w-full p-4 overflow-hidden text-xs leading-4 text-true-gray-500">
       <div class="relative flex flex-col w-full space-y-1 overflow-hidden text-left">
-        <p
-          class="text-sm font-medium leading-5 transition duration-150 ease-in-out text-true-gray-900"
-          :class="!editMode && 'group-hover:text-true-gray-500'"
-        >
+        <p class="text-sm font-medium leading-5 transition duration-150 ease-in-out text-true-gray-900 group-hover:text-true-gray-500">
           {{ title }}
         </p>
-        <p v-if="!hideOptions">
+        <p v-if="!hideOptions && options.length">
           <span v-for="({ name, value }, i) of options" :key="i">
             {{ name }}: {{ value }}
             <span v-if="options && i !== options.length - 1"> · </span>
           </span>
         </p>
         <p>
-          Quantity: {{ quantity }}
-          <template v-if="!editMode"> · <span class="text-blue-700">Edit</span> </template>
+          Quantity: {{ quantity }} · <span class="text-blue-700">{{ editMode ? 'View item' : 'Edit' }}</span>
         </p>
       </div>
       <div class="relative flex flex-col items-end pl-4 text-right">
         <GradientSpacer />
-        <p
-          class="text-sm font-medium leading-5 transition duration-150 ease-in-out text-true-gray-900"
-          :class="!editMode && 'group-hover:text-true-gray-500'"
-        >
+        <p class="text-sm font-medium leading-5 transition duration-150 ease-in-out text-true-gray-900 group-hover:text-true-gray-500">
           {{ price }}
         </p>
         <p v-if="false" class="line-through">{{ compareAtPrice }}</p>
@@ -38,8 +32,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
 import GradientSpacer from '../GradientSpacer/GradientSpacer.vue'
+import { parentFrame } from '@/services/parent-frame/parent-frame'
+import { ref, defineComponent, PropType, watch } from 'vue'
 
 interface Option {
   name: string
@@ -82,7 +77,17 @@ export default defineComponent({
     editMode: {
       type: Boolean,
       default: false
+    },
+    relativeLink: {
+      type: String,
+      required: false
     }
+  },
+  setup(props) {
+    const link = ref(null as string | null)
+    const updateLink = async () => (link.value = `${await (await parentFrame).getParentOrigin()}${props.relativeLink}`)
+    watch(() => props.relativeLink, updateLink, { immediate: true })
+    return { link }
   }
 })
 </script>

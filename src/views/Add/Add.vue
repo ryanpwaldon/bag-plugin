@@ -18,6 +18,7 @@
             :options="selectedVariantOptions"
             :hide-options="product.hasOnlyDefaultVariant"
             :price="selectedVariant && formatter.currency(selectedVariant.price * fields.quantity.value.value, currencyCode)"
+            :relative-link="`/products/${product.handle}?variant=${selectedVariant?.legacyResourceId}`"
             edit-mode
           />
           <Card class="grid gap-4">
@@ -116,7 +117,7 @@ export default defineComponent({
   },
   async created() {
     this.product = await productService.findOne(this.productId)
-    if (this.product.hasOnlyDefaultVariant) this.fields.variantId.value.value = this.variants[0].legacyResourceId
+    this.fields.variantId.value.value = this.variants[0].legacyResourceId
   },
   data: () => ({
     product: null as ServerProduct | null
@@ -132,9 +133,7 @@ export default defineComponent({
       return this.product?.variants.edges.map(item => item.node) || []
     },
     selectedVariant(): ServerVariant | null {
-      return this.product?.hasOnlyDefaultVariant
-        ? this.variants[0]
-        : this.variants.find(item => item.legacyResourceId === this.fields.variantId.value.value) || null
+      return this.variants.find(item => item.legacyResourceId === this.fields.variantId.value.value) || null
     },
     selectedVariantOptions(): Record<string, string>[] {
       return this.selectedVariant?.selectedOptions || []

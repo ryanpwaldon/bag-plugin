@@ -1,5 +1,6 @@
 export interface ServerProduct {
   title: string
+  handle: string
   hasOnlyDefaultVariant: boolean
   featuredImage: { originalSrc: string }
   variants: { edges: [{ node: ServerVariant }] }
