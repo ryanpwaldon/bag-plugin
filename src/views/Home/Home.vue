@@ -63,6 +63,7 @@ import useFormatter from '@/composables/useFormatter'
 import { parentFrame } from '@/services/parent-frame/parent-frame'
 import { AjaxCart } from '@/types/ajaxApi'
 import { computed, defineComponent, PropType, ref } from 'vue'
+import useParentOrigin from '@/composables/useParentOrigin'
 export default defineComponent({
   components: {
     Header,
@@ -87,9 +88,7 @@ export default defineComponent({
     const lineItems = computed(() => cart.value?.items || [])
     const fetchCart = async () => (cart.value = await (await parentFrame).getCart())
     if (!cart.value) fetchCart()
-    const parentOrigin = ref(null as null | string)
-    const getParentOrigin = async () => (parentOrigin.value = await (await parentFrame).getParentOrigin())
-    getParentOrigin()
+    const parentOrigin = useParentOrigin()
     const handleClose = async () => (await parentFrame).close()
     return { cart, lineItems, formatter, parentOrigin, handleClose }
   }

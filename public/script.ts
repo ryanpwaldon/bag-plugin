@@ -11,13 +11,6 @@ class Cart {
   shopOrigin = (window as WindowExtended).Shopify.shop
   frame: HTMLIFrameElement = this.createFrame()
   parentMethods = {
-    getShopOrigin: () => {
-      // eslint-disable-next-line
-      return (window as any).Shopify?.shop
-    },
-    getParentOrigin: () => {
-      return window.location.origin
-    },
     getCart: async (): Promise<AjaxCart> => {
       const { data } = await axios({ url: '/cart.js', method: 'get' })
       return data

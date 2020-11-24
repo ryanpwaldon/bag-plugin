@@ -33,8 +33,8 @@
 
 <script lang="ts">
 import GradientSpacer from '../GradientSpacer/GradientSpacer.vue'
-import { parentFrame } from '@/services/parent-frame/parent-frame'
-import { ref, defineComponent, PropType, watch } from 'vue'
+import { defineComponent, PropType, computed } from 'vue'
+import useParentOrigin from '@/composables/useParentOrigin'
 
 interface Option {
   name: string
@@ -84,9 +84,8 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const link = ref(null as string | null)
-    const updateLink = async () => (link.value = `${await (await parentFrame).getParentOrigin()}${props.relativeLink}`)
-    watch(() => props.relativeLink, updateLink, { immediate: true })
+    const parentOrigin = useParentOrigin()
+    const link = computed(() => `${parentOrigin}${props.relativeLink}`)
     return { link }
   }
 })
