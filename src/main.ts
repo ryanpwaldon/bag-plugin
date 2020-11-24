@@ -1,12 +1,16 @@
 import App from './App.vue'
 import store from './store/store'
+import setup from '@/functions/setup'
 import scroll from '@/directives/scroll'
-import useCrossSells from '@/composables/useCrossSells'
-import '@/assets/styles/index.css'
 import { createApp } from 'vue'
+import '@/assets/styles/index.css'
 
-const app = createApp(App).use(store)
-app.directive('scroll', scroll)
-app.mount('#app')
-const { fetchCrossSells } = useCrossSells()
-fetchCrossSells()
+const start = async () => {
+  await setup()
+  createApp(App)
+    .use(store)
+    .directive('scroll', scroll)
+    .mount('#app')
+}
+
+start()
