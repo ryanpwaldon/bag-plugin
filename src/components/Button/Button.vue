@@ -16,7 +16,7 @@ import Spinner from '@/components/Spinner/Spinner.vue'
 import { defineComponent, PropType } from 'vue'
 
 type Sizes = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-type Themes = 'white-outline' | 'white' | 'black'
+type Themes = 'whiteOutlined' | 'white' | 'black'
 type Classes<T extends string> = { [K in T]: string }
 
 export default defineComponent({
@@ -49,7 +49,7 @@ export default defineComponent({
     // prettier-ignore
     containerClasses(): string {
       const sizeClasses: Classes<Sizes> = { xs: '', sm: '', md: '', lg: '', xl: '' }
-      const themeClasses: Classes<Themes> = { 'white-outline': 'shadow-sm', white: 'shadow', black: 'shadow-lg' }
+      const themeClasses: Classes<Themes> = { whiteOutlined: 'shadow-sm', white: 'shadow', black: 'shadow' }
       return `${sizeClasses[this.size]} ${themeClasses[this.theme]}`
     },
     // prettier-ignore
@@ -62,7 +62,7 @@ export default defineComponent({
         xl: 'rounded-md px-6 py-3 text-base font-medium leading-6'
       }
       const themeClasses: Classes<Themes> = {
-        'white-outline': 'border text-true-gray-700 bg-white border-true-gray-300 hover:text-true-gray-600 focus:border-blue-300 focus:shadow-outline-blue active:text-true-gray-800 active:bg-true-gray-50',
+        whiteOutlined: 'border text-true-gray-700 bg-white border-true-gray-300 hover:text-true-gray-600 focus:border-blue-300 focus:shadow-outline-blue active:text-true-gray-800 active:bg-true-gray-50',
         white: 'border text-true-gray-700 bg-white border-transparent hover:text-true-gray-500 focus:border-blue-300 focus:shadow-outline-blue active:text-true-gray-800 active:bg-true-gray-50',
         black: 'text-white focus:shadow-outline-gray bg-true-gray-900 hover:bg-true-gray-800 active:bg-true-gray-700'
       }
