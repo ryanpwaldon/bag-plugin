@@ -6,7 +6,8 @@ import { createApp } from 'vue'
 import '@/assets/styles/index.css'
 
 const start = async () => {
-  await setup()
+  const shouldStart = await setup()
+  if (!shouldStart) return
   createApp(App)
     .use(store)
     .directive('scroll', scroll)
