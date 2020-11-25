@@ -4,10 +4,11 @@ import cartService from '@/services/api/services/cartService'
 export default async (): Promise<boolean> => {
   const { active } = await cartService.findOne()
   if (active) {
+    console.log('Cart is enabled.')
     const { fetchCrossSells } = useCrossSells()
     fetchCrossSells()
   } else {
-    console.warn('Cart is disabled.')
+    console.log('Cart is disabled.')
   }
   return active
 }

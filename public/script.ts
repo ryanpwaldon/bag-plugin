@@ -37,6 +37,7 @@ class Cart {
     document.body.appendChild(this.frame)
     this.childFrame = await this.connect()
     this.attachEventListeners()
+    console.log('Cart is ready.')
   }
 
   createFrame(): HTMLIFrameElement {
