@@ -1,5 +1,5 @@
 import { AjaxCart, AjaxProduct, AjaxLineItem, AjaxAddToCartResponse } from '@/types/ajaxApi'
-import { ChildMethods } from '@/services/parent-frame/parent-frame'
+import { ChildMethods } from '@/composables/useParentFrame'
 import axios, { AxiosResponse } from 'axios'
 import { connectToChild } from 'penpal'
 
