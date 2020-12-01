@@ -44,7 +44,7 @@
       <a :href="`${parentOrigin}/checkout`" target="_parent" v-if="lineItems.length || !cart">
         <Button text="Checkout" theme="black" class="w-full" />
       </a>
-      <Button @click="handleClose" class="w-full" text="Continue shopping" theme="black" v-else />
+      <Button @click="handleClose()" class="w-full" text="Continue shopping" theme="black" v-else />
     </div>
   </div>
 </template>
@@ -90,7 +90,7 @@ export default defineComponent({
     const lineItems = computed(() => cart.value?.items || [])
     const fetchCart = async () => (cart.value = await parentFrame.value.getCart())
     if (!cart.value) fetchCart()
-    return { cart, lineItems, formatter, parentOrigin, handleClose: close }
+    return { cart, lineItems, formatter, parentOrigin, handleClose: parentFrame.value.close }
   }
 })
 </script>
