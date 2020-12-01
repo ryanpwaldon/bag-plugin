@@ -58,8 +58,8 @@ export default defineComponent({
         xs: 'rounded px-2.5 py-1.5 text-xs font-medium leading-4',
         sm: 'rounded-md px-3 py-2 text-sm font-medium leading-4',
         md: 'rounded-md px-4 py-2 text-sm font-medium leading-5',
-        lg: 'rounded-lg px-5 py-3 text-lg font-medium leading-6',
-        xl: 'rounded-md px-6 py-3 text-base font-medium leading-6'
+        lg: 'rounded-lg px-5 py-3 text-base font-medium',
+        xl: 'rounded-md px-6 py-3 text-base font-medium'
       }
       const themeClasses: Classes<Themes> = {
         whiteOutlined: 'border text-true-gray-700 bg-white border-true-gray-300 hover:text-true-gray-600 focus:border-blue-300 focus:shadow-outline-blue active:text-true-gray-800 active:bg-true-gray-50',
