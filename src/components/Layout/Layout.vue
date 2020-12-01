@@ -2,7 +2,7 @@
   <div class="relative flex items-end justify-end w-full h-full antialiased">
     <div
       ref="backdrop"
-      class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-75"
+      class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50"
       style="will-change: transform"
       @click="handleBackdropClick"
     />
