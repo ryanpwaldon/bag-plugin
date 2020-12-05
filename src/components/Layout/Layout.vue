@@ -1,12 +1,16 @@
 <template>
-  <div class="relative flex items-end justify-end w-full h-full antialiased">
+  <div class="relative flex items-end justify-end w-full h-full p-0 antialiased sm:p-3">
     <div
       ref="backdrop"
       class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50"
       style="will-change: transform"
       @click="handleBackdropClick"
     />
-    <div ref="cart" class="w-full h-full overflow-hidden shadow-lg bg-true-gray-50 sm:w-124" style="will-change: transform">
+    <div
+      ref="cart"
+      class="w-full h-full overflow-hidden rounded-none shadow-lg bg-true-gray-50 sm:rounded-lg sm:w-112"
+      style="will-change: transform"
+    >
       <slot v-if="open" />
     </div>
   </div>
