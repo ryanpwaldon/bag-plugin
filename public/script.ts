@@ -10,6 +10,7 @@ class Cart {
   parentOrigin = window.location.origin
   shopOrigin = (window as WindowExtended).Shopify.shop
   frame: HTMLIFrameElement = this.createFrame()
+  transitioning = false
   parentMethods = {
     getCart: async (): Promise<AjaxCart> => {
       const { data } = await axios({ url: '/cart.js', method: 'get' })
@@ -59,14 +60,20 @@ class Cart {
     return connectToChild({ iframe: this.frame, methods: this.parentMethods }).promise as Promise<ChildMethods>
   }
 
-  open() {
+  async open() {
+    if (this.transitioning) return
+    this.transitioning = true
     this.frame.style.display = 'block'
-    this.childFrame.open()
+    await this.childFrame.open()
+    this.transitioning = false
   }
 
   async close() {
+    if (this.transitioning) return
+    this.transitioning = true
     await this.childFrame.close()
     this.frame.style.display = 'none'
+    this.transitioning = false
   }
 
   attachEventListeners() {
