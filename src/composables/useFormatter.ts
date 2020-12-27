@@ -6,7 +6,7 @@ const currency = (amount: number, currencyCode: string) => {
   return new Intl.NumberFormat(getLocale(), {
     style: 'currency',
     currency: currencyCode,
-    currencyDisplay: 'narrowSymbol'
+    currencyDisplay: 'symbol'
   }).format(amount)
 }
 
