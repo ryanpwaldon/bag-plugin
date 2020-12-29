@@ -126,7 +126,7 @@ export default defineComponent({
     }
   },
   async created() {
-    this.product = await this.parentFrame.getProduct(this.lineItem.handle)
+    this.product = await this.parentFrame.getProductByHandle(this.lineItem.handle)
   },
   data: () => ({
     product: null as AjaxProduct | null

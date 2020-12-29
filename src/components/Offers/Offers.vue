@@ -16,7 +16,7 @@
         :title="crossSell.title"
         :subtitle="crossSell.subtitle"
         :product-id="crossSell.productId"
-        :image="crossSell.product.featuredImage.originalSrc"
+        :image="crossSell.product.featured_image"
         @click="handleClick(crossSell.productId)"
         :key="crossSell.id"
       />

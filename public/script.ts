@@ -16,7 +16,13 @@ class Cart {
       const { data } = await axios({ url: '/cart.js', method: 'get' })
       return data
     },
-    getProduct: async (handle: string): Promise<AjaxProduct> => {
+    getProductByHandle: async (handle: string): Promise<AjaxProduct> => {
+      const { data } = await axios({ url: `/products/${handle}.js`, method: 'get' })
+      return data
+    },
+    getProductById: async (id: string): Promise<AjaxProduct> => {
+      const querystring = `resources[type]=product&q=id:${id}`
+      const handle = (await axios({ url: `/search/suggest.json?${querystring}`, method: 'get' })).data.resources.results.products[0].handle
       const { data } = await axios({ url: `/products/${handle}.js`, method: 'get' })
       return data
     },
@@ -38,7 +44,6 @@ class Cart {
     document.body.appendChild(this.frame)
     this.childFrame = await this.connect()
     this.attachEventListeners()
-    console.log('Cart is ready.')
   }
 
   createFrame(): HTMLIFrameElement {

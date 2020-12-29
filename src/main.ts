@@ -1,13 +1,14 @@
-import App from './App.vue'
-import store from './store/store'
-import setup from '@/functions/setup'
+import App from '@/App.vue'
+import store from '@/store/store'
+import setup from '@/setup/setup'
 import scroll from '@/directives/scroll'
 import { createApp } from 'vue'
 import '@/assets/styles/index.css'
 
 const start = async () => {
   const shouldStart = await setup()
-  if (!shouldStart) return
+  if (!shouldStart) return console.log('Cart did not start.')
+  else console.log('Cart started.')
   createApp(App)
     .use(store)
     .directive('scroll', scroll)

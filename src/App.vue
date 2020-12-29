@@ -12,6 +12,7 @@ import Home from './views/Home/Home.vue'
 import Edit from './views/Edit/Edit.vue'
 import Add from './views/Add/Add.vue'
 import Layout from './components/Layout/Layout.vue'
+import useCrossSells from '@/composables/useCrossSells'
 import { defineComponent } from 'vue'
 export default defineComponent({
   components: {
@@ -24,6 +25,9 @@ export default defineComponent({
     name: 'Home',
     props: {}
   }),
+  mounted() {
+    useCrossSells().fetchCrossSells()
+  },
   methods: {
     handleRoute({ name, props }: { name: string; props: object }) {
       this.name = name

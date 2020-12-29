@@ -1,4 +1,7 @@
 import api from '@/services/api/api'
+import { AjaxProduct } from '@/types/ajaxApi'
+import useParentFrame from '@/composables/useParentFrame'
+import { parseGid } from '@shopify/admin-graphql-api-utilities'
 
 export type CrossSell = {
   id: string
@@ -9,16 +12,16 @@ export type CrossSell = {
   subtitle: string
   triggerProductIds: string[]
   productId: string
-  product: any
+  product: AjaxProduct
   createdAt: Date
 }
 
 export default {
   async findAll(): Promise<CrossSell[]> {
-    const params = {
-      query: { active: true },
-      limit: Number.MAX_SAFE_INTEGER
-    }
-    return (await api({ url: `/cross-sell`, method: 'get', params })).data.docs
+    const params = { query: { active: true }, limit: Number.MAX_SAFE_INTEGER, populateProducts: false }
+    const crossSells: CrossSell[] = (await api({ url: `/cross-sell`, method: 'get', params })).data.docs
+    const { parentFrame } = useParentFrame()
+    await Promise.all(crossSells.map(async crossSell => (crossSell.product = await parentFrame.value.getProductById(parseGid(crossSell.productId)))))
+    return crossSells
   }
 }
