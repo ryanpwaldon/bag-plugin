@@ -1,4 +1,5 @@
 import { AjaxCart, AjaxProduct, AjaxLineItem, AjaxAddToCartResponse } from '@/types/ajaxApi'
+import { parseGid } from '@shopify/admin-graphql-api-utilities'
 import { ChildMethods } from '@/composables/useParentFrame'
 import axios, { AxiosResponse } from 'axios'
 import { connectToChild } from 'penpal'
@@ -21,7 +22,7 @@ class Cart {
       return data
     },
     getProductById: async (id: string): Promise<AjaxProduct> => {
-      const querystring = `resources[type]=product&q=id:${id}`
+      const querystring = `resources[type]=product&q=id:${parseGid(id)}`
       const handle = (await axios({ url: `/search/suggest.json?${querystring}`, method: 'get' })).data.resources.results.products[0].handle
       const { data } = await axios({ url: `/products/${handle}.js`, method: 'get' })
       return data

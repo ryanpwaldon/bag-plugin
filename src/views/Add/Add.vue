@@ -16,9 +16,9 @@
             :image="lineItemImage"
             :quantity="fields.quantity.value.value"
             :options="selectedVariantOptions"
-            :hide-options="product.hasOnlyDefaultVariant"
-            :price="selectedVariant && formatter.currency(selectedVariant.price * fields.quantity.value.value, currencyCode)"
-            :relative-link="`/products/${product.handle}?variant=${selectedVariant?.legacyResourceId}`"
+            :hide-options="hasOnlyDefaultVariant"
+            :price="selectedVariant && formatter.currency((selectedVariant.price / 100) * fields.quantity.value.value, currencyCode)"
+            :relative-link="`/products/${product.handle}?variant=${selectedVariant?.id}`"
             edit-mode
           />
           <Card class="grid gap-4">
@@ -27,7 +27,7 @@
               label="Type"
               :options="variantIdListboxOptions"
               :error="fields.variantId.error.value"
-              v-if="!product.hasOnlyDefaultVariant"
+              v-if="!hasOnlyDefaultVariant"
               v-model="fields.variantId.value.value"
             />
             <InputNumber name="quantity" label="Quantity" v-model="fields.quantity.value.value" :error="fields.quantity.error.value" />
@@ -55,13 +55,11 @@ import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
 import CardLayout from '@/components/CardLayout/CardLayout.vue'
 import InputNumber from '@/components/InputNumber/InputNumber.vue'
 import InputListbox, { ListboxOption } from '@/components/InputListbox/InputListbox.vue'
-import productService from '@/services/api/services/productService'
 import useFormatter from '@/composables/useFormatter'
 import useForm from '@/composables/useForm'
 import { number, object, string } from 'yup'
 import { defineComponent } from 'vue'
-import { ServerProduct, ServerVariant } from '@/types/serverApi'
-import { AjaxCart } from '@/types/ajaxApi'
+import { AjaxCart, AjaxProduct, AjaxVariant } from '@/types/ajaxApi'
 import useParentFrame from '@/composables/useParentFrame'
 export default defineComponent({
   components: {
@@ -100,6 +98,7 @@ export default defineComponent({
     const { fields, modified, getValues, handleSubmit } = useForm(schema)
     const { formatter } = useFormatter()
     const returnToCart = (cart?: AjaxCart) => emit('route', { name: 'Home', props: { initialCart: cart } })
+    const { parentFrame } = useParentFrame()
     const onSubmit = async () => {
       const { parentFrame } = useParentFrame()
       const { variantId, quantity } = getValues()
@@ -111,39 +110,40 @@ export default defineComponent({
       modified,
       formatter,
       getValues,
+      parentFrame,
       returnToCart,
       handleSubmit: handleSubmit(onSubmit)
     }
   },
   async created() {
-    this.product = await productService.findOne(this.productId)
-    this.fields.variantId.value.value = this.variants[0].legacyResourceId
+    this.product = await this.parentFrame.getProductById(this.productId)
+    this.fields.variantId.value.value = this.product.variants[0].id.toString()
   },
   data: () => ({
-    product: null as ServerProduct | null
+    product: null as AjaxProduct | null
   }),
   computed: {
-    lineItemPrice(): string | null {
-      return this.selectedVariant?.image?.originalSrc || this.product?.featuredImage?.originalSrc || null
-    },
     lineItemImage(): string | null {
-      return this.selectedVariant?.image?.originalSrc || this.product?.featuredImage?.originalSrc || null
+      return this.selectedVariant?.featured_image?.src || this.product?.featured_image || null
     },
-    variants(): ServerVariant[] {
-      return this.product?.variants.edges.map(item => item.node) || []
+    hasOnlyDefaultVariant(): boolean {
+      return this.product?.options.length === 1 && this.product?.options[0].values[0] === 'Default Title'
     },
-    selectedVariant(): ServerVariant | null {
-      return this.variants.find(item => item.legacyResourceId === this.fields.variantId.value.value) || null
+    selectedVariant(): AjaxVariant | undefined {
+      return this.hasOnlyDefaultVariant
+        ? this.product?.variants[0]
+        : this.product?.variants.find(item => item.id.toString() === this.fields.variantId.value.value)
     },
-    selectedVariantOptions(): Record<string, string>[] {
-      return this.selectedVariant?.selectedOptions || []
+    selectedVariantOptions(): Record<string, string | undefined>[] {
+      return this.product?.options.map(({ name }, i) => ({ name, value: this.selectedVariant?.options[i] })) || []
     },
     variantIdListboxOptions(): ListboxOption[] {
-      return this.variants.map(item => ({
-        id: item.legacyResourceId,
+      if (!this.product) return []
+      return this.product.variants.map(item => ({
+        id: item.id.toString(),
         title: item.title,
-        meta: this.formatter.currency(item.price, this.currencyCode),
-        disabled: !item.availableForSale
+        meta: this.formatter.currency(item.price / 100, this.currencyCode),
+        disabled: !item.available
       }))
     }
   }

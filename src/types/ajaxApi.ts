@@ -57,9 +57,9 @@ interface AjaxOption {
 export interface AjaxVariant {
   id: number
   title: string
-  option1: string
+  option1: null | string
   option2: null | string
-  option3: null
+  option3: null | string
   sku: string
   requires_shipping: boolean
   taxable: boolean
