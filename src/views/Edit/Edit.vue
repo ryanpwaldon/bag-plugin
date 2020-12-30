@@ -14,7 +14,7 @@
           <LineItem
             :title="lineItem.product_title"
             :quantity="fields.quantity.value.value"
-            :image="lineItem.featured_image.url"
+            :image="lineItemImage"
             :options="selectedVariantOptions"
             :hide-options="lineItem.product_has_only_default_variant"
             :price="selectedVariant && formatter.currency((selectedVariant.price / 100) * fields.quantity.value.value, currencyCode)"
@@ -132,6 +132,9 @@ export default defineComponent({
     product: null as AjaxProduct | null
   }),
   computed: {
+    lineItemImage(): string | null {
+      return this.selectedVariant?.featured_image?.src || this.product?.featured_image || null
+    },
     selectedVariant(): AjaxVariant | undefined {
       return this.lineItem?.product_has_only_default_variant
         ? this.product?.variants[0]
