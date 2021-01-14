@@ -8,12 +8,13 @@
 
 <script lang="ts">
 import anime from 'animejs'
+import { defineComponent } from 'vue'
+import Add from './views/Add/Add.vue'
 import Home from './views/Home/Home.vue'
 import Edit from './views/Edit/Edit.vue'
-import Add from './views/Add/Add.vue'
 import Layout from './components/Layout/Layout.vue'
 import useCrossSells from '@/composables/useCrossSells'
-import { defineComponent } from 'vue'
+import { hasCrossSellPermission } from '@/utils/checkPermissions'
 export default defineComponent({
   components: {
     Layout,
@@ -26,7 +27,7 @@ export default defineComponent({
     props: {}
   }),
   mounted() {
-    useCrossSells().fetchCrossSells()
+    if (hasCrossSellPermission()) useCrossSells().fetchCrossSells()
   },
   methods: {
     handleRoute({ name, props }: { name: string; props: object }) {

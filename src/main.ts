@@ -6,8 +6,8 @@ import { createApp } from 'vue'
 import '@/assets/styles/index.css'
 
 const start = async () => {
-  const shouldStart = await setup()
-  if (!shouldStart) return console.log('Cart did not start.')
+  const ready = await setup()
+  if (!ready) return console.log('Cart not active.')
   else console.log('Cart started.')
   createApp(App)
     .use(store)
