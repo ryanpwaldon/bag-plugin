@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@headlessui/vue": "^0.2.0",
+    "@sentry/tracing": "^5.30.0",
+    "@sentry/vue": "^5.30.0",
     "@shopify/admin-graphql-api-utilities": "^0.1.1",
     "@tailwindcss/ui": "^0.6.2",
     "animejs": "^3.2.1",
