@@ -42,6 +42,7 @@ class Cart {
   }
 
   async init() {
+    console.log('Cart init.')
     document.body.appendChild(this.frame)
     this.childFrame = await this.connect()
     this.attachEventListeners()
