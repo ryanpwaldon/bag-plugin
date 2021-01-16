@@ -3,6 +3,7 @@ import { createApp } from 'vue'
 import store from '@/store/store'
 import setup from '@/setup/setup'
 import '@/assets/styles/index.css'
+import analytics from 'vue-gtag-next'
 import * as Sentry from '@sentry/vue'
 import scroll from '@/directives/scroll'
 import { Integrations } from '@sentry/tracing'
@@ -22,6 +23,7 @@ const start = async () => {
   else console.log('Cart started.')
   createApp(App)
     .use(store)
+    .use(analytics, { property: { id: process.env.VUE_APP_GA_MEASUREMENT_ID } })
     .directive('scroll', scroll)
     .mount('#app')
 }
