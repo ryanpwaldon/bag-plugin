@@ -62,9 +62,9 @@ export default defineComponent({
         xl: 'rounded-md px-6 py-3 text-base font-medium'
       }
       const themeClasses: Classes<Themes> = {
-        whiteOutlined: 'border text-true-gray-700 bg-white border-true-gray-300 hover:text-true-gray-600 focus:border-blue-300 focus:shadow-outline-blue active:text-true-gray-800 active:bg-true-gray-50',
-        white: 'border text-true-gray-700 bg-white border-transparent hover:text-true-gray-500 focus:border-blue-300 focus:shadow-outline-blue active:text-true-gray-800 active:bg-true-gray-50',
-        black: 'text-white focus:shadow-outline-gray bg-true-gray-900 hover:bg-true-gray-800 active:bg-true-gray-700'
+        whiteOutlined: 'border text-gray-700 bg-white border-gray-300 hover:text-gray-600 focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50',
+        white: 'border text-gray-700 bg-white border-transparent hover:text-gray-500 focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50',
+        black: 'text-white focus:shadow-outline-gray bg-gray-900 hover:bg-gray-800 active:bg-gray-700'
       }
       return `${sizeClasses[this.size]} ${themeClasses[this.theme]}`
     }

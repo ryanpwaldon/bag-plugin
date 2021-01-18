@@ -38,7 +38,7 @@
         </CardLayout>
       </transition>
     </Scroller>
-    <div class="grid flex-shrink-0 gap-4 p-6 mt-auto bg-white border-t border-true-gray-200">
+    <div class="grid flex-shrink-0 gap-4 p-6 mt-auto bg-white border-t border-gray-200">
       <Button type="submit" text="Add to cart" theme="black" />
       <Button text="Cancel" theme="whiteOutlined" @click="$emit('route', { name: 'Home' })" />
     </div>

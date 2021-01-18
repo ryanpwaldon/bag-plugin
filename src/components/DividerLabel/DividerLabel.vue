@@ -1,6 +1,6 @@
 <template>
   <div class="relative flex justify-center w-full">
-    <div class="absolute w-full h-px transform -translate-x-1/2 -translate-y-1/2 bg-true-gray-200 left-1/2 top-1/2" />
+    <div class="absolute w-full h-px transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 left-1/2 top-1/2" />
     <Badge :text="text" theme="lightGray" class="z-10" />
   </div>
 </template>

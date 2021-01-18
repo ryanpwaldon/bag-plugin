@@ -5,12 +5,12 @@
     <div class="flex-shrink-0 w-24 h-24 bg-center bg-cover" :style="{ backgroundImage: `url(${image})` }" />
     <div class="flex self-center justify-between w-full p-4 overflow-hidden">
       <div class="relative flex flex-col w-full space-y-1 overflow-hidden text-left">
-        <p class="text-sm font-medium leading-5 transition duration-150 ease-in-out text-true-gray-900 group-hover:text-true-gray-500">{{ title }}</p>
-        <p class="text-xs leading-4 text-true-gray-500">{{ subtitle }}</p>
+        <p class="text-sm font-medium leading-5 transition duration-150 ease-in-out text-gray-900 group-hover:text-gray-500">{{ title }}</p>
+        <p class="text-xs leading-4 text-gray-500">{{ subtitle }}</p>
       </div>
       <div class="relative flex items-center pl-4 transition duration-150 ease-in-out">
         <GradientSpacer />
-        <svg class="w-5 h-5 text-true-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
         </svg>
       </div>

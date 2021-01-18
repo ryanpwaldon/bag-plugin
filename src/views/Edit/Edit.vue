@@ -32,7 +32,7 @@
             />
             <InputNumber name="quantity" label="Quantity" v-model="fields.quantity.value.value" :error="fields.quantity.error.value" />
             <div class="flex flex-col items-start">
-              <p class="block text-sm font-medium leading-5 text-true-gray-700">Remove</p>
+              <p class="block text-sm font-medium leading-5 text-gray-700">Remove</p>
               <Button class="w-full mt-1" text="Remove from cart" theme="whiteOutlined" size="md" @click="removeFromCart" />
             </div>
           </Card>
@@ -42,7 +42,7 @@
         </CardLayout>
       </transition>
     </Scroller>
-    <div class="grid flex-shrink-0 gap-4 p-6 mt-auto bg-white border-t border-true-gray-200">
+    <div class="grid flex-shrink-0 gap-4 p-6 mt-auto bg-white border-t border-gray-200">
       <Button type="submit" text="Save" theme="black" />
       <Button text="Back to cart" theme="whiteOutlined" @click="$emit('route', { name: 'Home' })" />
     </div>

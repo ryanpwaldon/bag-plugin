@@ -1,20 +1,20 @@
 <template>
   <Listbox as="div" class="flex flex-col items-start space-y-1" v-model="valueModelled" v-slot="{ open }">
-    <ListboxLabel class="block text-sm font-medium leading-5 text-true-gray-700">
+    <ListboxLabel class="block text-sm font-medium leading-5 text-gray-700">
       {{ label }}
     </ListboxLabel>
     <div class="relative w-full">
       <span class="inline-block w-full rounded-md shadow-sm">
         <ListboxButton
           class="relative w-full py-2 pl-3 pr-10 text-left transition duration-150 ease-in-out bg-white border rounded-md cursor-default focus:outline-none sm:text-sm sm:leading-5"
-          :class="error ? 'border-red-300 focus:shadow-outline-red' : 'border-true-gray-300 focus:shadow-outline-blue focus:border-blue-300'"
+          :class="error ? 'border-red-300 focus:shadow-outline-red' : 'border-gray-300 focus:shadow-outline-blue focus:border-blue-300'"
         >
           <span class="block truncate">
             <span v-if="selectedOption">{{ selectedOption.title }}</span>
-            <span v-else :class="error ? 'text-red-300' : 'text-true-gray-400'">{{ placeholder }}</span>
+            <span v-else :class="error ? 'text-red-300' : 'text-gray-400'">{{ placeholder }}</span>
           </span>
           <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-            <svg class="w-5 h-5 text-true-gray-400" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="none" stroke="currentColor">
               <path d="M7 7l3-3 3 3m0 6l-3 3-3-3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           </span>
@@ -34,7 +34,7 @@
               >
                 <div
                   class="flex justify-between py-2 pl-3 pr-4 space-x-4 cursor-default select-none"
-                  :class="[active && 'bg-true-gray-100', disabled ? 'text-true-gray-400' : 'text-true-gray-900']"
+                  :class="[active && 'bg-gray-100', disabled ? 'text-gray-400' : 'text-gray-900']"
                 >
                   <span :class="`${selected ? 'font-medium' : 'font-normal'} flex-1 block truncate`">{{ option.title }}</span>
                   <span class="flex items-center flex-shrink-0">

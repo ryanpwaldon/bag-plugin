@@ -1,8 +1,8 @@
 <template>
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 60">
-    <rect class="text-true-gray-100" width="64" height="60" fill="currentColor" rx="6" />
+    <rect class="text-gray-100" width="64" height="60" fill="currentColor" rx="6" />
     <path
-      class="text-true-gray-900"
+      class="text-gray-900"
       fill="currentColor"
       clip-rule="evenodd"
       fill-rule="evenodd"

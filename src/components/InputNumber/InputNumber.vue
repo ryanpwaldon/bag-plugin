@@ -1,10 +1,10 @@
 <template>
   <div class="flex flex-col items-start">
-    <label :for="name" class="block text-sm font-medium leading-5 text-true-gray-700">{{ label }}</label>
-    <span class="relative z-0 inline-flex w-full mt-1 shadow-sm">
+    <label :for="name" class="block text-sm font-medium leading-5 text-gray-700">{{ label }}</label>
+    <div class="flex mt-1 rounded-md shadow-sm">
       <button
         type="button"
-        class="relative inline-flex items-center px-2 py-2 text-sm font-medium leading-5 transition duration-150 ease-in-out border text-true-gray-400 border-true-gray-300 bg-true-gray-50 rounded-l-md hover:text-true-gray-400 focus:z-20 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-true-gray-100 active:text-true-gray-500"
+        class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 border border-gray-300 bg-gray-50 rounded-l-md hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400"
         aria-label="Minus"
         @click="decrement"
       >
@@ -18,12 +18,12 @@
         :value="modelValue"
         :placeholder="placeholder"
         @input="this.update($event.target.value)"
-        class="z-10 block w-full -ml-px text-center transition duration-150 ease-in-out rounded-none form-input sm:text-sm sm:leading-5"
-        :class="[error && 'text-red-900 placeholder-red-300 border-red-300 focus:border-red-300 focus:shadow-outline-red']"
+        class="flex-1 block w-full -mx-px text-center border-gray-300 shadow-sm focus:z-10 focus:ring-blue-400 focus:border-blue-400 sm:text-sm"
+        :class="error && 'text-red-900 placeholder-red-300 border-red-300 focus:ring-red-500 focus:border-red-500 z-10'"
       />
       <button
         type="button"
-        class="relative inline-flex items-center px-2 py-2 -ml-px text-sm font-medium leading-5 transition duration-150 ease-in-out border text-true-gray-400 border-true-gray-300 bg-true-gray-50 rounded-r-md hover:text-true-gray-400 focus:z-20 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-true-gray-100 active:text-true-gray-500"
+        class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 border border-gray-300 bg-gray-50 rounded-r-md hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400"
         aria-label="Plus"
         @click="increment"
       >
@@ -31,8 +31,8 @@
           <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
         </svg>
       </button>
-    </span>
-    <p v-if="error" class="mt-2 text-sm" :class="[error ? 'text-red-600' : 'text-true-gray-500']">{{ error }}</p>
+    </div>
+    <p v-if="error" class="mt-2 text-sm" :class="[error ? 'text-red-600' : 'text-gray-500']">{{ error }}</p>
   </div>
 </template>
 
