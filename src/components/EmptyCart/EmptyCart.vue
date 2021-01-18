@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-shrink-0 overflow-hidden whitespace-no-wrap bg-white border rounded-lg shadow-sm border-gray-200">
+  <div class="flex flex-shrink-0 overflow-hidden whitespace-nowrap bg-white border rounded-lg shadow-sm border-gray-200">
     <div class="flex items-center flex-shrink-0 h-24 px-4">
       <Cart class="h-16 text-gray-900" />
     </div>
