@@ -41,10 +41,8 @@
     </Scroller>
     <div class="grid flex-shrink-0 gap-5 p-6 bg-white border-t border-gray-200">
       <Balance :subtotal="cart && formatter.currency(cart.total_price / 100, cart.currency)" />
-      <a :href="`${parentOrigin}/checkout`" target="_parent" v-if="lineItems.length || !cart">
-        <Button text="Checkout" theme="black" class="w-full" />
-      </a>
-      <Button @click="handleClose()" class="w-full" text="Continue shopping" theme="black" v-else />
+      <Button text="Checkout" :link="`${parentOrigin}/checkout`" class="w-full" v-if="lineItems.length || !cart" />
+      <Button @click="handleClose()" class="w-full" text="Continue shopping" v-else />
     </div>
   </div>
 </template>

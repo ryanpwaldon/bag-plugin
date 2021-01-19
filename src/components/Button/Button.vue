@@ -1,13 +1,13 @@
 <template>
   <span class="inline-flex rounded-md select-none" :class="[containerClasses, loading && 'cursor-not-allowed pointer-events-none']">
-    <button
-      :type="type"
-      :class="[buttonClasses]"
-      class="inline-flex items-center justify-center w-full transition duration-150 ease-in-out focus:outline-none"
+    <component
+      :is="link ? 'a' : 'button'"
+      v-bind="link ? { target: '_parent', href: link } : { type }"
+      :class="[buttonClasses, 'inline-flex items-center justify-center w-full focus:outline-none']"
     >
       <Spinner v-if="loading" class="w-4 h-4 mr-1 -ml-1" />
       <template v-else>{{ text }}</template>
-    </button>
+    </component>
   </span>
 </template>
 
@@ -16,7 +16,7 @@ import Spinner from '@/components/Spinner/Spinner.vue'
 import { defineComponent, PropType } from 'vue'
 
 type Sizes = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-type Themes = 'whiteOutlined' | 'white' | 'black'
+type Themes = 'white' | 'black'
 type Classes<T extends string> = { [K in T]: string }
 
 export default defineComponent({
@@ -43,13 +43,17 @@ export default defineComponent({
     loading: {
       type: Boolean,
       required: false
+    },
+    link: {
+      type: String,
+      required: false
     }
   },
   computed: {
     // prettier-ignore
     containerClasses(): string {
       const sizeClasses: Classes<Sizes> = { xs: '', sm: '', md: '', lg: '', xl: '' }
-      const themeClasses: Classes<Themes> = { whiteOutlined: 'shadow-sm', white: 'shadow', black: 'shadow' }
+      const themeClasses: Classes<Themes> = { white: 'shadow-sm', black: 'shadow' }
       return `${sizeClasses[this.size]} ${themeClasses[this.theme]}`
     },
     // prettier-ignore
@@ -62,9 +66,8 @@ export default defineComponent({
         xl: 'rounded-md px-6 py-3 text-base font-medium'
       }
       const themeClasses: Classes<Themes> = {
-        whiteOutlined: 'border text-gray-700 bg-white border-gray-300 hover:text-gray-600 focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50',
-        white: 'border text-gray-700 bg-white border-transparent hover:text-gray-500 focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50',
-        black: 'text-white focus:shadow-outline-gray bg-gray-900 hover:bg-gray-800 active:bg-gray-700'
+        white: 'bg-white text-gray-900 hover:bg-gray-50 border focus:ring-2 focus:ring-blue-500 focus:ring-offset-2',
+        black: 'text-white bg-gray-900 hover:bg-black focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
       }
       return `${sizeClasses[this.size]} ${themeClasses[this.theme]}`
     }

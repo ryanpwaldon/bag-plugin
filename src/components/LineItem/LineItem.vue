@@ -2,7 +2,7 @@
   <component
     :is="editMode ? 'a' : 'button'"
     v-bind="editMode ? { href: link, target: '_parent' } : {}"
-    class="flex flex-shrink-0 overflow-hidden transition duration-150 ease-in-out bg-white border border-transparent rounded-lg shadow whitespace-nowrap focus:border-blue-300 focus:shadow-outline-blue focus:outline-none group"
+    class="flex flex-shrink-0 overflow-hidden bg-white rounded-lg shadow focus:outline-none whitespace-nowrap focus:ring-2 focus:ring-blue-500 group"
   >
     <div class="flex-shrink-0 w-24 h-24 bg-center bg-cover" :style="{ backgroundImage: `url(${image})` }" />
     <div class="flex self-center justify-between w-full p-4 overflow-hidden text-xs leading-4 text-gray-500">

@@ -4,7 +4,7 @@
     <div class="flex mt-1 rounded-md shadow-sm">
       <button
         type="button"
-        class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 border border-gray-300 bg-gray-50 rounded-l-md hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400"
+        class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 border border-gray-300 bg-gray-50 rounded-l-md hover:bg-gray-50 focus:z-20 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
         aria-label="Minus"
         @click="decrement"
       >
@@ -18,12 +18,16 @@
         :value="modelValue"
         :placeholder="placeholder"
         @input="this.update($event.target.value)"
-        class="flex-1 block w-full -mx-px text-center border-gray-300 shadow-sm focus:z-10 focus:ring-blue-400 focus:border-blue-400 sm:text-sm"
-        :class="error && 'text-red-900 placeholder-red-300 border-red-300 focus:ring-red-500 focus:border-red-500 z-10'"
+        class="flex-1 block w-full -mx-px text-center focus:z-10 sm:text-sm"
+        :class="
+          error
+            ? 'text-red-900 placeholder-red-300 border-red-300 focus:ring-red-500 focus:border-red-500 z-10'
+            : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
+        "
       />
       <button
         type="button"
-        class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 border border-gray-300 bg-gray-50 rounded-r-md hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400"
+        class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 border border-gray-300 bg-gray-50 rounded-r-md hover:bg-gray-50 focus:z-20 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
         aria-label="Plus"
         @click="increment"
       >

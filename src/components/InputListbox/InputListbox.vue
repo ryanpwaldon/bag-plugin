@@ -6,8 +6,8 @@
     <div class="relative w-full">
       <span class="inline-block w-full rounded-md shadow-sm">
         <ListboxButton
-          class="relative w-full py-2 pl-3 pr-10 text-left transition duration-150 ease-in-out bg-white border rounded-md cursor-default focus:outline-none sm:text-sm sm:leading-5"
-          :class="error ? 'border-red-300 focus:shadow-outline-red' : 'border-gray-300 focus:shadow-outline-blue focus:border-blue-300'"
+          class="relative w-full py-2 pl-3 pr-10 text-left bg-white border rounded-md cursor-default focus:outline-none sm:text-sm sm:leading-5"
+          :class="error ? 'border-red-300 focus:ring-1 focus:ring-red-400' : 'border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500'"
         >
           <span class="block truncate">
             <span v-if="selectedOption">{{ selectedOption.title }}</span>
@@ -23,7 +23,10 @@
       <transition leave-active-class="transition duration-100 ease-in" leave-from-class="opacity-100" leave-to-class="opacity-0">
         <ListboxOptions static v-if="open" class="absolute w-full mt-1 focus:outline-none">
           <div class="bg-white rounded-md shadow-lg">
-            <div v-scroll class="py-1 overflow-auto text-base leading-6 rounded-md shadow-xs max-h-56 sm:max-h-60 sm:text-sm sm:leading-5">
+            <div
+              v-scroll
+              class="py-1 overflow-auto text-base leading-6 rounded-md ring-1 ring-black ring-opacity-5 max-h-56 sm:max-h-60 sm:text-sm sm:leading-5"
+            >
               <ListboxOption
                 v-for="option in options"
                 v-slot="{ selected, active, disabled }"
