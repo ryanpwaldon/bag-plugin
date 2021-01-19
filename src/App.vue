@@ -13,8 +13,6 @@ import Add from './views/Add/Add.vue'
 import Home from './views/Home/Home.vue'
 import Edit from './views/Edit/Edit.vue'
 import Layout from './components/Layout/Layout.vue'
-import useCrossSells from '@/composables/useCrossSells'
-import { hasCrossSellPermission } from '@/utils/checkPermissions'
 export default defineComponent({
   components: {
     Layout,
@@ -26,9 +24,6 @@ export default defineComponent({
     name: 'Home',
     props: {}
   }),
-  mounted() {
-    if (hasCrossSellPermission()) useCrossSells().fetchCrossSells()
-  },
   methods: {
     handleRoute({ name, props }: { name: string; props: object }) {
       this.name = name

@@ -4,13 +4,8 @@ export enum Permission {
   CrossSell = 'crossSell'
 }
 
-type PluginSettings = {
-  active: boolean
-  permissions: Permission[]
-}
-
 export default {
-  async findSettings(): Promise<PluginSettings> {
-    return (await api({ url: `/plugin`, method: 'get' })).data
+  async findPermissions(): Promise<Permission[]> {
+    return (await api({ url: `/plugin/permissions`, method: 'get' })).data
   }
 }
