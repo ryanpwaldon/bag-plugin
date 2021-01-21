@@ -6,13 +6,21 @@ const modifyWebpackConfig = api => {
       if (chunk.name === 'app') return development ? 'js/[name].js' : 'js/[name].[contenthash:8].js'
       return '[name].js'
     })
+    // reset splitChunks config to prevents vendors from being imported into start.js
     config.optimization.splitChunks({})
+    // ensure start.js is not imported into index.html
     config.plugin('html').tap(args => {
       args[0].excludeChunks = ['start']
       return args
     })
+    // ensure start.js is not preloaded into index.html
     config.plugin('preload').tap(args => {
       args[0].fileBlacklist.push(/start.js/)
+      return args
+    })
+    // ensure start.ts is not copies into dist directory
+    config.plugin('copy').tap(args => {
+      args[0][0].ignore.push('start.ts')
       return args
     })
   })
