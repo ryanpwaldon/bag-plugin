@@ -1,6 +1,6 @@
-import { AjaxCart, AjaxProduct, AjaxLineItem, AjaxAddToCartResponse } from '@/types/ajaxApi'
+import { AjaxCart, AjaxProduct, AjaxLineItem, AjaxAddToCartResponse } from '../src/types/ajaxApi'
 import { parseGid } from '@shopify/admin-graphql-api-utilities'
-import { ChildMethods } from '@/composables/useParentFrame'
+import { ChildMethods } from '../src/composables/useParentFrame'
 import axios, { AxiosResponse } from 'axios'
 import { connectToChild } from 'penpal'
 

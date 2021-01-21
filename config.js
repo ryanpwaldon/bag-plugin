@@ -1,13 +1,18 @@
-const updateWebpackConfig = api => {
+const modifyWebpackConfig = api => {
   api.chainWebpack(config => {
-    const appFilename = api.service.mode === 'development' ? 'js/[name].js' : 'js/[name].[contenthash:8].js'
-    const scriptFilename = '[name].js'
-    config.entry('script').add('./public/script.ts')
-    config.output.filename(({ chunk }) => (chunk.name === 'app' ? appFilename : scriptFilename))
+    config.entry('start').add('./public/start.ts')
+    config.output.filename(({ chunk }) => {
+      const development = api.service.mode === 'development'
+      if (chunk.name === 'app') return development ? 'js/[name].js' : 'js/[name].[contenthash:8].js'
+      return '[name].js'
+    })
     config.optimization.splitChunks({})
     config.plugin('html').tap(args => {
-      const [options] = args
-      options.excludeChunks = ['script']
+      args[0].excludeChunks = ['start']
+      return args
+    })
+    config.plugin('preload').tap(args => {
+      args[0].fileBlacklist.push(/start.js/)
       return args
     })
   })
@@ -15,7 +20,7 @@ const updateWebpackConfig = api => {
 
 module.exports = (api, options) => {
   api.registerCommand('serve:custom', async args => {
-    updateWebpackConfig(api)
+    modifyWebpackConfig(api)
     options.devServer.https = true
     options.devServer.hotOnly = true
     options.devServer.disableHostCheck = true
@@ -23,7 +28,8 @@ module.exports = (api, options) => {
     await api.service.run('serve', args)
   })
   api.registerCommand('build:custom', async args => {
-    updateWebpackConfig(api)
+    modifyWebpackConfig(api)
+    options.productionSourceMap = false
     api.service.run('build', args)
   })
 }

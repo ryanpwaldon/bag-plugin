@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { connectToParent } from 'penpal'
-import { ParentMethods } from 'public/script'
+import { ParentMethods } from 'public/start'
 
 export type ChildMethods = {
   open: () => void

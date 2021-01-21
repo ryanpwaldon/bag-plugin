@@ -51,7 +51,7 @@
   },
   "vuePlugins": {
     "service": [
-      "vue.commands.js"
+      "config.js"
     ]
   },
   "eslintConfig": {
