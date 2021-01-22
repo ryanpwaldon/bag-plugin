@@ -1,15 +1,21 @@
-import { AjaxCart, AjaxProduct, AjaxLineItem, AjaxAddToCartResponse } from '../src/types/ajaxApi'
+import { connectToChild } from 'penpal'
+import axios, { AxiosResponse } from 'axios'
 import { parseGid } from '@shopify/admin-graphql-api-utilities'
 import { ChildMethods } from '../src/composables/useParentFrame'
-import axios, { AxiosResponse } from 'axios'
-import { connectToChild } from 'penpal'
+import { AjaxCart, AjaxProduct, AjaxLineItem, AjaxAddToCartResponse } from '../src/types/ajaxApi'
 
-type WindowExtended = Window & typeof globalThis & { Shopify: { shop: string } }
+declare global {
+  interface Window {
+    Shopify: {
+      shop: string
+    }
+  }
+}
 
-class Cart {
+class App {
   childFrame = {} as ChildMethods
   parentOrigin = window.location.origin
-  shopOrigin = (window as WindowExtended).Shopify.shop
+  shopOrigin = window.Shopify.shop
   frame: HTMLIFrameElement = this.createFrame()
   transitioning = false
   parentMethods = {
@@ -94,7 +100,7 @@ class Cart {
   }
 }
 
-const checkout = new Cart()
-checkout.init()
+const app = new App()
+app.init()
 
-export type ParentMethods = typeof checkout.parentMethods
+export type ParentMethods = typeof app.parentMethods
