@@ -18,6 +18,7 @@
     "autoprefixer": "^9",
     "axios": "^0.20.0",
     "core-js": "^3.6.5",
+    "get-form-data": "^3.0.0",
     "lodash": "^4.17.20",
     "penpal": "^5.2.1",
     "postcss": "^7",

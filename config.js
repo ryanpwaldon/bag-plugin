@@ -1,6 +1,6 @@
 const modifyWebpackConfig = api => {
   api.chainWebpack(config => {
-    config.entry('start').add('./public/start.ts')
+    config.entry('start').add('./script/start.ts')
     config.output.filename(({ chunk }) => {
       const development = api.service.mode === 'development'
       if (chunk.name === 'app') return development ? 'js/[name].js' : 'js/[name].[contenthash:8].js'
@@ -16,11 +16,6 @@ const modifyWebpackConfig = api => {
     // ensure start.js is not preloaded into index.html
     config.plugin('preload').tap(args => {
       args[0].fileBlacklist.push(/start.js/)
-      return args
-    })
-    // ensure start.ts is not copies into dist directory
-    config.plugin('copy').tap(args => {
-      args[0][0].ignore.push('start.ts')
       return args
     })
   })
