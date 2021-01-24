@@ -3,7 +3,7 @@ import getFormData from 'get-form-data'
 import axios, { AxiosResponse } from 'axios'
 import { parseGid } from '@shopify/admin-graphql-api-utilities'
 import { ChildMethods } from '../src/composables/useParentFrame'
-import { AjaxCart, AjaxProduct, AjaxLineItem, AjaxAddToCartResponse } from '../src/types/ajaxApi'
+import { AjaxCart, AjaxProduct, AjaxLineItem } from '../src/types/ajaxApi'
 
 const cancelEvent = (e: Event) => {
   e.preventDefault()
@@ -93,10 +93,15 @@ class App {
     return data
   }
 
+  // use form data to prevent inventory availability errors
   async addToCart(variantId: string | number, quantity: string | number): Promise<AjaxLineItem> {
-    const body = { items: [{ id: variantId, quantity }] }
-    const { data } = (await axios({ url: `/cart/add.js`, method: 'post', data: body })) as AxiosResponse<AjaxAddToCartResponse>
-    return data.items[0]
+    if (typeof variantId === 'number') variantId.toString()
+    if (typeof quantity === 'number') quantity.toString()
+    const formData = new FormData()
+    formData.append('id', variantId as string)
+    formData.append('quantity', quantity as string)
+    const { data } = (await axios({ url: `/cart/add.js`, method: 'post', data: formData })) as AxiosResponse<AjaxLineItem>
+    return data
   }
 
   async changeLineItemQuantity(lineItemKey: string, quantity: number): Promise<AjaxCart> {
@@ -115,12 +120,11 @@ class App {
     if (!this.cartReady) return
     cancelEvent(e)
     const target = e.target as Element
-    console.log(target)
     const form = target.closest('form')
     const values = getFormData(form)
     const id = values.id
     const quantity = values.quantity || 1
-    await this.parentMethods.addToCart(id, quantity)
+    await this.addToCart(id, quantity)
     this.open()
   }
 
