@@ -1,3 +1,5 @@
+const httpsLocalhost = require('https-localhost')()
+
 const modifyWebpackConfig = api => {
   api.chainWebpack(config => {
     config.entry('start').add('./script/start.ts')
@@ -24,10 +26,11 @@ const modifyWebpackConfig = api => {
 module.exports = (api, options) => {
   api.registerCommand('serve:custom', async args => {
     modifyWebpackConfig(api)
-    options.devServer.https = true
+    const certs = await httpsLocalhost.getCerts()
     options.devServer.hotOnly = true
     options.devServer.disableHostCheck = true
-    options.devServer.public = 'localhost:8080'
+    options.devServer.https = certs
+    options.devServer.host = 'localhost'
     await api.service.run('serve', args)
   })
   api.registerCommand('build:custom', async args => {
