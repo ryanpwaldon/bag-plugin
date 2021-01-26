@@ -4,7 +4,6 @@ import store from '@/store/store'
 import '@/assets/styles/index.css'
 import analytics from 'vue-gtag-next'
 import * as Sentry from '@sentry/vue'
-import scroll from '@/directives/scroll'
 import { Integrations } from '@sentry/tracing'
 import useCrossSells from '@/composables/useCrossSells'
 import pluginService, { Permission } from '@/services/api/services/pluginService'
@@ -22,7 +21,6 @@ console.log('Instantiating cart.')
 createApp(App)
   .use(store)
   .use(analytics, { property: { id: process.env.VUE_APP_GA_MEASUREMENT_ID } })
-  .directive('scroll', scroll)
   .mount('#app')
 
 // fetch crossSells
