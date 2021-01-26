@@ -11,7 +11,7 @@
         leave-to-class="opacity-0"
       >
         <div v-if="cart">
-          <CardLayout>
+          <div class="space-y-6">
             <EmptyCart v-if="!lineItems.length" />
             <LineItem
               v-else
@@ -25,7 +25,7 @@
               :price="cart && formatter.currency(lineItem.final_line_price / 100, cart.currency)"
               @click="$emit('route', { name: 'Edit', props: { lineItem, currencyCode: cart && cart.currency } })"
             />
-          </CardLayout>
+          </div>
           <Offers
             class="mt-5"
             :cart-token="cart.token"
@@ -34,9 +34,7 @@
             @route="$emit('route', $event)"
           />
         </div>
-        <CardLayout v-else class="absolute top-0 left-0 w-full h-full">
-          <LoaderCard />
-        </CardLayout>
+        <LoaderCard class="absolute top-0 left-0" v-else />
       </transition>
     </Scroller>
     <div class="grid flex-shrink-0 gap-5 p-6 bg-white border-t border-gray-200">
@@ -53,7 +51,6 @@ import Button from '@/components/Button/Button.vue'
 import Offers from '@/components/Offers/Offers.vue'
 import Scroller from '@/components/Scroller/Scroller.vue'
 import LineItem from '@/components/LineItem/LineItem.vue'
-import CardLayout from '@/components/CardLayout/CardLayout.vue'
 import Balance from '@/components/Balance/Balance.vue'
 import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
 import EmptyCart from '@/components/EmptyCart/EmptyCart.vue'
@@ -70,7 +67,6 @@ export default defineComponent({
     Offers,
     Scroller,
     LineItem,
-    CardLayout,
     LoaderCard,
     EmptyCart
   },

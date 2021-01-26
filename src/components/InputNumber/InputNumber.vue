@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-col items-start">
-    <label :for="name" class="block text-sm font-medium leading-5 text-gray-700">{{ label }}</label>
+  <div>
+    <label :for="name" class="inline-block text-sm font-medium leading-5 text-gray-700">{{ label }}</label>
     <div class="flex mt-1 rounded-md shadow-sm">
       <button
         type="button"
@@ -18,7 +18,7 @@
         :value="modelValue"
         :placeholder="placeholder"
         @input="this.update($event.target.value)"
-        class="flex-1 block w-full -mx-px text-center focus:z-10 sm:text-sm"
+        class="flex-1 min-w-0 -mx-px text-center focus:z-10 sm:text-sm"
         :class="
           error
             ? 'text-red-900 placeholder-red-300 border-red-300 focus:ring-red-500 focus:border-red-500 z-10'

@@ -10,7 +10,7 @@
         leave-from-class="opacity-100"
         leave-to-class="opacity-0"
       >
-        <CardLayout v-if="product">
+        <div class="space-y-6" v-if="product">
           <LineItem
             :title="product.title"
             :image="lineItemImage"
@@ -21,7 +21,7 @@
             :relative-link="`/products/${product.handle}?variant=${selectedVariant?.id}`"
             edit-mode
           />
-          <Card class="grid gap-4">
+          <Card>
             <InputListbox
               class="z-10"
               label="Type"
@@ -32,10 +32,8 @@
             />
             <InputNumber name="quantity" label="Quantity" v-model="fields.quantity.value.value" :error="fields.quantity.error.value" />
           </Card>
-        </CardLayout>
-        <CardLayout v-else class="absolute top-0 left-0 w-full h-full">
-          <LoaderCard />
-        </CardLayout>
+        </div>
+        <LoaderCard class="absolute top-0 left-0" v-else />
       </transition>
     </Scroller>
     <div class="grid flex-shrink-0 gap-4 p-6 mt-auto bg-white border-t border-gray-200">
@@ -52,7 +50,6 @@ import Button from '@/components/Button/Button.vue'
 import Scroller from '@/components/Scroller/Scroller.vue'
 import LineItem from '@/components/LineItem/LineItem.vue'
 import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
-import CardLayout from '@/components/CardLayout/CardLayout.vue'
 import InputNumber from '@/components/InputNumber/InputNumber.vue'
 import InputListbox, { ListboxOption } from '@/components/InputListbox/InputListbox.vue'
 import useFormatter from '@/composables/useFormatter'
@@ -68,7 +65,6 @@ export default defineComponent({
     Header,
     Scroller,
     LineItem,
-    CardLayout,
     LoaderCard,
     InputNumber,
     InputListbox

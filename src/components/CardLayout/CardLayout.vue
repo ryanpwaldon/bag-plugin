@@ -1,5 +1,5 @@
 <template>
-  <div class="grid gap-6 auto-rows-max">
+  <div class="space-y-6">
     <slot />
   </div>
 </template>

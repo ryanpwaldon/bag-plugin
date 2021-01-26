@@ -6,7 +6,11 @@
       style="will-change: transform"
       @click="handleBackdropClick"
     />
-    <div ref="cart" class="w-full h-full overflow-hidden rounded-none shadow-lg bg-gray-50 sm:rounded-lg sm:w-112" style="will-change: transform">
+    <div
+      ref="cart"
+      class="relative w-full h-full overflow-hidden rounded-none sm:shadow-lg bg-gray-50 sm:rounded-lg sm:w-112"
+      style="will-change: transform"
+    >
       <slot v-if="open" />
     </div>
   </div>

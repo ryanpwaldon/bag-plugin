@@ -7,7 +7,7 @@
     leave-from-class="opacity-100"
     leave-to-class="opacity-0"
   >
-    <CardLayout v-if="filteredCrossSells.length">
+    <div class="space-y-6" v-if="filteredCrossSells.length">
       <DividerLabel text="Offers" class="z-20 py-1 transition ease-in-out" />
       <CrossSell
         v-for="crossSell in filteredCrossSells"
@@ -20,21 +20,19 @@
         @click="handleClick(crossSell.productId)"
         :key="crossSell.id"
       />
-    </CardLayout>
+    </div>
   </transition>
 </template>
 
 <script lang="ts">
 import intersection from 'lodash/intersection'
 import CrossSell from '@/components/CrossSell/CrossSell.vue'
-import CardLayout from '@/components/CardLayout/CardLayout.vue'
 import DividerLabel from '@/components/DividerLabel/DividerLabel.vue'
 import { computed, defineComponent, PropType } from 'vue'
 import useCrossSells from '@/composables/useCrossSells'
 export default defineComponent({
   components: {
     CrossSell,
-    CardLayout,
     DividerLabel
   },
   props: {

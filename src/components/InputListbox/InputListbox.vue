@@ -24,7 +24,6 @@
         <ListboxOptions static v-if="open" class="absolute w-full mt-1 focus:outline-none">
           <div class="bg-white rounded-md shadow-lg">
             <div
-              v-scroll
               class="py-1 overflow-auto text-base leading-6 rounded-md ring-1 ring-black ring-opacity-5 max-h-56 sm:max-h-60 sm:text-sm sm:leading-5"
             >
               <ListboxOption
