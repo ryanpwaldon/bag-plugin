@@ -32,9 +32,9 @@
 </template>
 
 <script lang="ts">
-import GradientSpacer from '../GradientSpacer/GradientSpacer.vue'
+import getParentOrigin from '@/utils/getParentOrigin'
 import { defineComponent, PropType, computed } from 'vue'
-import useParentOrigin from '@/composables/useParentOrigin'
+import GradientSpacer from '../GradientSpacer/GradientSpacer.vue'
 
 interface Option {
   name: string
@@ -84,7 +84,7 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const parentOrigin = useParentOrigin()
+    const parentOrigin = getParentOrigin()
     const link = computed(() => `${parentOrigin}${props.relativeLink}`)
     return { link }
   }

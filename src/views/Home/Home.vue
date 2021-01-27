@@ -46,19 +46,19 @@
 </template>
 
 <script lang="ts">
+import { AjaxCart } from '@/types/ajaxApi'
 import Header from '@/components/Header/Header.vue'
 import Button from '@/components/Button/Button.vue'
 import Offers from '@/components/Offers/Offers.vue'
+import useFormatter from '@/composables/useFormatter'
+import getParentOrigin from '@/utils/getParentOrigin'
+import Balance from '@/components/Balance/Balance.vue'
 import Scroller from '@/components/Scroller/Scroller.vue'
 import LineItem from '@/components/LineItem/LineItem.vue'
-import Balance from '@/components/Balance/Balance.vue'
-import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
-import EmptyCart from '@/components/EmptyCart/EmptyCart.vue'
-import useFormatter from '@/composables/useFormatter'
-import { AjaxCart } from '@/types/ajaxApi'
-import { computed, defineComponent, PropType, ref } from 'vue'
-import useParentOrigin from '@/composables/useParentOrigin'
 import useParentFrame from '@/composables/useParentFrame'
+import EmptyCart from '@/components/EmptyCart/EmptyCart.vue'
+import { computed, defineComponent, PropType, ref } from 'vue'
+import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
 export default defineComponent({
   components: {
     Header,
@@ -78,7 +78,7 @@ export default defineComponent({
   },
   setup(props) {
     const { formatter } = useFormatter()
-    const parentOrigin = useParentOrigin()
+    const parentOrigin = getParentOrigin()
     const { parentFrame } = useParentFrame()
     const cart = ref((props.initialCart || null) as null | AjaxCart)
     const lineItems = computed(() => cart.value?.items || [])
