@@ -5,6 +5,10 @@ import { parseGid } from '@shopify/admin-graphql-api-utilities'
 import { ChildMethods } from '../src/composables/useParentFrame'
 import { AjaxCart, AjaxProduct, AjaxLineItem } from '../src/types/ajaxApi'
 
+const querystring = (params: Record<string, string | undefined>) => {
+  return Object.entries(params).reduce((qs, [key, value]) => (value ? (qs += `${qs && '&'}${key}=${encodeURIComponent(value)}`) : qs), '')
+}
+
 const cancelEvent = (e: Event) => {
   e.preventDefault()
   e.stopImmediatePropagation()
@@ -14,8 +18,6 @@ class App {
   cartReady = false
   transitioning = false
   childFrame = {} as ChildMethods
-  shopOrigin = window.Shopify.shop
-  parentOrigin = window.location.origin
   frame = this.createFrame()
   parentMethods = {
     open: this.open.bind(this),
@@ -43,8 +45,11 @@ class App {
 
   createFrame(): HTMLIFrameElement {
     const frame = document.createElement('iframe')
-    const querystring = `?${this.shopOrigin ? `shopOrigin=${this.shopOrigin}` : ''}&${this.parentOrigin ? `parentOrigin=${this.parentOrigin}` : ''}`
-    frame.src = `${process.env.VUE_APP_PLUGIN_URL}${querystring}`
+    frame.src = `${process.env.VUE_APP_PLUGIN_URL}?${querystring({
+      shopOrigin: window.Shopify.shop,
+      parentOrigin: window.location.origin,
+      locale: window.Shopify.locale
+    })}`
     frame.style.display = 'none'
     frame.style.position = 'fixed'
     frame.style.border = '0'
@@ -129,18 +134,18 @@ class App {
   }
 
   overrideCartButtons() {
-    const buttons = document.querySelectorAll('[href="/cart"]')
+    const buttons = document.querySelectorAll('[href$="/cart"]')
     for (const button of buttons) button.addEventListener('click', this.cartButtonClickHandler.bind(this))
   }
 
   overrideAddToCartSubmit() {
-    const forms = document.querySelectorAll('form[action*="/cart/add"]')
+    const forms = document.querySelectorAll('form[action$="/cart/add"]')
     for (const form of forms) form.addEventListener('submit', this.addToCartSubmitHandler.bind(this))
   }
 
   overrideAddToCartButtonClicks() {
     const keywords = ['add to cart', 'add_to_cart', 'add-to-cart', 'addtocart', 'submit', 'cart']
-    const forms: NodeListOf<HTMLFormElement> = document.querySelectorAll('form[action*="/cart/add"]')
+    const forms: NodeListOf<HTMLFormElement> = document.querySelectorAll('form[action$="/cart/add"]')
     for (const form of forms) {
       const buttons = Array.from(form.querySelectorAll('button, input'))
       const scores = buttons.map(button => (button.outerHTML.toLowerCase().match(new RegExp(keywords.join('|'), 'g')) || []).length)
