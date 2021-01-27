@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 px-6 overflow-scroll">
+  <div class="flex-1 px-6 overflow-auto">
     <div class="w-full h-6" />
     <div class="relative">
       <slot />

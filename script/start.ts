@@ -54,7 +54,7 @@ class App {
     frame.style.position = 'fixed'
     frame.style.border = '0'
     frame.style.height = '100%'
-    frame.style.width = '100vw'
+    frame.style.width = '100%'
     frame.style.bottom = '0'
     frame.style.left = '0'
     frame.style.zIndex = '2147483001'
