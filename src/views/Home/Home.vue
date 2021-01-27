@@ -40,7 +40,7 @@
     <div class="grid flex-shrink-0 gap-5 p-6 bg-white border-t border-gray-200">
       <Balance :subtotal="cart && formatter.currency(cart.total_price / 100, cart.currency)" />
       <Button text="Checkout" :link="`${parentOrigin}/checkout`" class="w-full" v-if="lineItems.length || !cart" />
-      <Button @click="handleClose()" class="w-full" text="Continue shopping" v-else />
+      <Button @click="handleClose()" class="w-full" :text="$copy.checkoutButton" v-else />
     </div>
   </div>
 </template>

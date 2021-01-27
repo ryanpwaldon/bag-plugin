@@ -1,6 +1,7 @@
 import App from '@/App.vue'
 import { createApp } from 'vue'
 import store from '@/store/store'
+import copy from '@/plugins/copy'
 import '@/assets/styles/index.css'
 import analytics from 'vue-gtag-next'
 import * as Sentry from '@sentry/vue'
@@ -19,6 +20,7 @@ Sentry.init({
 
 console.log('Instantiating cart.')
 createApp(App)
+  .use(copy)
   .use(store)
   .use(analytics, { property: { id: process.env.VUE_APP_GA_MEASUREMENT_ID } })
   .mount('#app')
