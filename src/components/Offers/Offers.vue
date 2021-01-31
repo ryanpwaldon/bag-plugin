@@ -8,7 +8,7 @@
     leave-to-class="opacity-0"
   >
     <div class="space-y-6" v-if="filteredCrossSells.length">
-      <DividerLabel text="Offers" class="z-20 py-1 transition ease-in-out" />
+      <DividerLabel :text="$copy.offersTitle" class="z-20 py-1 transition ease-in-out" />
       <CrossSell
         v-for="crossSell in filteredCrossSells"
         :id="crossSell.id"

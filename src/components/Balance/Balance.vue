@@ -1,6 +1,6 @@
 <template>
   <div class="relative flex items-center justify-between text-base font-medium leading-6 text-gray-900">
-    <p>Subtotal</p>
+    <p>{{ $copy.subtotal }}</p>
     <transition
       enter-active-class="transition duration-150 ease-in-out"
       enter-from-class="opacity-0"
@@ -11,7 +11,7 @@
     >
       <p v-if="subtotal">{{ subtotal }}</p>
       <div v-else class="absolute right-0 w-20 h-4 transform -translate-y-1/2 top-1/2">
-        <div class="w-full h-full rounded-full bg-gray-200 animate-pulse" />
+        <div class="w-full h-full bg-gray-200 rounded-full animate-pulse" />
       </div>
     </transition>
   </div>

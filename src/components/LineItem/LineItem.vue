@@ -17,7 +17,7 @@
           </span>
         </p>
         <p>
-          Quantity: {{ quantity }} · <span class="text-blue-700">{{ editMode ? 'View item' : 'Edit' }}</span>
+          {{ $copy.quantity }}: {{ quantity }} · <span class="text-blue-700">{{ editMode ? $copy.viewItem : $copy.edit }}</span>
         </p>
       </div>
       <div class="relative flex flex-col items-end pl-4 text-right">

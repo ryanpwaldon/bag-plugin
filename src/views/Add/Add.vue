@@ -1,6 +1,6 @@
 <template>
   <form class="flex flex-col h-full" @submit="handleSubmit">
-    <Header title="Add to cart" :close="returnToCart" />
+    <Header :title="$copy.addToCartTitle" :close="returnToCart" />
     <Scroller>
       <transition
         enter-active-class="transition duration-150 ease-out"
@@ -24,21 +24,21 @@
           <Card>
             <InputListbox
               class="z-10"
-              label="Type"
+              :label="$copy.type"
               :options="variantIdListboxOptions"
               :error="fields.variantId.error.value"
               v-if="!hasOnlyDefaultVariant"
               v-model="fields.variantId.value.value"
             />
-            <InputNumber name="quantity" label="Quantity" v-model="fields.quantity.value.value" :error="fields.quantity.error.value" />
+            <InputNumber name="quantity" :label="$copy.quantity" v-model="fields.quantity.value.value" :error="fields.quantity.error.value" />
           </Card>
         </div>
         <LoaderCard class="absolute top-0 left-0" v-else />
       </transition>
     </Scroller>
     <div class="grid flex-shrink-0 gap-4 p-6 mt-auto bg-white border-t border-gray-200">
-      <Button type="submit" text="Add to cart" />
-      <Button text="Cancel" theme="white" @click="$emit('route', { name: 'Home' })" />
+      <Button type="submit" :text="$copy.addToCartButton" />
+      <Button :text="$copy.cancelButton" theme="white" @click="$emit('route', { name: 'Home' })" />
     </div>
   </form>
 </template>

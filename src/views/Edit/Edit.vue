@@ -1,6 +1,6 @@
 <template>
   <form class="flex flex-col h-full" @submit="handleSubmit">
-    <Header title="Edit item" :close="returnToCart" />
+    <Header :title="$copy.editTitle" :close="returnToCart" />
     <Scroller>
       <transition
         enter-active-class="transition duration-150 ease-out"
@@ -23,17 +23,17 @@
           />
           <Card>
             <InputListbox
-              label="Type"
+              :label="$copy.type"
               class="z-10"
               :options="variantIdListboxOptions"
               :error="fields.variantId.error.value"
               v-model="fields.variantId.value.value"
               v-if="!lineItem.product_has_only_default_variant"
             />
-            <InputNumber name="quantity" label="Quantity" v-model="fields.quantity.value.value" :error="fields.quantity.error.value" />
+            <InputNumber name="quantity" :label="$copy.quantity" v-model="fields.quantity.value.value" :error="fields.quantity.error.value" />
             <div class="flex flex-col items-start">
-              <p class="block text-sm font-medium leading-5 text-gray-700">Remove</p>
-              <Button class="w-full mt-1" text="Remove from cart" theme="white" size="md" @click="removeFromCart" />
+              <p class="block text-sm font-medium leading-5 text-gray-700">{{ $copy.remove }}</p>
+              <Button class="w-full mt-1" :text="$copy.removeButton" theme="white" size="md" @click="removeFromCart" />
             </div>
           </Card>
         </div>
@@ -41,8 +41,8 @@
       </transition>
     </Scroller>
     <div class="grid flex-shrink-0 gap-4 p-6 mt-auto bg-white border-t border-gray-200">
-      <Button type="submit" text="Save" />
-      <Button text="Back to cart" theme="white" @click="$emit('route', { name: 'Home' })" />
+      <Button type="submit" :text="$copy.saveButton" />
+      <Button :text="$copy.backToCartButton" theme="white" @click="$emit('route', { name: 'Home' })" />
     </div>
   </form>
 </template>
