@@ -1,6 +1,6 @@
 <template>
   <button
-    class="relative flex flex-shrink-0 w-full overflow-hidden bg-white rounded-lg shadow whitespace-nowrap focus:ring-2 focus:ring-blue-500 focus:outline-none group"
+    class="relative flex flex-shrink-0 w-full overflow-hidden bg-white shadow whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none group"
   >
     <div class="flex-shrink-0 w-24 h-24 bg-center bg-cover" :style="{ backgroundImage: `url(${image})` }" />
     <div class="flex self-center justify-between w-full p-4 overflow-hidden">

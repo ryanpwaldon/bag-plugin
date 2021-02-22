@@ -8,7 +8,7 @@
     leave-to-class="opacity-0"
   >
     <div class="space-y-6" v-if="filteredCrossSells.length">
-      <DividerLabel :text="$copy.offersTitle" class="z-20 py-1 transition ease-in-out" />
+      <p class="z-20 font-medium leading-6 text-gray-900 transition ease-in-out">{{ $copy.offersTitle }}</p>
       <CrossSell
         v-for="crossSell in filteredCrossSells"
         :id="crossSell.id"
@@ -27,13 +27,11 @@
 <script lang="ts">
 import intersection from 'lodash/intersection'
 import CrossSell from '@/components/CrossSell/CrossSell.vue'
-import DividerLabel from '@/components/DividerLabel/DividerLabel.vue'
 import { computed, defineComponent, PropType } from 'vue'
 import useCrossSells from '@/composables/useCrossSells'
 export default defineComponent({
   components: {
-    CrossSell,
-    DividerLabel
+    CrossSell
   },
   props: {
     lineItemsAsProductIds: {

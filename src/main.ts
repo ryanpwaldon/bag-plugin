@@ -6,6 +6,7 @@ import '@/assets/styles/index.css'
 import analytics from 'vue-gtag-next'
 import * as Sentry from '@sentry/vue'
 import { Integrations } from '@sentry/tracing'
+import 'focus-visible/dist/focus-visible.min.js'
 import useCrossSells from '@/composables/useCrossSells'
 import pluginService, { Permission } from '@/services/api/services/pluginService'
 

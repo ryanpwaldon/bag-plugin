@@ -18,5 +18,13 @@ module.exports = {
         '18': '4.5rem'
       }
     }
+  },
+  variants: {
+    extend: {
+      borderColor: ['focus-visible'],
+      ringOffsetWidth: ['focus-visible'],
+      ringColor: ['focus-visible'],
+      ringWidth: ['focus-visible']
+    }
   }
 }

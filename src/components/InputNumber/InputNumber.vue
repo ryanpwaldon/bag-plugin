@@ -1,10 +1,10 @@
 <template>
   <div>
     <label :for="name" class="inline-block text-sm font-medium leading-5 text-gray-700">{{ label }}</label>
-    <div class="flex mt-1 rounded-md shadow-sm">
+    <div class="flex mt-1 shadow-sm">
       <button
         type="button"
-        class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 border border-gray-300 bg-gray-50 rounded-l-md hover:bg-gray-50 focus:z-20 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+        class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 border border-gray-300 bg-gray-50 hover:bg-gray-100 focus:z-20 focus:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:border-blue-500"
         aria-label="Minus"
         @click="decrement"
       >
@@ -18,16 +18,16 @@
         :value="modelValue"
         :placeholder="placeholder"
         @input="this.update($event.target.value)"
-        class="flex-1 min-w-0 -mx-px text-center focus:z-10 sm:text-sm"
+        class="flex-1 min-w-0 -mx-px text-center focus:z-10 sm:text-sm focus:outline-none"
         :class="
           error
-            ? 'text-red-900 placeholder-red-300 border-red-300 focus:ring-red-500 focus:border-red-500 z-10'
-            : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
+            ? 'text-red-900 placeholder-red-300 border-red-300 focus-visible:ring-red-500 focus-visible:border-red-500 z-10'
+            : 'border-gray-300 focus-visible:ring-blue-500 focus-visible:border-blue-500'
         "
       />
       <button
         type="button"
-        class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 border border-gray-300 bg-gray-50 rounded-r-md hover:bg-gray-50 focus:z-20 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+        class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 border border-gray-300 bg-gray-50 hover:bg-gray-100 focus:z-20 focus:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:border-blue-500"
         aria-label="Plus"
         @click="increment"
       >

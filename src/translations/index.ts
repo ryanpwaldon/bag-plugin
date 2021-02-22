@@ -35,6 +35,10 @@ export default {
     en: 'Subtotal',
     fr: 'Total'
   },
+  continueShoppingButton: {
+    en: 'Continue shopping',
+    fr: 'Continuer vos achats'
+  },
   checkoutButton: {
     en: 'Checkout',
     fr: 'Payer'

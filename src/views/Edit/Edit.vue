@@ -40,7 +40,7 @@
         <LoaderCard class="absolute top-0 left-0" v-else />
       </transition>
     </Scroller>
-    <div class="grid flex-shrink-0 gap-4 p-6 mt-auto bg-white border-t border-gray-200">
+    <div class="grid flex-shrink-0 gap-4 p-6 mt-auto bg-gray-100 border-t border-gray-300 border-dashed">
       <Button type="submit" :text="$copy.saveButton" />
       <Button :text="$copy.backToCartButton" theme="white" @click="$emit('route', { name: 'Home' })" />
     </div>

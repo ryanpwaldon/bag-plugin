@@ -59,15 +59,15 @@ export default defineComponent({
     // prettier-ignore
     buttonClasses(): string {
       const sizeClasses: Classes<Sizes> = {
-        xs: 'rounded px-2.5 py-1.5 text-xs font-medium leading-4',
-        sm: 'rounded-md px-3 py-2 text-sm font-medium leading-4',
-        md: 'rounded-md px-4 py-2 text-sm font-medium leading-5',
-        lg: 'rounded-lg px-5 py-3 text-base font-medium',
-        xl: 'rounded-md px-6 py-3 text-base font-medium'
+        xs: 'px-2.5 py-1.5 text-xs font-medium leading-4',
+        sm: 'px-3 py-2 text-sm font-medium leading-4',
+        md: 'px-4 py-2 text-sm font-medium leading-5',
+        lg: 'px-5 py-3 text-base font-medium',
+        xl: 'px-6 py-3 text-base font-medium'
       }
       const themeClasses: Classes<Themes> = {
-        white: 'bg-white text-gray-900 hover:bg-gray-50 border focus:ring-2 focus:ring-blue-500 focus:ring-offset-2',
-        black: 'text-white bg-gray-900 hover:bg-black focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
+        white: 'bg-white text-gray-900 hover:bg-gray-50 border border-gray-300 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
+        black: 'text-white bg-gray-900 hover:bg-black focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2'
       }
       return `${sizeClasses[this.size]} ${themeClasses[this.theme]}`
     }

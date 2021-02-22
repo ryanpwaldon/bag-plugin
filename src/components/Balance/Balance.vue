@@ -11,7 +11,7 @@
     >
       <p v-if="subtotal">{{ subtotal }}</p>
       <div v-else class="absolute right-0 w-20 h-4 transform -translate-y-1/2 top-1/2">
-        <div class="w-full h-full bg-gray-200 rounded-full animate-pulse" />
+        <div class="w-full h-full bg-gray-200 animate-pulse" />
       </div>
     </transition>
   </div>
