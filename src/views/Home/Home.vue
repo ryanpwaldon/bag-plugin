@@ -1,20 +1,17 @@
 <template>
-  <div class="flex flex-col h-full">
+  <div class="flex flex-col w-full h-full">
     <Header :title="$copy.title" :meta="cart && `${cart.item_count} ${cart.item_count === 1 ? $copy.itemSingular : $copy.itemPlural}`" />
-    <Scroller>
-      <transition
-        enter-active-class="transition duration-150 ease-out"
-        enter-from-class="opacity-0"
-        enter-to-class="opacity-100"
-        leave-active-class="transition duration-150 ease-in"
-        leave-from-class="opacity-100"
-        leave-to-class="opacity-0"
-      >
-        <div v-if="cart">
+    <Divider />
+    <div class="relative flex flex-col flex-1 min-h-0">
+      <Fade>
+        <div v-if="!cart" class="absolute top-0 left-0 w-full p-6">
+          <LoaderCard />
+        </div>
+      </Fade>
+      <Fade>
+        <Scroller v-if="cart" class="flex-1 h-full">
           <div class="space-y-6">
-            <EmptyCart v-if="!lineItems.length" />
             <LineItem
-              v-else
               :key="i"
               v-for="(lineItem, i) in lineItems"
               :title="lineItem.product_title"
@@ -31,32 +28,37 @@
             :cart-token="cart.token"
             :currency-code="cart && cart.currency"
             :line-items-as-product-ids="lineItems.map(item => formatter.toGid('Product', item.product_id))"
+            :subtotal="cart.total_price / 100"
             @route="$emit('route', $event)"
           />
+        </Scroller>
+      </Fade>
+      <Fade>
+        <div v-if="cart" class="grid flex-shrink-0 gap-5 p-6 border-t border-gray-300 border-dashed bg-gray">
+          <template v-if="lineItems.length">
+            <Balance :subtotal="cart && formatter.currency(cart.total_price / 100, cart.currency)" />
+            <Button :text="$copy.checkoutButton" :link="`${parentOrigin}/checkout`" class="w-full" />
+          </template>
+          <Button @click="handleClose()" class="w-full" :text="$copy.continueShoppingButton" v-else />
         </div>
-        <LoaderCard class="absolute top-0 left-0" v-else />
-      </transition>
-    </Scroller>
-    <div class="grid flex-shrink-0 gap-5 p-6 border-t border-gray-300 border-dashed bg-gray">
-      <Balance :subtotal="cart && formatter.currency(cart.total_price / 100, cart.currency)" />
-      <Button :text="$copy.checkoutButton" :link="`${parentOrigin}/checkout`" class="w-full" v-if="lineItems.length || !cart" />
-      <Button @click="handleClose()" class="w-full" :text="$copy.continueShoppingButton" v-else />
+      </Fade>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { AjaxCart } from '@/types/ajaxApi'
+import Fade from '@/components/Fade/Fade.vue'
 import Header from '@/components/Header/Header.vue'
 import Button from '@/components/Button/Button.vue'
 import Offers from '@/components/Offers/Offers.vue'
 import useFormatter from '@/composables/useFormatter'
 import getParentOrigin from '@/utils/getParentOrigin'
 import Balance from '@/components/Balance/Balance.vue'
+import Divider from '@/components/Divider/Divider.vue'
 import Scroller from '@/components/Scroller/Scroller.vue'
 import LineItem from '@/components/LineItem/LineItem.vue'
 import useParentFrame from '@/composables/useParentFrame'
-import EmptyCart from '@/components/EmptyCart/EmptyCart.vue'
 import { computed, defineComponent, PropType, ref } from 'vue'
 import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
 export default defineComponent({
@@ -68,7 +70,8 @@ export default defineComponent({
     Scroller,
     LineItem,
     LoaderCard,
-    EmptyCart
+    Divider,
+    Fade
   },
   props: {
     initialCart: {

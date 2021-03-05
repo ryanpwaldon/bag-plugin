@@ -7,6 +7,7 @@ import analytics from 'vue-gtag-next'
 import * as Sentry from '@sentry/vue'
 import { Integrations } from '@sentry/tracing'
 import 'focus-visible/dist/focus-visible.min.js'
+import useRewards from '@/composables/useRewards'
 import useCrossSells from '@/composables/useCrossSells'
 import pluginService, { Permission } from '@/services/api/services/pluginService'
 
@@ -29,6 +30,6 @@ createApp(App)
 // fetch crossSells
 ;(async () => {
   const permissions = await pluginService.findPermissions()
-  if (!permissions.includes(Permission.CrossSell)) return
-  useCrossSells().fetchCrossSells()
+  if (permissions.includes(Permission.CrossSell)) useCrossSells().fetchCrossSells()
+  if (permissions.includes(Permission.Reward)) useRewards().fetchRewards()
 })()

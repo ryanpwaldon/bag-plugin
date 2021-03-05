@@ -1,14 +1,18 @@
 <template>
-  <transition
-    enter-active-class="transition duration-150 ease-out"
-    enter-from-class="opacity-0"
-    enter-to-class="opacity-100"
-    leave-active-class="transition duration-150 ease-in"
-    leave-from-class="opacity-100"
-    leave-to-class="opacity-0"
-  >
+  <Fade>
     <div class="space-y-6" v-if="filteredCrossSells.length">
-      <p class="z-20 font-medium leading-6 text-gray-900 transition ease-in-out">{{ $copy.offersTitle }}</p>
+      <p class="z-20 font-medium leading-6 text-gray-900 transition ease-in-out pointer-events-none">{{ $copy.offersTitle }}</p>
+      <Reward
+        v-for="reward in incompleteRewards"
+        :id="reward.id"
+        :subtotal="subtotal"
+        :min-spend="reward.minSpend"
+        :currency-code="currencyCode"
+        :cart-token="cartToken"
+        :title="reward.title"
+        :image="reward.image"
+        :key="reward.id"
+      />
       <CrossSell
         v-for="crossSell in filteredCrossSells"
         :id="crossSell.id"
@@ -20,18 +24,36 @@
         @click="handleClick(crossSell.productId)"
         :key="crossSell.id"
       />
+      <Reward
+        v-for="reward in completeRewards"
+        :id="reward.id"
+        :subtotal="subtotal"
+        :min-spend="reward.minSpend"
+        :currency-code="currencyCode"
+        :cart-token="cartToken"
+        :title="reward.title"
+        :image="reward.image"
+        :key="reward.id"
+      />
     </div>
-  </transition>
+  </Fade>
 </template>
 
 <script lang="ts">
 import intersection from 'lodash/intersection'
 import CrossSell from '@/components/CrossSell/CrossSell.vue'
-import { computed, defineComponent, PropType } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import useCrossSells from '@/composables/useCrossSells'
+import Reward from '@/components/Reward/Reward.vue'
+import Fade from '@/components/Fade/Fade.vue'
+import useRewards from '@/composables/useRewards'
+import { Reward as RewardType } from '@/services/api/services/rewardService'
+import { CrossSell as CrossSellType } from '@/services/api/services/crossSellService'
 export default defineComponent({
   components: {
-    CrossSell
+    CrossSell,
+    Reward,
+    Fade
   },
   props: {
     lineItemsAsProductIds: {
@@ -45,16 +67,29 @@ export default defineComponent({
     currencyCode: {
       type: String,
       required: true
+    },
+    subtotal: {
+      type: Number,
+      required: true
     }
   },
-  setup(props) {
+  setup() {
+    const { rewards } = useRewards()
     const { crossSells } = useCrossSells()
-    const filteredCrossSells = computed(() =>
-      crossSells.value.filter(
-        item => intersection(props.lineItemsAsProductIds, item.triggerProductIds).length && !props.lineItemsAsProductIds.includes(item.productId)
+    return { crossSells, rewards }
+  },
+  computed: {
+    filteredCrossSells(): CrossSellType[] {
+      return this.crossSells.filter(
+        item => intersection(this.lineItemsAsProductIds, item.triggerProductIds).length && !this.lineItemsAsProductIds.includes(item.productId)
       )
-    )
-    return { filteredCrossSells }
+    },
+    completeRewards(): RewardType[] {
+      return this.rewards.filter(item => item.minSpend - this.subtotal <= 0).sort((a, b) => a.minSpend - b.minSpend)
+    },
+    incompleteRewards(): RewardType[] {
+      return this.rewards.filter(item => item.minSpend - this.subtotal > 0).sort((a, b) => a.minSpend - b.minSpend)
+    }
   },
   methods: {
     handleClick(productId: string) {

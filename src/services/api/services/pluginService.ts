@@ -1,7 +1,8 @@
 import api from '@/services/api/api'
 
 export enum Permission {
-  CrossSell = 'crossSell'
+  CrossSell = 'crossSell',
+  Reward = 'reward'
 }
 
 export default {

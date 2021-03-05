@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex items-center justify-between text-base font-medium leading-6 text-gray-900">
+  <div class="relative flex items-center justify-between text-base font-medium leading-6 text-gray-900 pointer-events-none">
     <p>{{ $copy.subtotal }}</p>
     <transition
       enter-active-class="transition duration-150 ease-in-out"
