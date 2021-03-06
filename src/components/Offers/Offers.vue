@@ -1,17 +1,20 @@
 <template>
   <Fade>
-    <div class="space-y-6" v-if="filteredCrossSells.length">
-      <p class="z-20 font-medium leading-6 text-gray-900 transition ease-in-out pointer-events-none">{{ $copy.offersTitle }}</p>
-      <Reward
-        v-for="reward in incompleteRewards"
-        :id="reward.id"
+    <div class="space-y-6" v-if="filteredCrossSells.length || progressBars.length">
+      <p class="z-20 font-medium leading-6 text-gray-900 transition ease-in-out pointer-events-none" v-if="lineItemsAsProductIds.length">
+        {{ $copy.offersTitle }}
+      </p>
+      <ProgressBar
+        v-for="progressBar in incompleteProgressBars"
+        :id="progressBar.id"
         :subtotal="subtotal"
-        :min-spend="reward.minSpend"
+        :goal="progressBar.goal"
         :currency-code="currencyCode"
         :cart-token="cartToken"
-        :title="reward.title"
-        :image="reward.image"
-        :key="reward.id"
+        :title="progressBar.title"
+        :image="progressBar.image"
+        :completion-message="progressBar.completionMessage"
+        :key="progressBar.id"
       />
       <CrossSell
         v-for="crossSell in filteredCrossSells"
@@ -24,35 +27,35 @@
         @click="handleClick(crossSell.productId)"
         :key="crossSell.id"
       />
-      <Reward
-        v-for="reward in completeRewards"
-        :id="reward.id"
+      <ProgressBar
+        v-for="progressBar in completeProgressBars"
+        :id="progressBar.id"
         :subtotal="subtotal"
-        :min-spend="reward.minSpend"
+        :goal="progressBar.goal"
         :currency-code="currencyCode"
         :cart-token="cartToken"
-        :title="reward.title"
-        :image="reward.image"
-        :key="reward.id"
+        :title="progressBar.title"
+        :image="progressBar.image"
+        :completion-message="progressBar.completionMessage"
+        :key="progressBar.id"
       />
     </div>
   </Fade>
 </template>
 
 <script lang="ts">
-import intersection from 'lodash/intersection'
-import CrossSell from '@/components/CrossSell/CrossSell.vue'
-import { defineComponent, PropType } from 'vue'
-import useCrossSells from '@/composables/useCrossSells'
-import Reward from '@/components/Reward/Reward.vue'
 import Fade from '@/components/Fade/Fade.vue'
-import useRewards from '@/composables/useRewards'
-import { Reward as RewardType } from '@/services/api/services/rewardService'
+import intersection from 'lodash/intersection'
+import { defineComponent, PropType } from 'vue'
+import useOffers from '@/composables/useOffers'
+import CrossSell from '@/components/CrossSell/CrossSell.vue'
+import ProgressBar from '@/components/ProgressBar/ProgressBar.vue'
 import { CrossSell as CrossSellType } from '@/services/api/services/crossSellService'
+import { ProgressBar as ProgressBarType } from '@/services/api/services/progressBarService'
 export default defineComponent({
   components: {
     CrossSell,
-    Reward,
+    ProgressBar,
     Fade
   },
   props: {
@@ -74,9 +77,9 @@ export default defineComponent({
     }
   },
   setup() {
-    const { rewards } = useRewards()
-    const { crossSells } = useCrossSells()
-    return { crossSells, rewards }
+    const { crossSells, progressBars } = useOffers()
+    console.log(progressBars)
+    return { crossSells, progressBars }
   },
   computed: {
     filteredCrossSells(): CrossSellType[] {
@@ -84,11 +87,11 @@ export default defineComponent({
         item => intersection(this.lineItemsAsProductIds, item.triggerProductIds).length && !this.lineItemsAsProductIds.includes(item.productId)
       )
     },
-    completeRewards(): RewardType[] {
-      return this.rewards.filter(item => item.minSpend - this.subtotal <= 0).sort((a, b) => a.minSpend - b.minSpend)
+    completeProgressBars(): ProgressBarType[] {
+      return this.progressBars.filter(item => item.goal - this.subtotal <= 0).sort((a, b) => a.goal - b.goal)
     },
-    incompleteRewards(): RewardType[] {
-      return this.rewards.filter(item => item.minSpend - this.subtotal > 0).sort((a, b) => a.minSpend - b.minSpend)
+    incompleteProgressBars(): ProgressBarType[] {
+      return this.progressBars.filter(item => item.goal - this.subtotal > 0).sort((a, b) => a.goal - b.goal)
     }
   },
   methods: {

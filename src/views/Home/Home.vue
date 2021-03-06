@@ -22,15 +22,14 @@
               :price="cart && formatter.currency(lineItem.final_line_price / 100, cart.currency)"
               @click="$emit('route', { name: 'Edit', props: { lineItem, currencyCode: cart && cart.currency } })"
             />
+            <Offers
+              :cart-token="cart.token"
+              :currency-code="cart && cart.currency"
+              :line-items-as-product-ids="lineItems.map(item => formatter.toGid('Product', item.product_id))"
+              :subtotal="cart.total_price / 100"
+              @route="$emit('route', $event)"
+            />
           </div>
-          <Offers
-            class="mt-5"
-            :cart-token="cart.token"
-            :currency-code="cart && cart.currency"
-            :line-items-as-product-ids="lineItems.map(item => formatter.toGid('Product', item.product_id))"
-            :subtotal="cart.total_price / 100"
-            @route="$emit('route', $event)"
-          />
         </Scroller>
       </Fade>
       <Fade>

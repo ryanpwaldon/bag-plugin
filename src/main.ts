@@ -6,10 +6,8 @@ import '@/assets/styles/index.css'
 import analytics from 'vue-gtag-next'
 import * as Sentry from '@sentry/vue'
 import { Integrations } from '@sentry/tracing'
+import useOffers from '@/composables/useOffers'
 import 'focus-visible/dist/focus-visible.min.js'
-import useRewards from '@/composables/useRewards'
-import useCrossSells from '@/composables/useCrossSells'
-import pluginService, { Permission } from '@/services/api/services/pluginService'
 
 Sentry.init({
   tracesSampleRate: 1.0,
@@ -27,9 +25,5 @@ createApp(App)
   .use(analytics, { property: { id: process.env.VUE_APP_GA_MEASUREMENT_ID } })
   .mount('#app')
 
-// fetch crossSells
-;(async () => {
-  const permissions = await pluginService.findPermissions()
-  if (permissions.includes(Permission.CrossSell)) useCrossSells().fetchCrossSells()
-  if (permissions.includes(Permission.Reward)) useRewards().fetchRewards()
-})()
+// fetch offers
+useOffers().fetchOffers()
