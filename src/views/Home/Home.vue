@@ -1,7 +1,6 @@
 <template>
   <div class="flex flex-col w-full h-full">
     <Header :title="$copy.title" :meta="cart && `${cart.item_count} ${cart.item_count === 1 ? $copy.itemSingular : $copy.itemPlural}`" />
-    <Divider />
     <div class="relative flex flex-col flex-1 min-h-0">
       <Fade>
         <div v-if="!cart" class="absolute top-0 left-0 w-full p-6">
@@ -54,7 +53,6 @@ import Offers from '@/components/Offers/Offers.vue'
 import useFormatter from '@/composables/useFormatter'
 import getParentOrigin from '@/utils/getParentOrigin'
 import Balance from '@/components/Balance/Balance.vue'
-import Divider from '@/components/Divider/Divider.vue'
 import Scroller from '@/components/Scroller/Scroller.vue'
 import LineItem from '@/components/LineItem/LineItem.vue'
 import useParentFrame from '@/composables/useParentFrame'
@@ -69,7 +67,6 @@ export default defineComponent({
     Scroller,
     LineItem,
     LoaderCard,
-    Divider,
     Fade
   },
   props: {

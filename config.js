@@ -39,6 +39,7 @@ module.exports = (api, options) => {
     options.devServer.https = certs
     options.devServer.host = 'localhost'
     options.devServer.disableHostCheck = true
+    options.devServer.public = 'localhost'
     await api.service.run('serve', args)
   })
   api.registerCommand('serve:ngrok', async args => {

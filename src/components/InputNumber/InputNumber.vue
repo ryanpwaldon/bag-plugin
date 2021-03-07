@@ -4,7 +4,7 @@
     <div class="flex mt-1 shadow-sm">
       <button
         type="button"
-        class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 border border-gray-300 bg-gray-50 hover:bg-gray-100 focus:z-20 focus:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:border-blue-500"
+        class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 border border-gray-300 rounded-l bg-gray-50 hover:bg-gray-100 focus:z-20 focus:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:border-blue-500"
         aria-label="Minus"
         @click="decrement"
       >
@@ -27,7 +27,7 @@
       />
       <button
         type="button"
-        class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 border border-gray-300 bg-gray-50 hover:bg-gray-100 focus:z-20 focus:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:border-blue-500"
+        class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 border border-gray-300 rounded-r bg-gray-50 hover:bg-gray-100 focus:z-20 focus:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:border-blue-500"
         aria-label="Plus"
         @click="increment"
       >

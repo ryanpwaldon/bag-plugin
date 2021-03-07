@@ -1,6 +1,10 @@
 <template>
   <Fade>
     <div class="space-y-6" v-if="filteredCrossSells.length || progressBars.length">
+      <!-- <div v-if="!lineItems.length" class="flex flex-col items-center justify-center w-full h-full space-y-2 text-sm text-gray-500">
+        <Bag class="text-gray-400" />
+        <span>Your cart is empty</span>
+      </div> -->
       <p class="z-20 font-medium leading-6 text-gray-900 transition ease-in-out pointer-events-none" v-if="lineItemsAsProductIds.length">
         {{ $copy.offersTitle }}
       </p>

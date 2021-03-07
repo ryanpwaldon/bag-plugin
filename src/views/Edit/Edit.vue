@@ -2,14 +2,7 @@
   <form class="flex flex-col h-full" @submit="handleSubmit">
     <Header :title="$copy.editTitle" :close="returnToCart" />
     <Scroller>
-      <transition
-        enter-active-class="transition duration-150 ease-out"
-        enter-from-class="opacity-0"
-        enter-to-class="opacity-100"
-        leave-active-class="transition duration-150 ease-in"
-        leave-from-class="opacity-100"
-        leave-to-class="opacity-0"
-      >
+      <Fade>
         <div class="space-y-6" v-if="product">
           <LineItem
             :title="lineItem.product_title"
@@ -38,7 +31,7 @@
           </Card>
         </div>
         <LoaderCard class="absolute top-0 left-0" v-else />
-      </transition>
+      </Fade>
     </Scroller>
     <div class="grid flex-shrink-0 gap-4 p-6 mt-auto bg-gray-100 border-t border-gray-300 border-dashed">
       <Button type="submit" :text="$copy.saveButton" />
@@ -48,22 +41,24 @@
 </template>
 
 <script lang="ts">
-import Card from '@/components/Card/Card.vue'
-import Header from '@/components/Header/Header.vue'
-import Button from '@/components/Button/Button.vue'
-import Scroller from '@/components/Scroller/Scroller.vue'
-import LineItem from '@/components/LineItem/LineItem.vue'
-import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
-import InputNumber from '@/components/InputNumber/InputNumber.vue'
-import InputListbox, { ListboxOption } from '@/components/InputListbox/InputListbox.vue'
-import useFormatter from '@/composables/useFormatter'
 import useForm from '@/composables/useForm'
 import { number, object, string } from 'yup'
+import Card from '@/components/Card/Card.vue'
+import Fade from '@/components/Fade/Fade.vue'
 import { defineComponent, PropType } from 'vue'
-import { AjaxCart, AjaxLineItem, AjaxProduct, AjaxVariant } from '@/types/ajaxApi'
+import Header from '@/components/Header/Header.vue'
+import Button from '@/components/Button/Button.vue'
+import useFormatter from '@/composables/useFormatter'
+import Scroller from '@/components/Scroller/Scroller.vue'
+import LineItem from '@/components/LineItem/LineItem.vue'
 import useParentFrame from '@/composables/useParentFrame'
+import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
+import InputNumber from '@/components/InputNumber/InputNumber.vue'
+import { AjaxCart, AjaxLineItem, AjaxProduct, AjaxVariant } from '@/types/ajaxApi'
+import InputListbox, { ListboxOption } from '@/components/InputListbox/InputListbox.vue'
 export default defineComponent({
   components: {
+    Fade,
     Card,
     Button,
     Header,

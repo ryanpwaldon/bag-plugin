@@ -66,8 +66,8 @@ export default defineComponent({
         xl: 'px-6 py-3 text-base font-medium'
       }
       const themeClasses: Classes<Themes> = {
-        white: 'bg-white text-gray-900 hover:bg-gray-50 border border-gray-300 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
-        black: 'text-white bg-gray-900 hover:bg-black focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2'
+        white: 'rounded bg-white text-gray-900 hover:bg-gray-50 border border-gray-300 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
+        black: 'rounded text-white bg-gray-900 hover:bg-black focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2'
       }
       return `${sizeClasses[this.size]} ${themeClasses[this.theme]}`
     }
