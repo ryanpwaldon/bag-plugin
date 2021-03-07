@@ -6,11 +6,9 @@
       </p>
       <ProgressBar
         v-for="progressBar in incompleteProgressBars"
-        :id="progressBar.id"
         :subtotal="subtotal"
         :goal="progressBar.goal"
         :currency-code="currencyCode"
-        :cart-token="cartToken"
         :title="progressBar.title"
         :image="progressBar.image"
         :completion-message="progressBar.completionMessage"
@@ -29,11 +27,9 @@
       />
       <ProgressBar
         v-for="progressBar in completeProgressBars"
-        :id="progressBar.id"
         :subtotal="subtotal"
         :goal="progressBar.goal"
         :currency-code="currencyCode"
-        :cart-token="cartToken"
         :title="progressBar.title"
         :image="progressBar.image"
         :completion-message="progressBar.completionMessage"

@@ -27,14 +27,9 @@
 import { defineComponent } from 'vue'
 import Check from '@/icons/Check.vue'
 import useFormatter from '@/composables/useFormatter'
-import eventService from '@/services/api/services/eventService'
 export default defineComponent({
   components: { Check },
   props: {
-    id: {
-      type: String,
-      required: true
-    },
     title: {
       type: String,
       required: true
@@ -58,17 +53,9 @@ export default defineComponent({
     completionMessage: {
       type: String,
       required: false
-    },
-    cartToken: {
-      type: String,
-      required: true
     }
   },
-  setup(props) {
-    eventService.createProgressBarImpression({
-      cartToken: props.cartToken,
-      progressBar: props.id
-    })
+  setup() {
     const { formatter } = useFormatter()
     return { formatter }
   },
