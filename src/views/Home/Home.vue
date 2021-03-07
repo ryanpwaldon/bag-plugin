@@ -3,12 +3,16 @@
     <Header :title="$copy.title" :meta="cart && `${cart.item_count} ${cart.item_count === 1 ? $copy.itemSingular : $copy.itemPlural}`" />
     <div class="relative flex flex-col flex-1 min-h-0">
       <Fade>
-        <div v-if="!cart" class="absolute top-0 left-0 w-full p-6">
+        <div v-if="!cart || !offersLoaded" class="absolute top-0 left-0 w-full p-6">
           <LoaderCard />
         </div>
       </Fade>
       <Fade>
-        <Scroller v-if="cart" class="flex-1 h-full">
+        <Scroller v-if="cart && offersLoaded" class="flex-1 h-full">
+          <div v-if="!lineItems.length && !progressBars.length" class="flex flex-col items-center justify-center w-full h-full space-y-2">
+            <Bag class="text-gray-300 w-9" />
+            <span class="text-sm text-gray-500">Your cart is empty</span>
+          </div>
           <div class="space-y-6">
             <LineItem
               :key="i"
@@ -22,17 +26,19 @@
               @click="$emit('route', { name: 'Edit', props: { lineItem, currencyCode: cart && cart.currency } })"
             />
             <Offers
+              :line-items="lineItems"
               :cart-token="cart.token"
-              :currency-code="cart && cart.currency"
-              :line-items-as-product-ids="lineItems.map(item => formatter.toGid('Product', item.product_id))"
+              :cross-sells="crossSells"
+              :progress-bars="progressBars"
               :subtotal="cart.total_price / 100"
+              :currency-code="cart && cart.currency"
               @route="$emit('route', $event)"
             />
           </div>
         </Scroller>
       </Fade>
       <Fade>
-        <div v-if="cart" class="grid flex-shrink-0 gap-5 p-6 border-t border-gray-300 border-dashed bg-gray">
+        <div v-if="cart && offersLoaded" class="grid flex-shrink-0 gap-5 p-6 border-t border-gray-300 border-dashed bg-gray">
           <template v-if="lineItems.length">
             <Balance :subtotal="cart && formatter.currency(cart.total_price / 100, cart.currency)" />
             <Button :text="$copy.checkoutButton" :link="`${parentOrigin}/checkout`" class="w-full" />
@@ -45,8 +51,10 @@
 </template>
 
 <script lang="ts">
+import Bag from '@/icons/Bag.vue'
 import { AjaxCart } from '@/types/ajaxApi'
 import Fade from '@/components/Fade/Fade.vue'
+import useOffers from '@/composables/useOffers'
 import Header from '@/components/Header/Header.vue'
 import Button from '@/components/Button/Button.vue'
 import Offers from '@/components/Offers/Offers.vue'
@@ -60,14 +68,15 @@ import { computed, defineComponent, PropType, ref } from 'vue'
 import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
 export default defineComponent({
   components: {
+    Bag,
+    Fade,
     Header,
     Button,
     Balance,
     Offers,
     Scroller,
     LineItem,
-    LoaderCard,
-    Fade
+    LoaderCard
   },
   props: {
     initialCart: {
@@ -79,11 +88,12 @@ export default defineComponent({
     const { formatter } = useFormatter()
     const parentOrigin = getParentOrigin()
     const { parentFrame } = useParentFrame()
+    const { crossSells, progressBars, loaded: offersLoaded } = useOffers()
     const cart = ref((props.initialCart || null) as null | AjaxCart)
     const lineItems = computed(() => cart.value?.items || [])
     const fetchCart = async () => (cart.value = await parentFrame.value.getCart())
     if (!cart.value) fetchCart()
-    return { cart, lineItems, formatter, parentOrigin, handleClose: parentFrame.value.close }
+    return { cart, lineItems, crossSells, progressBars, formatter, parentOrigin, offersLoaded, handleClose: parentFrame.value.close }
   }
 })
 </script>

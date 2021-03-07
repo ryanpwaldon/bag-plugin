@@ -1,10 +1,6 @@
 <template>
   <Fade>
     <div class="space-y-6" v-if="filteredCrossSells.length || progressBars.length">
-      <!-- <div v-if="!lineItems.length" class="flex flex-col items-center justify-center w-full h-full space-y-2 text-sm text-gray-500">
-        <Bag class="text-gray-400" />
-        <span>Your cart is empty</span>
-      </div> -->
       <p class="z-20 font-medium leading-6 text-gray-900 transition ease-in-out pointer-events-none" v-if="lineItemsAsProductIds.length">
         {{ $copy.offersTitle }}
       </p>
@@ -50,8 +46,9 @@
 <script lang="ts">
 import Fade from '@/components/Fade/Fade.vue'
 import intersection from 'lodash/intersection'
+import { AjaxLineItem } from '@/types/ajaxApi'
 import { defineComponent, PropType } from 'vue'
-import useOffers from '@/composables/useOffers'
+import useFormatter from '@/composables/useFormatter'
 import CrossSell from '@/components/CrossSell/CrossSell.vue'
 import ProgressBar from '@/components/ProgressBar/ProgressBar.vue'
 import { CrossSell as CrossSellType } from '@/services/api/services/crossSellService'
@@ -63,8 +60,16 @@ export default defineComponent({
     Fade
   },
   props: {
-    lineItemsAsProductIds: {
-      type: Array as PropType<string[]>,
+    crossSells: {
+      type: Array as PropType<CrossSellType[]>,
+      required: true
+    },
+    progressBars: {
+      type: Array as PropType<ProgressBarType[]>,
+      required: true
+    },
+    lineItems: {
+      type: Array as PropType<AjaxLineItem[]>,
       required: true
     },
     cartToken: {
@@ -81,11 +86,13 @@ export default defineComponent({
     }
   },
   setup() {
-    const { crossSells, progressBars } = useOffers()
-    console.log(progressBars)
-    return { crossSells, progressBars }
+    const { formatter } = useFormatter()
+    return { formatter }
   },
   computed: {
+    lineItemsAsProductIds(): string[] {
+      return this.lineItems.map(item => this.formatter.toGid('Product', item.product_id))
+    },
     filteredCrossSells(): CrossSellType[] {
       return this.crossSells.filter(
         item => intersection(this.lineItemsAsProductIds, item.triggerProductIds).length && !this.lineItemsAsProductIds.includes(item.productId)

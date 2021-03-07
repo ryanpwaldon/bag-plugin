@@ -12,9 +12,9 @@
         </div>
       </div>
       <p class="flex mt-1 text-xs">
+        <span v-if="cartEmpty || (goalReached && !completionMessage)" class="text-gray-500">Spend more than {{ goalFormatted }}</span>
         <span v-if="goalReached && completionMessage" class="text-gray-500">{{ completionMessage }}</span>
-        <span v-else-if="!subtotal" class="text-gray-500">Spend more than {{ goalFormatted }}</span>
-        <span v-else class="text-gray-500">You're only {{ remainingSpendFormatted }} away</span>
+        <span v-if="!cartEmpty && !goalReached" class="text-gray-500">You're only {{ remainingSpendFormatted }} away</span>
       </p>
       <div v-if="!goalReached" class="w-full h-4 mt-2 rounded-sm bg-gradient-to-r from-gray-100 to-gray-200">
         <div class="relative h-full rounded-sm from-gray-500 to-gray-800 bg-gradient-to-r animate-pulse" :style="{ width: progressFormatted }" />
@@ -27,9 +27,14 @@
 import { defineComponent } from 'vue'
 import Check from '@/icons/Check.vue'
 import useFormatter from '@/composables/useFormatter'
+import eventService from '@/services/api/services/eventService'
 export default defineComponent({
   components: { Check },
   props: {
+    id: {
+      type: String,
+      required: true
+    },
     title: {
       type: String,
       required: true
@@ -52,14 +57,25 @@ export default defineComponent({
     },
     completionMessage: {
       type: String,
+      required: false
+    },
+    cartToken: {
+      type: String,
       required: true
     }
   },
-  setup() {
+  setup(props) {
+    eventService.createProgressBarImpression({
+      cartToken: props.cartToken,
+      progressBar: props.id
+    })
     const { formatter } = useFormatter()
     return { formatter }
   },
   computed: {
+    cartEmpty(): boolean {
+      return this.subtotal === 0
+    },
     goalFormatted(): string {
       return this.formatter.currency(this.goal, this.currencyCode)
     },
