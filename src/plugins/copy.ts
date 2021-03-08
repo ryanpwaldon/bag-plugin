@@ -1,8 +1,10 @@
+/* eslint @typescript-eslint/no-explicit-any: 0 */
+
 import { App } from 'vue'
 import getLocale from '@/utils/getLocale'
 import translations from '@/translations'
 
-export type Copy = Record<keyof typeof translations, string>
+export type Copy = Record<keyof typeof translations, any>
 
 const createCopyObject = () => {
   const locale = getLocale()

@@ -11,13 +11,9 @@ export default {
     en: 'items',
     fr: 'articles'
   },
-  emptyCartLine1: {
+  emptyCart: {
     en: 'Your cart is empty',
     fr: 'Votre panier est vide'
-  },
-  emptyCartLine2: {
-    en: 'Add some items to check out',
-    fr: 'Ajouter des articles à la caisse'
   },
   offersTitle: {
     en: 'Offers',
@@ -33,7 +29,7 @@ export default {
   },
   subtotal: {
     en: 'Subtotal',
-    fr: 'Total'
+    fr: 'Sous-total'
   },
   continueShoppingButton: {
     en: 'Continue shopping',
@@ -82,5 +78,17 @@ export default {
   cancelButton: {
     en: 'Cancel',
     fr: 'Annuler'
+  },
+  complete: {
+    en: 'Complete',
+    fr: 'Complété'
+  },
+  spendMoreThan: {
+    en: 'Spend more than',
+    fr: 'Dépensez plus de'
+  },
+  amountRemaining: {
+    en: (value: string) => `You're only ${value} away`,
+    fr: (value: string) => `Plus que ${value} pour profiter`
   }
 }

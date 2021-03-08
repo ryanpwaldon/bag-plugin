@@ -11,7 +11,7 @@
         <Scroller v-if="cart && offersLoaded" class="flex-1 h-full">
           <div v-if="!lineItems.length && !progressBars.length" class="flex flex-col items-center justify-center w-full h-full space-y-2">
             <Bag class="text-gray-300 w-9" />
-            <span class="text-sm text-gray-500">Your cart is empty</span>
+            <span class="text-sm text-gray-500">{{ $copy.emptyCart }}</span>
           </div>
           <div class="space-y-6">
             <LineItem
