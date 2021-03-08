@@ -8,9 +8,15 @@ const progressBars: Ref<ProgressBar[]> = ref([])
 const loaded = ref(false)
 
 const fetchOffers = async () => {
-  const offers = await pluginService.findOffers()
-  crossSells.value = offers.crossSells
-  progressBars.value = offers.progressBars
+  try {
+    const offers = await pluginService.findOffers()
+    crossSells.value = offers.crossSells
+    progressBars.value = offers.progressBars
+  } catch (err) {
+    console.log(err)
+    crossSells.value = []
+    progressBars.value = []
+  }
   loaded.value = true
 }
 
