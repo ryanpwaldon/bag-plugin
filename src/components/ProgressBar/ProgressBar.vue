@@ -3,8 +3,8 @@
     class="flex flex-shrink-0 w-full overflow-hidden bg-white rounded shadow pointer-events-none focus-visible:outline-none whitespace-nowrap focus-visible:ring-2 focus-visible:ring-blue-500 group focus:outline-none"
   >
     <div class="flex-shrink-0 w-24 h-24 bg-center bg-cover" :style="{ backgroundImage: `url(${image})` }" />
-    <div class="flex flex-col items-start justify-center w-full p-4 overflow-hidden">
-      <div class="flex justify-between w-full text-sm font-medium text-gray-900">
+    <div class="flex flex-col items-start justify-center w-full px-4 overflow-hidden">
+      <div class="flex items-baseline justify-between w-full text-sm font-medium text-gray-900">
         <p>{{ title }}</p>
         <div v-if="goalReached" class="flex items-center space-x-1">
           <p>{{ $copy.complete }}</p>

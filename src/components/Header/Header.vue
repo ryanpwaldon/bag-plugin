@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-between flex-shrink-0 p-6 border-b border-gray-300 border-dashed select-none">
+  <div class="flex items-center justify-between flex-shrink-0 p-5 border-b border-gray-300 border-dashed select-none xs:p-6">
     <div class="text-lg font-medium leading-6 text-gray-900">{{ title }}</div>
     <transition enter-from-class="opacity-0" enter-to-class="opacity-100">
       <div v-if="meta" class="ml-auto mr-4 text-sm leading-5 text-gray-500 transition duration-150 ease-in-out">{{ meta }}</div>

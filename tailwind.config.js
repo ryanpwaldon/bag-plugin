@@ -6,6 +6,9 @@ module.exports = {
   plugins: [require('@tailwindcss/forms')],
   theme: {
     extend: {
+      screens: {
+        xs: '400px'
+      },
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans]
       },

@@ -1,6 +1,6 @@
 <template>
   <Fade>
-    <div class="space-y-6" v-if="filteredCrossSells.length || progressBars.length">
+    <div class="space-y-5 xs:space-y-6" v-if="filteredCrossSells.length || progressBars.length">
       <p class="z-20 font-medium leading-6 text-gray-900 transition ease-in-out pointer-events-none" v-if="lineItemsAsProductIds.length">
         {{ $copy.offersTitle }}
       </p>

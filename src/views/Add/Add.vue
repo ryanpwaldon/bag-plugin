@@ -10,7 +10,7 @@
         leave-from-class="opacity-100"
         leave-to-class="opacity-0"
       >
-        <div class="space-y-6" v-if="product">
+        <div class="space-y-5 xs:space-y-6" v-if="product">
           <LineItem
             :title="product.title"
             :image="lineItemImage"
@@ -36,7 +36,7 @@
         <LoaderCard class="absolute top-0 left-0" v-else />
       </transition>
     </Scroller>
-    <div class="grid flex-shrink-0 gap-4 p-6 mt-auto bg-gray-100 border-t border-gray-300 border-dashed">
+    <div class="grid flex-shrink-0 gap-4 p-5 mt-auto bg-gray-100 border-t border-gray-300 border-dashed xs:p-6">
       <Button type="submit" :text="$copy.addToCartButton" />
       <Button :text="$copy.cancelButton" theme="white" @click="$emit('route', { name: 'Home' })" />
     </div>

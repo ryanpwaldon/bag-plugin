@@ -3,7 +3,7 @@
     <Header :title="$copy.title" :meta="cart && `${cart.item_count} ${cart.item_count === 1 ? $copy.itemSingular : $copy.itemPlural}`" />
     <div class="relative flex flex-col flex-1 min-h-0">
       <Fade>
-        <div v-if="!cart || !offersLoaded" class="absolute top-0 left-0 w-full p-6">
+        <div v-if="!cart || !offersLoaded" class="absolute top-0 left-0 w-full p-5 xs:p-6">
           <LoaderCard />
         </div>
       </Fade>
@@ -13,7 +13,7 @@
             <Bag class="text-gray-300 w-9" />
             <span class="text-sm text-gray-500">{{ $copy.emptyCart }}</span>
           </div>
-          <div class="space-y-6">
+          <div class="space-y-5 xs:space-y-6">
             <LineItem
               :key="i"
               v-for="(lineItem, i) in lineItems"
@@ -38,7 +38,7 @@
         </Scroller>
       </Fade>
       <Fade>
-        <div v-if="cart && offersLoaded" class="grid flex-shrink-0 gap-5 p-6 border-t border-gray-300 border-dashed bg-gray">
+        <div v-if="cart && offersLoaded" class="grid flex-shrink-0 gap-4 p-5 border-t border-gray-300 border-dashed xs:p-6 bg-gray">
           <template v-if="lineItems.length">
             <Balance :subtotal="cart && formatter.currency(cart.total_price / 100, cart.currency)" />
             <Button :text="$copy.checkoutButton" :link="`${parentOrigin}/checkout`" class="w-full" />

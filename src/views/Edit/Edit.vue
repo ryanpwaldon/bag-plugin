@@ -3,7 +3,7 @@
     <Header :title="$copy.editTitle" :close="returnToCart" />
     <Scroller>
       <Fade>
-        <div class="space-y-6" v-if="product">
+        <div class="space-y-5 xs:space-y-6" v-if="product">
           <LineItem
             :title="lineItem.product_title"
             :quantity="fields.quantity.value.value"
@@ -33,7 +33,7 @@
         <LoaderCard class="absolute top-0 left-0" v-else />
       </Fade>
     </Scroller>
-    <div class="grid flex-shrink-0 gap-4 p-6 mt-auto bg-gray-100 border-t border-gray-300 border-dashed">
+    <div class="grid flex-shrink-0 gap-4 p-5 mt-auto bg-gray-100 border-t border-gray-300 border-dashed xs:p-6">
       <Button type="submit" :text="$copy.saveButton" />
       <Button :text="$copy.backToCartButton" theme="white" @click="$emit('route', { name: 'Home' })" />
     </div>

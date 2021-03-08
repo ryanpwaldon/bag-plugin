@@ -18,7 +18,7 @@
         :value="modelValue"
         :placeholder="placeholder"
         @input="this.update($event.target.value)"
-        class="flex-1 min-w-0 -mx-px text-center focus:z-10 sm:text-sm focus:outline-none"
+        class="flex-1 min-w-0 -mx-px text-sm text-center focus:z-10 focus:outline-none"
         :class="
           error
             ? 'text-red-900 placeholder-red-300 border-red-300 focus-visible:ring-red-500 focus-visible:border-red-500 z-10'
