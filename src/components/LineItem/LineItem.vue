@@ -4,7 +4,7 @@
     v-bind="editMode ? { href: link, target: '_parent' } : {}"
     class="flex flex-shrink-0 w-full overflow-hidden bg-white rounded shadow focus-visible:outline-none whitespace-nowrap focus-visible:ring-2 focus-visible:ring-blue-500 group focus:outline-none"
   >
-    <div class="flex-shrink-0 w-24 h-24 bg-center bg-cover" :style="{ backgroundImage: `url(${image})` }" />
+    <div class="flex-shrink-0 w-24 h-24 bg-center bg-cover" :style="{ backgroundImage: `url(${resizeImage(image, 200)})` }" />
     <div class="flex self-center justify-between w-full p-4 overflow-hidden text-xs leading-4 text-gray-500">
       <div class="relative flex flex-col w-full space-y-1 overflow-hidden text-left">
         <p class="text-sm font-medium leading-5 text-gray-900 transition duration-150 ease-in-out group-hover:text-gray-500">
@@ -33,6 +33,7 @@
 
 <script lang="ts">
 import getParentOrigin from '@/utils/getParentOrigin'
+import useResizeImage from '@/composables/useResizeImage'
 import { defineComponent, PropType, computed } from 'vue'
 import GradientSpacer from '../GradientSpacer/GradientSpacer.vue'
 
@@ -84,9 +85,10 @@ export default defineComponent({
     }
   },
   setup(props) {
+    const resizeImage = useResizeImage()
     const parentOrigin = getParentOrigin()
     const link = computed(() => `${parentOrigin}${props.relativeLink}`)
-    return { link }
+    return { link, resizeImage }
   }
 })
 </script>
