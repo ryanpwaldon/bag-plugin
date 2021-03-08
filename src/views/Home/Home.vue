@@ -9,7 +9,10 @@
       </Fade>
       <Fade>
         <Scroller v-if="cart && offersLoaded" class="flex-1 h-full">
-          <div v-if="!lineItems.length && !progressBars.length" class="flex flex-col items-center justify-center w-full h-full space-y-2">
+          <div
+            v-if="!lineItems.length && !progressBars.length"
+            class="absolute top-0 left-0 flex flex-col items-center justify-center w-full h-full space-y-2"
+          >
             <Bag class="text-gray-300 w-9" />
             <span class="text-sm text-gray-500">{{ $copy.emptyCart }}</span>
           </div>
