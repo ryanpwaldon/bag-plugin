@@ -4,20 +4,21 @@
   >
     <div class="flex-shrink-0 w-24 h-24 bg-center bg-cover" :style="{ backgroundImage: `url(${image})` }" />
     <div class="flex flex-col items-start justify-center w-full px-4 overflow-hidden">
-      <div class="flex items-baseline justify-between w-full text-sm font-medium text-gray-900">
-        <p>{{ title }}</p>
-        <div v-if="goalReached" class="flex items-center space-x-1">
-          <p>{{ $copy.complete }}</p>
-          <Check />
-        </div>
-      </div>
+      <p class="text-sm font-medium text-gray-900">{{ title }}</p>
       <p class="flex mt-1 text-xs">
         <span v-if="cartEmpty || (goalReached && !completionMessage)" class="text-gray-500">{{ $copy.spendMoreThan }} {{ goalFormatted }}</span>
         <span v-if="goalReached && completionMessage" class="text-gray-500">{{ completionMessage }}</span>
         <span v-if="!cartEmpty && !goalReached" class="text-gray-500">{{ $copy.amountRemaining(remainingSpendFormatted) }}</span>
       </p>
-      <div v-if="!goalReached" class="w-full h-4 mt-2 rounded-sm bg-gradient-to-r from-gray-100 to-gray-200">
-        <div class="relative h-full rounded-sm from-gray-500 to-gray-800 bg-gradient-to-r animate-pulse" :style="{ width: progressFormatted }" />
+      <div class="flex items-center w-full mt-2 space-x-2">
+        <div class="relative flex-1 h-4 rounded-sm bg-gradient-to-r from-gray-100 to-gray-200">
+          <div
+            class="h-full rounded-sm from-gray-500 to-gray-800 bg-gradient-to-r"
+            :class="!goalReached && 'animate-pulse'"
+            :style="{ width: progressFormatted }"
+          />
+        </div>
+        <Check v-if="goalReached" class="flex-shrink-0 w-4" />
       </div>
     </div>
   </div>
