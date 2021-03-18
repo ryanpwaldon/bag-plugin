@@ -11,6 +11,7 @@ export interface Offers {
 const attachProductsToCrossSells = async (crossSells: CrossSell[]): Promise<CrossSell[]> => {
   const { parentFrame } = useParentFrame()
   await Promise.all(crossSells.map(async crossSell => (crossSell.product = await parentFrame.value.getProductById(crossSell.productId))))
+  crossSells = crossSells.filter(crossSell => crossSell.product)
   return crossSells
 }
 
