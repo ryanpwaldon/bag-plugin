@@ -1,7 +1,7 @@
 <template>
   <div ref="container" class="relative flex items-end justify-end w-full h-full antialiased sm:p-3">
     <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50" @click="handleBackdropClick" />
-    <div ref="cart" class="relative w-full h-full overflow-hidden bg-gray-100 sm:shadow-lg sm:w-130 sm:rounded">
+    <div ref="cart" class="relative w-full h-full overflow-hidden bg-gray-100 sm:shadow-lg sm:w-130 sm:rounded" style="will-change: transform;">
       <slot v-if="open" />
     </div>
   </div>
