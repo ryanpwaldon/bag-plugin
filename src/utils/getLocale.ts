@@ -1,2 +1,7 @@
 const defaultLocale = 'en'
-export default () => new URLSearchParams(window.location.search).get('locale') || defaultLocale
+const supportedLocales = ['en', 'fr', 'el']
+export default () => {
+  const locale = new URLSearchParams(window.location.search).get('locale')
+  if (!locale || !supportedLocales.includes(locale)) return defaultLocale
+  return locale
+}

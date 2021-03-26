@@ -6,7 +6,7 @@
     <div class="flex flex-col items-start justify-center w-full px-4 overflow-hidden">
       <p class="text-sm font-medium text-gray-900">{{ title }}</p>
       <p class="flex mt-1 text-xs">
-        <span v-if="cartEmpty || (goalReached && !completionMessage)" class="text-gray-500">{{ $copy.spendMoreThan }} {{ goalFormatted }}</span>
+        <span v-if="cartEmpty || (goalReached && !completionMessage)" class="text-gray-500">{{ $copy.spendMoreThan(goalFormatted) }}</span>
         <span v-if="goalReached && completionMessage" class="text-gray-500">{{ completionMessage }}</span>
         <span v-if="!cartEmpty && !goalReached" class="text-gray-500">{{ $copy.amountRemaining(remainingSpendFormatted) }}</span>
       </p>

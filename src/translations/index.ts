@@ -1,94 +1,112 @@
 export default {
   title: {
     en: 'Your cart',
-    fr: 'Panier'
+    fr: 'Panier',
+    el: 'Καλάθι'
   },
   itemSingular: {
-    en: 'item',
-    fr: 'article'
+    en: '1 item',
+    fr: '1 article',
+    el: '1 τεμάχιο'
   },
   itemPlural: {
-    en: 'items',
-    fr: 'articles'
+    en: (quantity: string | number) => `${quantity} items`,
+    fr: (quantity: string | number) => `${quantity} articles`,
+    el: (quantity: string | number) => `${quantity} αντικείμενα`
   },
   emptyCart: {
     en: 'Your cart is empty',
-    fr: 'Votre panier est vide'
+    fr: 'Votre panier est vide',
+    el: 'Το καλάθι σας είναι άδειο'
   },
   offersTitle: {
     en: 'Offers',
-    fr: 'Des offres'
+    fr: 'Des offres',
+    el: 'προσφορές'
   },
   quantity: {
     en: 'Quantity',
-    fr: 'Quantité'
+    fr: 'Quantité',
+    el: 'Ποσότητα'
   },
   edit: {
     en: 'Edit',
-    fr: 'Éditer'
+    fr: 'Éditer',
+    el: 'επεξεργασία'
   },
   subtotal: {
     en: 'Subtotal',
-    fr: 'Sous-total'
+    fr: 'Sous-total',
+    el: 'Υποσύνολο'
   },
   continueShoppingButton: {
     en: 'Continue shopping',
-    fr: 'Continuer vos achats'
+    fr: 'Continuer vos achats',
+    el: 'Συνεχίστε τις αγορές'
   },
   checkoutButton: {
     en: 'Checkout',
-    fr: 'Payer'
+    fr: 'Payer',
+    el: 'Ολοκληρωση αγορας'
   },
   editTitle: {
     en: 'Edit item',
-    fr: `Modifier le produit`
+    fr: `Modifier le produit`,
+    el: 'επεξεργασία αντικειμένου'
   },
   addToCartTitle: {
     en: 'Add to cart',
-    fr: 'Ajouter au panier'
+    fr: 'Ajouter au panier',
+    el: 'Προσθήκη στο καλάθι'
   },
   viewItem: {
     en: 'View item',
-    fr: `Regarder le produit`
+    fr: `Regarder le produit`,
+    el: 'προβολή αντικειμένου'
   },
   type: {
     en: 'Type',
-    fr: 'Modèle'
+    fr: 'Modèle',
+    el: 'Μοντέλο'
   },
   remove: {
     en: 'Remove',
-    fr: 'Supprimer'
+    fr: 'Supprimer',
+    el: 'Αφαίρεση'
   },
   removeButton: {
     en: 'Remove from cart',
-    fr: 'Retirer du panier'
+    fr: 'Retirer du panier',
+    el: 'αφαιρέστε από το καλάθι'
   },
   saveButton: {
     en: 'Save',
-    fr: 'Enregistrer'
+    fr: 'Enregistrer',
+    el: 'αποθήκευσε τις αλλαγές'
   },
   backToCartButton: {
     en: 'Back to cart',
-    fr: 'Retour au panier'
+    fr: 'Retour au panier',
+    el: 'Επιστροφή στο καλάθι'
   },
   addToCartButton: {
     en: 'Add to cart',
-    fr: 'Ajouter au panier'
+    fr: 'Ajouter au panier',
+    el: 'Προσθήκη στο καλάθι'
   },
   cancelButton: {
     en: 'Cancel',
-    fr: 'Annuler'
-  },
-  complete: {
-    en: 'Complete',
-    fr: 'Complété'
+    fr: 'Annuler',
+    el: 'Ματαίωση'
   },
   spendMoreThan: {
-    en: 'Spend more than',
-    fr: 'Dépensez plus de'
+    en: (value: string) => `Spend more than ${value}`,
+    fr: (value: string) => `Dépensez plus de ${value}`,
+    el: (value: string) => `Περάστε περισσότερα από ${value}`
   },
   amountRemaining: {
     en: (value: string) => `You're only ${value} away`,
-    fr: (value: string) => `Plus que ${value} pour profiter`
+    fr: (value: string) => `Plus que ${value} pour profiter`,
+    el: (value: string) => `Είστε μόνο ${value} μακριά`
   }
 }

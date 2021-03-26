@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col w-full h-full">
-    <Header :title="$copy.title" :meta="cart && `${cart.item_count} ${cart.item_count === 1 ? $copy.itemSingular : $copy.itemPlural}`" />
+    <Header :title="$copy.title" :meta="itemsCopy" />
     <div class="relative flex flex-col flex-1 min-h-0">
       <Fade>
         <div v-if="!cart || !offersLoaded" class="absolute top-0 left-0 w-full p-5 xs:p-6">
@@ -97,6 +97,13 @@ export default defineComponent({
     const fetchCart = async () => (cart.value = await parentFrame.value.getCart())
     if (!cart.value) fetchCart()
     return { cart, lineItems, crossSells, progressBars, formatter, parentOrigin, offersLoaded, handleClose: parentFrame.value.close }
+  },
+  computed: {
+    itemsCopy(): string {
+      if (!this.cart) return ''
+      if (this.cart.item_count === 1) return this.$copy.itemSingular
+      return this.$copy.itemPlural(this.cart.item_count)
+    }
   }
 })
 </script>
