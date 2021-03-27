@@ -2,7 +2,7 @@ export default {
   title: {
     en: 'Your cart',
     fr: 'Panier',
-    el: 'Καλάθι'
+    el: 'Το καλάθι σας'
   },
   itemSingular: {
     en: '1 item',
@@ -12,7 +12,7 @@ export default {
   itemPlural: {
     en: (quantity: string | number) => `${quantity} items`,
     fr: (quantity: string | number) => `${quantity} articles`,
-    el: (quantity: string | number) => `${quantity} αντικείμενα`
+    el: (quantity: string | number) => `${quantity} τεμάχια`
   },
   emptyCart: {
     en: 'Your cart is empty',
@@ -22,7 +22,7 @@ export default {
   offersTitle: {
     en: 'Offers',
     fr: 'Des offres',
-    el: 'προσφορές'
+    el: 'Προσφορές'
   },
   quantity: {
     en: 'Quantity',
@@ -32,7 +32,7 @@ export default {
   edit: {
     en: 'Edit',
     fr: 'Éditer',
-    el: 'επεξεργασία'
+    el: 'Επεξεργασία'
   },
   subtotal: {
     en: 'Subtotal',
@@ -42,17 +42,17 @@ export default {
   continueShoppingButton: {
     en: 'Continue shopping',
     fr: 'Continuer vos achats',
-    el: 'Συνεχίστε τις αγορές'
+    el: 'Συνεχίστε τις αγορές σας'
   },
   checkoutButton: {
     en: 'Checkout',
     fr: 'Payer',
-    el: 'Ολοκληρωση αγορας'
+    el: 'ΟΛΟΚΛΗΡΩΣΗ ΑΓΟΡΑΣ'
   },
   editTitle: {
     en: 'Edit item',
     fr: `Modifier le produit`,
-    el: 'επεξεργασία αντικειμένου'
+    el: 'Επεξεργασία'
   },
   addToCartTitle: {
     en: 'Add to cart',
@@ -62,12 +62,12 @@ export default {
   viewItem: {
     en: 'View item',
     fr: `Regarder le produit`,
-    el: 'προβολή αντικειμένου'
+    el: 'Προβολή'
   },
   type: {
     en: 'Type',
     fr: 'Modèle',
-    el: 'Μοντέλο'
+    el: 'Επιλέξτε Χρώμα & Μέγεθος'
   },
   remove: {
     en: 'Remove',
@@ -77,12 +77,12 @@ export default {
   removeButton: {
     en: 'Remove from cart',
     fr: 'Retirer du panier',
-    el: 'αφαιρέστε από το καλάθι'
+    el: 'Αφαίρεση από το Καλάθι'
   },
   saveButton: {
     en: 'Save',
     fr: 'Enregistrer',
-    el: 'αποθήκευσε τις αλλαγές'
+    el: 'Αποθήκευση Αλλαγών'
   },
   backToCartButton: {
     en: 'Back to cart',
@@ -97,12 +97,12 @@ export default {
   cancelButton: {
     en: 'Cancel',
     fr: 'Annuler',
-    el: 'Ματαίωση'
+    el: 'Διαγραφή'
   },
   spendMoreThan: {
     en: (value: string) => `Spend more than ${value}`,
     fr: (value: string) => `Dépensez plus de ${value}`,
-    el: (value: string) => `Περάστε περισσότερα από ${value}`
+    el: (value: string) => `Με αγορές άνω των ${value}`
   },
   amountRemaining: {
     en: (value: string) => `You're only ${value} away`,
