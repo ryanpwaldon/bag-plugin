@@ -38,7 +38,7 @@ export default defineComponent({
     async handleOpen() {
       this.open = true
       const tl = anime.timeline()
-      const screens = this.screens()
+      const screens = await this.screens()
       const { container, cart } = this.$refs
       tl.add({ targets: container, easing: 'easeInOutQuad', duration: 200, opacity: [0, 1] })
       if (screens.includes('sm')) tl.add({ targets: cart, duration: 200, translateX: [20, 0], easing: 'easeOutQuad' }, 0)

@@ -26,6 +26,7 @@ class App {
     addToCart: this.addToCart.bind(this),
     getProductById: this.getProductById.bind(this),
     getProductByHandle: this.getProductByHandle.bind(this),
+    getWindowInnerWidth: this.getWindowInnerWidth.bind(this),
     changeLineItemQuantity: this.changeLineItemQuantity.bind(this)
   }
 
@@ -79,6 +80,10 @@ class App {
     await this.childFrame.close()
     this.frame.style.display = 'none'
     this.transitioning = false
+  }
+
+  getWindowInnerWidth() {
+    return window.innerWidth
   }
 
   async getCart(): Promise<AjaxCart> {
