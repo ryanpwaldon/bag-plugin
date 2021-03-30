@@ -32,7 +32,7 @@ class App {
   }
 
   constructor() {
-    this.logger('Start constructor called.')
+    this.logger('Script constructor called.')
     this.init()
   }
 
@@ -51,6 +51,7 @@ class App {
     document.body.appendChild(this.frame)
     this.childFrame = await this.connect()
     this.cartReady = true
+    this.logger('Cart ready.')
   }
 
   createFrame(): HTMLIFrameElement {
