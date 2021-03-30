@@ -3,28 +3,32 @@ import { createApp } from 'vue'
 import copy from '@/plugins/copy'
 import '@/assets/styles/index.css'
 import analytics from 'vue-gtag-next'
-import * as Sentry from '@sentry/vue'
 import { Integrations } from '@sentry/tracing'
 import useOffers from '@/composables/useOffers'
-import 'focus-visible/dist/focus-visible.min.js'
 import { intlPolyfill } from '@/polyfills/intl'
+import 'focus-visible/dist/focus-visible.min.js'
+import { init as sentryInit, captureException, setTag } from '@sentry/browser'
 
 intlPolyfill()
 
-Sentry.init({
-  tracesSampleRate: 1.0,
+const app = createApp(App)
+  .use(copy)
+  .use(analytics, { property: { id: process.env.VUE_APP_GA_MEASUREMENT_ID } })
+
+app.config.errorHandler = (error, _, info) => {
+  setTag('info', info)
+  captureException(error)
+}
+
+sentryInit({
   autoSessionTracking: true,
   dsn: process.env.VUE_APP_SENTRY_DSN,
   environment: process.env.VUE_APP_ENV,
   integrations: [new Integrations.BrowserTracing()],
-  logErrors: process.env.VUE_APP_ENV !== 'production'
+  logLevel: process.env.VUE_APP_ENV === 'production' ? 0 : 3,
+  tracesSampleRate: process.env.VUE_APP_ENV === 'production' ? 0.25 : 1
 })
 
-console.log('Instantiating cart.')
-createApp(App)
-  .use(copy)
-  .use(analytics, { property: { id: process.env.VUE_APP_GA_MEASUREMENT_ID } })
-  .mount('#app')
+app.mount('#app')
 
-// fetch offers
 useOffers().fetchOffers()
