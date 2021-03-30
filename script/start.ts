@@ -5,7 +5,7 @@ import { parseGid } from '@shopify/admin-graphql-api-utilities'
 import { ChildMethods } from '../src/composables/useParentFrame'
 import { AjaxCart, AjaxProduct, AjaxLineItem } from '../src/types/ajaxApi'
 
-const querystring = (params: Record<string, string | undefined>) => {
+const querystring = (params: Record<string, string | boolean | number | undefined>) => {
   return Object.entries(params).reduce((qs, [key, value]) => (value ? (qs += `${qs && '&'}${key}=${encodeURIComponent(value)}`) : qs), '')
 }
 
@@ -47,9 +47,11 @@ class App {
   createFrame(): HTMLIFrameElement {
     const frame = document.createElement('iframe')
     frame.src = `${process.env.VUE_APP_PLUGIN_URL}?${querystring({
+      locale: window.Shopify.locale,
       shopOrigin: window.Shopify.shop,
       parentOrigin: window.location.origin,
-      locale: window.Shopify.locale
+      navigationStart: window.performance.timing.navigationStart,
+      debug: new URLSearchParams(window.location.search).get('debug') === 'true'
     })}`
     frame.style.display = 'none'
     frame.style.position = 'fixed'
