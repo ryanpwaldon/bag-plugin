@@ -112,7 +112,7 @@ export default defineComponent({
     }
   },
   async created() {
-    this.fields.variantId.value.value = this.product.variants[0].id.toString()
+    this.fields.variantId.value.value = this.product.variants.find(variant => variant.available)?.id.toString()
   },
   computed: {
     lineItemImage(): string | null {
