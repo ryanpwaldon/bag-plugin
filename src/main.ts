@@ -7,6 +7,9 @@ import * as Sentry from '@sentry/vue'
 import { Integrations } from '@sentry/tracing'
 import useOffers from '@/composables/useOffers'
 import 'focus-visible/dist/focus-visible.min.js'
+import { intlPolyfill } from '@/polyfills/intl'
+
+intlPolyfill()
 
 Sentry.init({
   tracesSampleRate: 1.0,
