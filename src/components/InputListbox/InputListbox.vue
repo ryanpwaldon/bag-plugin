@@ -49,7 +49,7 @@
                         clip-rule="evenodd"
                       />
                     </svg>
-                    <Badge v-if="!option.disabled && !selected" :text="option.meta" :theme="active ? 'white' : 'gray'" />
+                    <Badge v-if="!selected" :text="option.meta" :theme="active ? 'white' : 'gray'" />
                   </span>
                 </div>
               </ListboxOption>

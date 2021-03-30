@@ -139,7 +139,7 @@ export default defineComponent({
       return this.product.variants.map(item => ({
         id: item.id.toString(),
         title: item.title,
-        meta: this.formatter.currency(item.price / 100, this.currencyCode),
+        meta: item.available ? this.formatter.currency(item.price / 100, this.currencyCode) : 'Sold out',
         disabled: !item.available
       }))
     }
