@@ -47,8 +47,7 @@ import { defineComponent, PropType } from 'vue'
 import useFormatter from '@/composables/useFormatter'
 import CrossSell from '@/components/CrossSell/CrossSell.vue'
 import ProgressBar from '@/components/ProgressBar/ProgressBar.vue'
-import { CrossSell as CrossSellType } from '@/services/api/services/crossSellService'
-import { ProgressBar as ProgressBarType } from '@/services/api/services/progressBarService'
+import { CrossSell as CrossSellType, ProgressBar as ProgressBarType } from '@/types/serverApi'
 export default defineComponent({
   components: {
     CrossSell,

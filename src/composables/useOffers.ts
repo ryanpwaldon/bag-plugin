@@ -1,7 +1,6 @@
 import { Ref, ref } from 'vue'
+import { CrossSell, ProgressBar } from '@/types/serverApi'
 import pluginService from '@/services/api/services/pluginService'
-import { CrossSell } from '@/services/api/services/crossSellService'
-import { ProgressBar } from '@/services/api/services/progressBarService'
 
 const crossSells: Ref<CrossSell[]> = ref([])
 const progressBars: Ref<ProgressBar[]> = ref([])

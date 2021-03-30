@@ -1,16 +1,23 @@
-export interface ServerProduct {
+import { AjaxProduct } from '@/types/ajaxApi'
+
+export type CrossSell = {
+  id: string
+  user: string
+  active: boolean
+  activeFor: number
   title: string
-  handle: string
-  hasOnlyDefaultVariant: boolean
-  featuredImage: { originalSrc: string }
-  variants: { edges: [{ node: ServerVariant }] }
+  subtitle: string
+  triggerProductIds: string[]
+  productId: string
+  product: AjaxProduct
+  createdAt: Date
 }
 
-export interface ServerVariant {
-  legacyResourceId: string
+export type ProgressBar = {
+  id: string
+  active: boolean
   title: string
-  price: number
-  availableForSale: boolean
-  image: { originalSrc: string }
-  selectedOptions: [{ name: string; value: string }]
+  goal: number
+  image: string
+  completionMessage?: string
 }

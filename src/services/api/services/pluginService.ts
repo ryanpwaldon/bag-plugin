@@ -1,7 +1,6 @@
 import useParentFrame from '@/composables/useParentFrame'
 import api from '@/services/api/api'
-import { CrossSell } from '@/services/api/services/crossSellService'
-import { ProgressBar } from '@/services/api/services/progressBarService'
+import { CrossSell, ProgressBar } from '@/types/serverApi'
 
 export interface Offers {
   crossSells: CrossSell[]
