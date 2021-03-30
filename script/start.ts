@@ -17,9 +17,9 @@ const cancelEvent = (e: Event) => {
 class App {
   cartReady = false
   transitioning = false
-  frame = this.createFrame()
   childFrame = {} as ChildMethods
   debug = new URLSearchParams(window.location.search).get('debug') === 'true'
+  frame = this.createFrame()
   parentMethods = {
     open: this.open.bind(this),
     close: this.close.bind(this),
