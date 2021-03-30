@@ -22,7 +22,7 @@
         :subtitle="crossSell.subtitle"
         :product-id="crossSell.productId"
         :image="crossSell.product.featured_image"
-        @click="handleClick(crossSell.productId)"
+        @click="handleClick(crossSell.product)"
         :key="crossSell.id"
       />
       <ProgressBar
@@ -42,7 +42,7 @@
 <script lang="ts">
 import Fade from '@/components/Fade/Fade.vue'
 import intersection from 'lodash/intersection'
-import { AjaxLineItem } from '@/types/ajaxApi'
+import { AjaxLineItem, AjaxProduct } from '@/types/ajaxApi'
 import { defineComponent, PropType } from 'vue'
 import useFormatter from '@/composables/useFormatter'
 import CrossSell from '@/components/CrossSell/CrossSell.vue'
@@ -101,8 +101,8 @@ export default defineComponent({
     }
   },
   methods: {
-    handleClick(productId: string) {
-      this.$emit('route', { name: 'Add', props: { productId, currencyCode: this.currencyCode } })
+    handleClick(product: AjaxProduct) {
+      this.$emit('route', { name: 'Add', props: { product, currencyCode: this.currencyCode } })
     }
   }
 })

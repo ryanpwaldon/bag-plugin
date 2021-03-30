@@ -55,7 +55,7 @@ import InputListbox, { ListboxOption } from '@/components/InputListbox/InputList
 import useFormatter from '@/composables/useFormatter'
 import useForm from '@/composables/useForm'
 import { number, object, string } from 'yup'
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import { AjaxCart, AjaxProduct, AjaxVariant } from '@/types/ajaxApi'
 import useParentFrame from '@/composables/useParentFrame'
 export default defineComponent({
@@ -70,8 +70,8 @@ export default defineComponent({
     InputListbox
   },
   props: {
-    productId: {
-      type: String,
+    product: {
+      type: Object as PropType<AjaxProduct>,
       required: true
     },
     currencyCode: {
@@ -112,12 +112,8 @@ export default defineComponent({
     }
   },
   async created() {
-    this.product = await this.parentFrame.getProductById(this.productId)
     this.fields.variantId.value.value = this.product.variants[0].id.toString()
   },
-  data: () => ({
-    product: null as AjaxProduct | null
-  }),
   computed: {
     lineItemImage(): string | null {
       return this.selectedVariant?.featured_image?.src || this.product?.featured_image || null
