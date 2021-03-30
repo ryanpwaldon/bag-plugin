@@ -17,8 +17,9 @@ const cancelEvent = (e: Event) => {
 class App {
   cartReady = false
   transitioning = false
-  childFrame = {} as ChildMethods
   frame = this.createFrame()
+  childFrame = {} as ChildMethods
+  debug = new URLSearchParams(window.location.search).get('debug') === 'true'
   parentMethods = {
     open: this.open.bind(this),
     close: this.close.bind(this),
@@ -31,11 +32,19 @@ class App {
   }
 
   constructor() {
+    this.logger('Start constructor called.')
     this.init()
   }
 
+  logger(data: any) {
+    if (this.debug) {
+      const timeElapsed = new Date().getTime() - window.performance.timing.navigationStart
+      console.log(`[Bag Script] Time: ${timeElapsed}`)
+      console.log('[Bag Script] Data:', data)
+    }
+  }
+
   async init() {
-    console.log('Cart init.')
     this.overrideCartButtons()
     this.overrideAddToCartSubmit()
     this.overrideAddToCartButtonClicks()
@@ -47,11 +56,11 @@ class App {
   createFrame(): HTMLIFrameElement {
     const frame = document.createElement('iframe')
     frame.src = `${process.env.VUE_APP_PLUGIN_URL}?${querystring({
+      debug: this.debug,
       locale: window.Shopify.locale,
       shopOrigin: window.Shopify.shop,
       parentOrigin: window.location.origin,
-      navigationStart: window.performance.timing.navigationStart,
-      debug: new URLSearchParams(window.location.search).get('debug') === 'true'
+      navigationStart: window.performance.timing.navigationStart
     })}`
     frame.style.display = 'none'
     frame.style.position = 'fixed'
