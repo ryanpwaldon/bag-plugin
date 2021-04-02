@@ -11,8 +11,8 @@
             :options="selectedVariantOptions"
             :hide-options="lineItem.product_has_only_default_variant"
             :price="selectedVariant && formatter.currency((selectedVariant.price / 100) * fields.quantity.value.value, currencyCode)"
-            :relative-link="lineItem.url"
-            edit-mode
+            @click="parentFrame.openRelativeLink(lineItem.url)"
+            :link-copy="$copy.viewItem"
           />
           <Card>
             <InputListbox

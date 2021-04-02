@@ -28,6 +28,7 @@ class App {
     getCart: this.getCart.bind(this),
     addToCart: this.addToCart.bind(this),
     getProductById: this.getProductById.bind(this),
+    openRelativeLink: this.openRelativeLink.bind(this),
     getProductByHandle: this.getProductByHandle.bind(this),
     getWindowInnerWidth: this.getWindowInnerWidth.bind(this),
     changeLineItemQuantity: this.changeLineItemQuantity.bind(this)
@@ -62,7 +63,6 @@ class App {
       debug: this.debug,
       locale: window.Shopify.locale,
       shopOrigin: window.Shopify.shop,
-      parentOrigin: window.location.origin,
       navigationStart: window.performance.timing.navigationStart
     })}`
     frame.style.display = 'none'
@@ -98,6 +98,10 @@ class App {
 
   getWindowInnerWidth() {
     return window.innerWidth
+  }
+
+  openRelativeLink(relativeLink: string) {
+    window.location.href = `${window.location.origin}${relativeLink}`
   }
 
   async getCart(): Promise<AjaxCart> {

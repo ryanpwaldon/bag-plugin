@@ -27,6 +27,7 @@
               :hide-options="lineItem.product_has_only_default_variant"
               :price="cart && formatter.currency(lineItem.final_line_price / 100, cart.currency)"
               @click="$emit('route', { name: 'Edit', props: { lineItem, currencyCode: cart && cart.currency } })"
+              :link-copy="$copy.edit"
             />
             <Offers
               :line-items="lineItems"
@@ -44,7 +45,7 @@
         <div v-if="cart && offersLoaded" class="grid flex-shrink-0 gap-4 p-5 border-t border-gray-300 border-dashed xs:p-6 bg-gray">
           <template v-if="lineItems.length">
             <Balance :subtotal="cart && formatter.currency(cart.total_price / 100, cart.currency)" />
-            <Button :text="$copy.checkoutButton" :link="`${parentOrigin}/checkout`" class="w-full" />
+            <Button :text="$copy.checkoutButton" @click="parentFrame.openRelativeLink('/checkout')" class="w-full" />
           </template>
           <Button @click="handleClose()" class="w-full" :text="$copy.continueShoppingButton" v-else />
         </div>
@@ -62,7 +63,6 @@ import Header from '@/components/Header/Header.vue'
 import Button from '@/components/Button/Button.vue'
 import Offers from '@/components/Offers/Offers.vue'
 import useFormatter from '@/composables/useFormatter'
-import getParentOrigin from '@/utils/getParentOrigin'
 import Balance from '@/components/Balance/Balance.vue'
 import Scroller from '@/components/Scroller/Scroller.vue'
 import LineItem from '@/components/LineItem/LineItem.vue'
@@ -89,14 +89,13 @@ export default defineComponent({
   },
   setup(props) {
     const { formatter } = useFormatter()
-    const parentOrigin = getParentOrigin()
     const { parentFrame } = useParentFrame()
     const { crossSells, progressBars, loaded: offersLoaded } = useOffers()
     const cart = ref((props.initialCart || null) as null | AjaxCart)
     const lineItems = computed(() => cart.value?.items || [])
     const fetchCart = async () => (cart.value = await parentFrame.value.getCart())
     if (!cart.value) fetchCart()
-    return { cart, lineItems, crossSells, progressBars, formatter, parentOrigin, offersLoaded, handleClose: parentFrame.value.close }
+    return { cart, lineItems, crossSells, progressBars, formatter, offersLoaded, handleClose: parentFrame.value.close, parentFrame }
   },
   computed: {
     itemsCopy(): string {

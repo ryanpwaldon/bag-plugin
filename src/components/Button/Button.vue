@@ -1,13 +1,9 @@
 <template>
   <span class="inline-flex rounded-md select-none" :class="[containerClasses, loading && 'cursor-not-allowed pointer-events-none']">
-    <component
-      :is="link ? 'a' : 'button'"
-      v-bind="link ? { target: '_parent', href: link } : { type }"
-      :class="[buttonClasses, 'inline-flex items-center justify-center w-full focus:outline-none']"
-    >
+    <button :type="type" :class="[buttonClasses, 'inline-flex items-center justify-center w-full focus:outline-none']">
       <Spinner v-if="loading" class="w-4 h-4 mr-1 -ml-1" />
       <template v-else>{{ text }}</template>
-    </component>
+    </button>
   </span>
 </template>
 
@@ -42,10 +38,6 @@ export default defineComponent({
     },
     loading: {
       type: Boolean,
-      required: false
-    },
-    link: {
-      type: String,
       required: false
     }
   },

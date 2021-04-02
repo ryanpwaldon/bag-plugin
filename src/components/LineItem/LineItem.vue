@@ -1,7 +1,6 @@
 <template>
-  <component
-    :is="editMode ? 'a' : 'button'"
-    v-bind="editMode ? { href: link, target: '_parent' } : {}"
+  <button
+    type="button"
     class="flex flex-shrink-0 w-full overflow-hidden bg-white rounded shadow focus-visible:outline-none whitespace-nowrap focus-visible:ring-2 focus-visible:ring-blue-500 group focus:outline-none"
   >
     <div class="flex-shrink-0 w-24 h-24 bg-center bg-cover" :style="{ backgroundImage: `url(${resizeImage(image, 400)})` }" />
@@ -17,7 +16,7 @@
           </span>
         </p>
         <p>
-          {{ $copy.quantity }}: {{ quantity }} · <span class="text-blue-700">{{ editMode ? $copy.viewItem : $copy.edit }}</span>
+          {{ $copy.quantity }}: {{ quantity }} · <span class="text-blue-700">{{ linkCopy }}</span>
         </p>
       </div>
       <div class="relative flex flex-col items-end pl-4 text-right">
@@ -28,13 +27,12 @@
         <p v-if="false" class="line-through">{{ compareAtPrice }}</p>
       </div>
     </div>
-  </component>
+  </button>
 </template>
 
 <script lang="ts">
-import getParentOrigin from '@/utils/getParentOrigin'
 import useResizeImage from '@/composables/useResizeImage'
-import { defineComponent, PropType, computed } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import GradientSpacer from '../GradientSpacer/GradientSpacer.vue'
 
 interface Option {
@@ -75,20 +73,14 @@ export default defineComponent({
       type: String,
       required: true
     },
-    editMode: {
-      type: Boolean,
-      default: false
-    },
-    relativeLink: {
+    linkCopy: {
       type: String,
-      required: false
+      required: true
     }
   },
-  setup(props) {
+  setup() {
     const resizeImage = useResizeImage()
-    const parentOrigin = getParentOrigin()
-    const link = computed(() => `${parentOrigin}${props.relativeLink}`)
-    return { link, resizeImage }
+    return { resizeImage }
   }
 })
 </script>
