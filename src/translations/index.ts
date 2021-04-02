@@ -99,6 +99,11 @@ export default {
     fr: 'Annuler',
     el: 'Διαγραφή'
   },
+  soldOut: {
+    en: 'Sold out',
+    fr: 'Épuisé',
+    el: 'Εξαντλήθηκε'
+  },
   spendMoreThan: {
     en: (value: string) => `Spend more than ${value}`,
     fr: (value: string) => `Dépensez plus de ${value}`,
