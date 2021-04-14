@@ -29,15 +29,7 @@
               @click="$emit('route', { name: 'Edit', props: { lineItem, currencyCode: cart && cart.currency } })"
               :link-copy="$copy.edit"
             />
-            <Offers
-              :line-items="lineItems"
-              :cart-token="cart.token"
-              :cross-sells="crossSells"
-              :progress-bars="progressBars"
-              :subtotal="cart.total_price / 100"
-              :currency-code="cart && cart.currency"
-              @route="$emit('route', $event)"
-            />
+            <Offers :cart="cart" :offers="[...crossSells, ...progressBars]" @route="$emit('route', $event)" />
           </div>
         </Scroller>
       </Fade>

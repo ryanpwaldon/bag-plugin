@@ -1,4 +1,5 @@
 import { AjaxProduct } from '@/types/ajaxApi'
+import { TriggerGroup } from '@/composables/useFilterOffers'
 
 export type CrossSell = {
   id: string
@@ -7,10 +8,11 @@ export type CrossSell = {
   activeFor: number
   title: string
   subtitle: string
-  triggerProductIds: string[]
   productId: string
   product: AjaxProduct
   createdAt: Date
+  triggerGroup?: TriggerGroup
+  type: 'crossSell'
 }
 
 export type ProgressBar = {
@@ -20,4 +22,6 @@ export type ProgressBar = {
   goal: number
   image: string
   completionMessage?: string
+  triggerGroup?: TriggerGroup
+  type: 'progressBar'
 }

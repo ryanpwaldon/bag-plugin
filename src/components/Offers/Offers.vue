@@ -1,53 +1,42 @@
 <template>
   <Fade>
-    <div class="space-y-5 xs:space-y-6" v-if="filteredCrossSells.length || progressBars.length">
-      <p class="z-20 font-medium leading-6 text-gray-900 transition ease-in-out pointer-events-none" v-if="lineItemsAsProductIds.length">
+    <div class="space-y-5 xs:space-y-6" v-if="triggeredOffers.length">
+      <p class="z-20 font-medium leading-6 text-gray-900 transition ease-in-out pointer-events-none" v-if="cart.items.length">
         {{ $copy.offersTitle }}
       </p>
-      <ProgressBar
-        v-for="progressBar in incompleteProgressBars"
-        :subtotal="subtotal"
-        :goal="progressBar.goal"
-        :currency-code="currencyCode"
-        :title="progressBar.title"
-        :image="progressBar.image"
-        :completion-message="progressBar.completionMessage"
-        :key="progressBar.id"
-      />
-      <CrossSell
-        v-for="crossSell in filteredCrossSells"
-        :id="crossSell.id"
-        :cart-token="cartToken"
-        :title="crossSell.title"
-        :subtitle="crossSell.subtitle"
-        :product-id="crossSell.productId"
-        :image="crossSell.product.featured_image"
-        @click="handleClick(crossSell.product)"
-        :key="crossSell.id"
-      />
-      <ProgressBar
-        v-for="progressBar in completeProgressBars"
-        :subtotal="subtotal"
-        :goal="progressBar.goal"
-        :currency-code="currencyCode"
-        :title="progressBar.title"
-        :image="progressBar.image"
-        :completion-message="progressBar.completionMessage"
-        :key="progressBar.id"
-      />
+      <template v-for="(offer, i) in triggeredOffers" :key="i">
+        <ProgressBar
+          :goal="offer.goal"
+          :title="offer.title"
+          :image="offer.image"
+          :currencyCode="cart.currency"
+          :subtotal="cart.total_price / 100"
+          v-if="offer.type === 'progressBar'"
+          :completionMessage="offer.completionMessage"
+        />
+        <CrossSell
+          :id="offer.id"
+          :title="offer.title"
+          :cartToken="cart.token"
+          :subtitle="offer.subtitle"
+          :productId="offer.productId"
+          @click="handleCrossSellClick"
+          v-if="offer.type === 'crossSell'"
+          :image="offer.product.featured_image"
+        />
+      </template>
     </div>
   </Fade>
 </template>
 
 <script lang="ts">
 import Fade from '@/components/Fade/Fade.vue'
-import intersection from 'lodash/intersection'
-import { AjaxLineItem, AjaxProduct } from '@/types/ajaxApi'
 import { defineComponent, PropType } from 'vue'
 import useFormatter from '@/composables/useFormatter'
+import { AjaxCart, AjaxProduct } from '@/types/ajaxApi'
 import CrossSell from '@/components/CrossSell/CrossSell.vue'
 import ProgressBar from '@/components/ProgressBar/ProgressBar.vue'
-import { CrossSell as CrossSellType, ProgressBar as ProgressBarType } from '@/types/serverApi'
+import useFilterOffers, { Offer, TriggerData } from '@/composables/useFilterOffers'
 export default defineComponent({
   components: {
     CrossSell,
@@ -55,54 +44,42 @@ export default defineComponent({
     Fade
   },
   props: {
-    crossSells: {
-      type: Array as PropType<CrossSellType[]>,
+    offers: {
+      type: Array as PropType<Offer[]>,
       required: true
     },
-    progressBars: {
-      type: Array as PropType<ProgressBarType[]>,
-      required: true
-    },
-    lineItems: {
-      type: Array as PropType<AjaxLineItem[]>,
-      required: true
-    },
-    cartToken: {
-      type: String,
-      required: true
-    },
-    currencyCode: {
-      type: String,
-      required: true
-    },
-    subtotal: {
-      type: Number,
+    cart: {
+      type: Object as PropType<AjaxCart>,
       required: true
     }
   },
   setup() {
     const { formatter } = useFormatter()
-    return { formatter }
+    const filterOffers = useFilterOffers()
+    return { formatter, filterOffers }
   },
   computed: {
-    lineItemsAsProductIds(): string[] {
-      return this.lineItems.map(item => this.formatter.toGid('Product', item.product_id))
+    triggerData(): TriggerData {
+      const triggerData: TriggerData = {
+        subtotal: this.cart.total_price / 100,
+        productIds: [],
+        productTypes: [],
+        productVendors: []
+      }
+      for (const item of this.cart.items) {
+        triggerData.productIds.push(this.formatter.toGid('Product', item.product_id))
+        triggerData.productTypes.push(item.product_type)
+        triggerData.productVendors.push(item.vendor)
+      }
+      return triggerData
     },
-    filteredCrossSells(): CrossSellType[] {
-      return this.crossSells.filter(
-        item => intersection(this.lineItemsAsProductIds, item.triggerProductIds).length && !this.lineItemsAsProductIds.includes(item.productId)
-      )
-    },
-    completeProgressBars(): ProgressBarType[] {
-      return this.progressBars.filter(item => item.goal - this.subtotal <= 0).sort((a, b) => a.goal - b.goal)
-    },
-    incompleteProgressBars(): ProgressBarType[] {
-      return this.progressBars.filter(item => item.goal - this.subtotal > 0).sort((a, b) => a.goal - b.goal)
+    triggeredOffers(): Offer[] {
+      return this.filterOffers(this.offers, this.triggerData)
     }
   },
   methods: {
-    handleClick(product: AjaxProduct) {
-      this.$emit('route', { name: 'Add', props: { product, currencyCode: this.currencyCode } })
+    handleCrossSellClick(product: AjaxProduct) {
+      this.$emit('route', { name: 'Add', props: { product, currencyCode: this.cart.currency } })
     }
   }
 })
