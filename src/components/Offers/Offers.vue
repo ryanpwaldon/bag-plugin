@@ -28,6 +28,7 @@
 
 <script lang="ts">
 import anime from 'animejs'
+import useOffers from '@/composables/useOffers'
 import { defineComponent, PropType } from 'vue'
 import useFormatter from '@/composables/useFormatter'
 import { AjaxCart, AjaxProduct } from '@/types/ajaxApi'
@@ -40,10 +41,6 @@ export default defineComponent({
     ProgressBar
   },
   props: {
-    offers: {
-      type: Array as PropType<Offer[]>,
-      required: true
-    },
     cart: {
       type: Object as PropType<AjaxCart>,
       required: true
@@ -51,10 +48,16 @@ export default defineComponent({
   },
   setup() {
     const { formatter } = useFormatter()
+    const { crossSells, progressBars } = useOffers()
     const filterOffers = useFilterOffers()
-    return { formatter, filterOffers }
+    return { formatter, crossSells, progressBars, filterOffers }
   },
   computed: {
+    offers(): Offer[] {
+      const offers = [...this.crossSells, ...this.progressBars]
+      this.$emit('on-triggered-offers-loaded', offers.length)
+      return [...this.crossSells, ...this.progressBars]
+    },
     triggerData(): TriggerData {
       const triggerData: TriggerData = {
         subtotal: this.cart.total_price / 100,
