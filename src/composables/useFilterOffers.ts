@@ -71,6 +71,10 @@ const evaluateTriggerGroup = (data: TriggerData, triggerGroup?: TriggerGroup): b
 
 export default () => (offers: Offer[], data: TriggerData): Offer[] => {
   const offersToDisplay = []
-  for (const offer of offers) if (evaluateTriggerGroup(data, offer.triggerGroup)) offersToDisplay.push(offer)
+  for (const offer of offers) {
+    if (!evaluateTriggerGroup(data, offer.triggerGroup)) continue
+    if (offer.type === 'crossSell' && data.productIds.includes(offer.productId)) continue
+    offersToDisplay.push(offer)
+  }
   return offersToDisplay
 }
