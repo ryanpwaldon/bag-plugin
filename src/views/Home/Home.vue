@@ -3,12 +3,7 @@
     <Header :title="$copy.title" :meta="itemsCopy" />
     <div class="relative flex flex-col flex-1 min-h-0">
       <Fade>
-        <div v-if="!cart || !offersLoaded" class="absolute top-0 left-0 w-full p-5 xs:p-6">
-          <LoaderCard />
-        </div>
-      </Fade>
-      <Fade>
-        <Scroller v-if="cart && offersLoaded" class="flex-1 h-full">
+        <Scroller v-if="cart" class="flex-1 h-full">
           <div
             v-if="!lineItems.length && !progressBars.length"
             class="absolute top-0 left-0 flex flex-col items-center justify-center w-full h-full space-y-2"
@@ -32,9 +27,12 @@
             <Offers :cart="cart" :offers="[...crossSells, ...progressBars]" @route="$emit('route', $event)" />
           </div>
         </Scroller>
+        <div v-else class="absolute top-0 left-0 w-full p-5 xs:p-6">
+          <LoaderCard />
+        </div>
       </Fade>
       <Fade>
-        <div v-if="cart && offersLoaded" class="grid flex-shrink-0 gap-4 p-5 border-t border-gray-300 border-dashed xs:p-6 bg-gray">
+        <div v-if="cart" class="grid flex-shrink-0 gap-4 p-5 border-t border-gray-300 border-dashed xs:p-6 bg-gray">
           <template v-if="lineItems.length">
             <Balance :subtotal="cart && formatter.currency(cart.total_price / 100, cart.currency)" />
             <Button :text="$copy.checkoutButton" @click="parentFrame.openRelativeLink('/checkout')" class="w-full" />
@@ -82,12 +80,12 @@ export default defineComponent({
   setup(props) {
     const { formatter } = useFormatter()
     const { parentFrame } = useParentFrame()
-    const { crossSells, progressBars, loaded: offersLoaded } = useOffers()
+    const { crossSells, progressBars } = useOffers()
     const cart = ref((props.initialCart || null) as null | AjaxCart)
     const lineItems = computed(() => cart.value?.items || [])
     const fetchCart = async () => (cart.value = await parentFrame.value.getCart())
     if (!cart.value) fetchCart()
-    return { cart, lineItems, crossSells, progressBars, formatter, offersLoaded, handleClose: parentFrame.value.close, parentFrame }
+    return { cart, lineItems, crossSells, progressBars, formatter, handleClose: parentFrame.value.close, parentFrame }
   },
   computed: {
     itemsCopy(): string {

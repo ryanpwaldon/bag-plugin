@@ -1,9 +1,6 @@
 <template>
-  <Fade>
+  <transition @enter="animate" appear>
     <div class="space-y-5 xs:space-y-6" v-if="triggeredOffers.length">
-      <p class="z-20 font-medium leading-6 text-gray-900 transition ease-in-out pointer-events-none" v-if="cart.items.length">
-        {{ $copy.offersTitle }}
-      </p>
       <template v-for="(offer, i) in triggeredOffers" :key="i">
         <ProgressBar
           :goal="offer.goal"
@@ -20,17 +17,17 @@
           :cartToken="cart.token"
           :subtitle="offer.subtitle"
           :productId="offer.productId"
-          @click="handleCrossSellClick"
+          @click="handleCrossSellClick(offer.product)"
           v-if="offer.type === 'crossSell'"
           :image="offer.product.featured_image"
         />
       </template>
     </div>
-  </Fade>
+  </transition>
 </template>
 
 <script lang="ts">
-import Fade from '@/components/Fade/Fade.vue'
+import anime from 'animejs'
 import { defineComponent, PropType } from 'vue'
 import useFormatter from '@/composables/useFormatter'
 import { AjaxCart, AjaxProduct } from '@/types/ajaxApi'
@@ -40,8 +37,7 @@ import useFilterOffers, { Offer, TriggerData } from '@/composables/useFilterOffe
 export default defineComponent({
   components: {
     CrossSell,
-    ProgressBar,
-    Fade
+    ProgressBar
   },
   props: {
     offers: {
@@ -78,6 +74,22 @@ export default defineComponent({
     }
   },
   methods: {
+    animate(el: HTMLElement) {
+      anime({
+        opacity: {
+          value: [0, 1],
+          easing: 'easeInOutQuad',
+          duration: 300
+        },
+        translateY: {
+          value: [10, 0],
+          easing: 'easeOutQuad',
+          duration: 600
+        },
+        delay: anime.stagger(100, { start: 300 }),
+        targets: el.children
+      })
+    },
     handleCrossSellClick(product: AjaxProduct) {
       this.$emit('route', { name: 'Add', props: { product, currencyCode: this.cart.currency } })
     }
