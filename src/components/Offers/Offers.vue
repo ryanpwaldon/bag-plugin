@@ -54,8 +54,6 @@ export default defineComponent({
   },
   computed: {
     offers(): Offer[] {
-      const offers = [...this.crossSells, ...this.progressBars]
-      this.$emit('on-triggered-offers-loaded', offers.length)
       return [...this.crossSells, ...this.progressBars]
     },
     triggerData(): TriggerData {
@@ -73,7 +71,9 @@ export default defineComponent({
       return triggerData
     },
     triggeredOffers(): Offer[] {
-      return this.filterOffers(this.offers, this.triggerData)
+      const triggeredOffers = this.filterOffers(this.offers, this.triggerData)
+      this.$emit('on-triggered-offers-loaded', triggeredOffers.length)
+      return triggeredOffers
     }
   },
   methods: {
