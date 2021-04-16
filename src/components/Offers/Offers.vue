@@ -71,9 +71,7 @@ export default defineComponent({
       return triggerData
     },
     triggeredOffers(): Offer[] {
-      const triggeredOffers = this.filterOffers(this.offers, this.triggerData)
-      this.$emit('on-triggered-offers-loaded', triggeredOffers.length)
-      return triggeredOffers
+      return this.filterOffers(this.offers, this.triggerData)
     }
   },
   methods: {
