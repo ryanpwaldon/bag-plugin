@@ -87,7 +87,7 @@ export default defineComponent({
           easing: 'easeOutQuad',
           duration: 600
         },
-        delay: anime.stagger(100, { start: 300 }),
+        delay: anime.stagger(100, { start: 600 }),
         targets: el.children
       })
     },
