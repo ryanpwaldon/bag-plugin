@@ -28,13 +28,15 @@
 
 <script lang="ts">
 import anime from 'animejs'
+import { Offer } from '@/types/serverApi'
 import useOffers from '@/composables/useOffers'
 import { defineComponent, PropType } from 'vue'
+import fetchProduct from '@/utils/fetchProduct'
 import useFormatter from '@/composables/useFormatter'
 import { AjaxCart, AjaxProduct } from '@/types/ajaxApi'
 import CrossSell from '@/components/CrossSell/CrossSell.vue'
 import ProgressBar from '@/components/ProgressBar/ProgressBar.vue'
-import useFilterOffers, { Offer, TriggerData } from '@/composables/useFilterOffers'
+import useFilterOffers, { TriggerData } from '@/composables/useFilterOffers'
 export default defineComponent({
   components: {
     CrossSell,
@@ -47,31 +49,33 @@ export default defineComponent({
     }
   },
   setup() {
+    const { offers, loaded: offersLoaded } = useOffers()
     const { formatter } = useFormatter()
-    const { crossSells, progressBars } = useOffers()
     const filterOffers = useFilterOffers()
-    return { formatter, crossSells, progressBars, filterOffers }
+    return { formatter, offers, filterOffers, offersLoaded }
   },
-  computed: {
-    offers(): Offer[] {
-      return [...this.crossSells, ...this.progressBars]
-    },
-    triggerData(): TriggerData {
-      const triggerData: TriggerData = {
-        subtotal: this.cart.total_price / 100,
-        productIds: [],
-        productTypes: [],
-        productVendors: []
-      }
-      for (const item of this.cart.items) {
-        triggerData.productIds.push(this.formatter.toGid('Product', item.product_id))
-        triggerData.productTypes.push(item.product_type)
-        triggerData.productVendors.push(item.vendor)
-      }
-      return triggerData
-    },
-    triggeredOffers(): Offer[] {
-      return this.filterOffers(this.offers, this.triggerData)
+  data: () => ({
+    triggeredOffers: [] as Offer[]
+  }),
+  watch: {
+    offersLoaded: {
+      async handler() {
+        if (!this.offersLoaded) return
+        const triggerData: TriggerData = {
+          productIds: [],
+          productTypes: [],
+          productVendors: [],
+          subtotal: this.cart.total_price / 100,
+          productTags: await this.fetchProductTags()
+        }
+        for (const lineItem of this.cart.items) {
+          triggerData.productIds.push(this.formatter.toGid('Product', lineItem.product_id))
+          triggerData.productTypes.push(lineItem.product_type)
+          triggerData.productVendors.push(lineItem.vendor)
+        }
+        this.triggeredOffers = this.filterOffers(this.offers, triggerData)
+      },
+      immediate: true
     }
   },
   methods: {
@@ -87,9 +91,15 @@ export default defineComponent({
           easing: 'easeOutQuad',
           duration: 600
         },
-        delay: anime.stagger(100, { start: 600 }),
+        delay: anime.stagger(100, { start: this.cart.items.length ? 0 : 600 }),
         targets: el.children
       })
+    },
+    async fetchProductTags() {
+      const tags = []
+      const lineItemProducts = await Promise.all(this.cart.items.map(lineItem => fetchProduct(lineItem.product_id.toString())))
+      for (const product of lineItemProducts) tags.push(...product.tags)
+      return [...new Set(tags)]
     },
     handleCrossSellClick(product: AjaxProduct) {
       this.$emit('route', { name: 'Add', props: { product, currencyCode: this.cart.currency } })

@@ -3,7 +3,6 @@
 import { connectToChild } from 'penpal'
 import getFormData from 'get-form-data'
 import axios, { AxiosResponse } from 'axios'
-import { parseGid } from '@shopify/admin-graphql-api-utilities'
 import { ChildMethods } from '../src/composables/useParentFrame'
 import { AjaxCart, AjaxProduct, AjaxLineItem } from '../src/types/ajaxApi'
 
@@ -117,7 +116,7 @@ class App {
   async getProductById(id: string): Promise<AjaxProduct> {
     let data
     let handle
-    const querystring = `resources[type]=product&q=id:${parseGid(id)}`
+    const querystring = `resources[type]=product&q=id:${id}`
     try {
       handle = (await axios({ url: `/search/suggest.json?${querystring}`, method: 'get' })).data.resources.results.products[0].handle
       data = (await axios({ url: `/products/${handle}.js`, method: 'get' })).data

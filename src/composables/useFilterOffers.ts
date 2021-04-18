@@ -1,12 +1,11 @@
-import { CrossSell, ProgressBar } from '@/types/serverApi'
-
-export type Offer = CrossSell | ProgressBar
+import { Offer } from '@/types/serverApi'
 
 export enum TriggerProperty {
   Product = 'product',
+  Subtotal = 'subtotal',
+  ProductTag = 'productTag',
   ProductType = 'productType',
-  ProductVendor = 'productVendor',
-  Subtotal = 'subtotal'
+  ProductVendor = 'productVendor'
 }
 
 export enum TriggerCondition {
@@ -30,6 +29,7 @@ export interface TriggerGroup {
 export type TriggerData = {
   subtotal: number
   productIds: string[]
+  productTags: string[]
   productTypes: string[]
   productVendors: string[]
 }
@@ -38,6 +38,10 @@ const evaluateTrigger = (data: TriggerData, trigger: Trigger): boolean => {
   switch (trigger.property) {
     case TriggerProperty.Product: {
       const intersects = !!data.productIds.filter(id => (trigger.value as string[]).includes(id)).length
+      return trigger.condition === TriggerCondition.Includes ? intersects : !intersects
+    }
+    case TriggerProperty.ProductTag: {
+      const intersects = data.productTags.includes(trigger.value as string)
       return trigger.condition === TriggerCondition.Includes ? intersects : !intersects
     }
     case TriggerProperty.ProductType: {

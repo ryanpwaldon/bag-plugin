@@ -1,24 +1,23 @@
 import { Ref, ref } from 'vue'
-import { CrossSell, ProgressBar } from '@/types/serverApi'
+import { Offer } from '@/types/serverApi'
+import fetchProduct from '@/utils/fetchProduct'
+import { parseGid } from '@shopify/admin-graphql-api-utilities'
 import pluginService from '@/services/api/services/pluginService'
 
-const crossSells: Ref<CrossSell[]> = ref([])
-const progressBars: Ref<ProgressBar[]> = ref([])
 const loaded = ref(false)
+const offers: Ref<Offer[]> = ref([])
 
 const fetchOffers = async () => {
   try {
-    const offers = await pluginService.findOffers()
-    crossSells.value = offers.crossSells
-    progressBars.value = offers.progressBars
+    const { crossSells, progressBars } = await pluginService.findOffers()
+    await Promise.all(crossSells.map(async crossSell => (crossSell.product = await fetchProduct(parseGid(crossSell.productId)))))
+    offers.value = [...crossSells, ...progressBars]
   } catch (err) {
     console.log(err)
-    crossSells.value = []
-    progressBars.value = []
   }
   loaded.value = true
 }
 
 export default () => {
-  return { crossSells, progressBars, fetchOffers, loaded }
+  return { offers, fetchOffers, loaded }
 }

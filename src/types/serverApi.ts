@@ -25,3 +25,5 @@ export type ProgressBar = {
   triggerGroup?: TriggerGroup
   type: 'progressBar'
 }
+
+export type Offer = CrossSell | ProgressBar
