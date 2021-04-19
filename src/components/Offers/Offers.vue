@@ -63,6 +63,7 @@ export default defineComponent({
         if (!this.offersLoaded) return
         const triggerData: TriggerData = {
           productIds: [],
+          variantIds: [],
           productTypes: [],
           productVendors: [],
           subtotal: this.cart.total_price / 100,
@@ -70,6 +71,7 @@ export default defineComponent({
         }
         for (const lineItem of this.cart.items) {
           triggerData.productIds.push(this.formatter.toGid('Product', lineItem.product_id))
+          triggerData.variantIds.push(this.formatter.toGid('ProductVariant', lineItem.variant_id))
           triggerData.productTypes.push(lineItem.product_type)
           triggerData.productVendors.push(lineItem.vendor)
         }

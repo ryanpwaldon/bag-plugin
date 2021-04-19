@@ -1,5 +1,31 @@
 import { AjaxProduct } from '@/types/ajaxApi'
-import { TriggerGroup } from '@/composables/useFilterOffers'
+
+export enum TriggerProperty {
+  Product = 'product',
+  Variant = 'variant',
+  Subtotal = 'subtotal',
+  ProductTag = 'productTag',
+  ProductType = 'productType',
+  ProductVendor = 'productVendor'
+}
+
+export enum TriggerCondition {
+  Includes = 'includes',
+  DoesNotInclude = 'doesNotInclude',
+  GreaterThan = 'greaterThan',
+  LessThan = 'lessThan'
+}
+
+export interface Trigger {
+  property: TriggerProperty
+  condition: TriggerCondition
+  value: unknown
+}
+
+export interface TriggerGroup {
+  matchAll: boolean
+  triggers: Array<TriggerGroup | Trigger>
+}
 
 export type CrossSell = {
   id: string

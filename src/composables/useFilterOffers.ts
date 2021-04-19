@@ -1,34 +1,18 @@
-import { Offer } from '@/types/serverApi'
+import { Offer, TriggerCondition, TriggerGroup, TriggerProperty, Trigger } from '@/types/serverApi'
 
-export enum TriggerProperty {
-  Product = 'product',
-  Subtotal = 'subtotal',
-  ProductTag = 'productTag',
-  ProductType = 'productType',
-  ProductVendor = 'productVendor'
+type ProductResource = {
+  id: string
 }
 
-export enum TriggerCondition {
-  Includes = 'includes',
-  DoesNotInclude = 'doesNotInclude',
-  GreaterThan = 'greaterThan',
-  LessThan = 'lessThan'
-}
-
-interface Trigger {
-  property: TriggerProperty
-  condition: TriggerCondition
-  value: unknown
-}
-
-export interface TriggerGroup {
-  matchAll: boolean
-  triggers: Array<TriggerGroup | Trigger>
+type VariantResource = {
+  id: string
+  variants: { id: string }[]
 }
 
 export type TriggerData = {
   subtotal: number
   productIds: string[]
+  variantIds: string[]
   productTags: string[]
   productTypes: string[]
   productVendors: string[]
@@ -37,7 +21,14 @@ export type TriggerData = {
 const evaluateTrigger = (data: TriggerData, trigger: Trigger): boolean => {
   switch (trigger.property) {
     case TriggerProperty.Product: {
-      const intersects = !!data.productIds.filter(id => (trigger.value as string[]).includes(id)).length
+      const triggerProductIds = (trigger.value as ProductResource[]).map(({ id }) => id)
+      const intersects = !!data.productIds.filter(id => triggerProductIds.includes(id)).length
+      return trigger.condition === TriggerCondition.Includes ? intersects : !intersects
+    }
+    case TriggerProperty.Variant: {
+      const triggerVariantIds: string[] = []
+      for (const { variants } of trigger.value as VariantResource[]) triggerVariantIds.push(...variants.map(({ id }) => id))
+      const intersects = !!data.variantIds.filter(id => triggerVariantIds.includes(id)).length
       return trigger.condition === TriggerCondition.Includes ? intersects : !intersects
     }
     case TriggerProperty.ProductTag: {
