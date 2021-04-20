@@ -31,10 +31,10 @@ import anime from 'animejs'
 import { Offer } from '@/types/serverApi'
 import useOffers from '@/composables/useOffers'
 import { defineComponent, PropType } from 'vue'
-import fetchProduct from '@/utils/fetchProduct'
 import useFormatter from '@/composables/useFormatter'
 import { AjaxCart, AjaxProduct } from '@/types/ajaxApi'
 import CrossSell from '@/components/CrossSell/CrossSell.vue'
+import fetchProductByHandle from '@/utils/fetchProductByHandle'
 import ProgressBar from '@/components/ProgressBar/ProgressBar.vue'
 import useFilterOffers, { TriggerData } from '@/composables/useFilterOffers'
 export default defineComponent({
@@ -99,7 +99,7 @@ export default defineComponent({
     },
     async fetchProductTags() {
       const tags = []
-      const lineItemProducts = await Promise.all(this.cart.items.map(lineItem => fetchProduct(lineItem.product_id.toString())))
+      const lineItemProducts = await Promise.all(this.cart.items.map(lineItem => fetchProductByHandle(lineItem.handle)))
       for (const product of lineItemProducts) tags.push(...product.tags)
       return [...new Set(tags)]
     },
