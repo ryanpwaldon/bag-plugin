@@ -17,11 +17,17 @@ export default {
     el: (quantity: string | number) => `${quantity} τεμάχια`,
     nb: (quantity: string | number) => `${quantity} varer`
   },
-  emptyCart: {
+  emptyCartLine1: {
     en: 'Your cart is empty',
     fr: 'Votre panier est vide',
     el: 'Το καλάθι σας είναι άδειο',
     nb: 'Handlekurven din er tom'
+  },
+  emptyCartLine2: {
+    en: 'Add some items to check out',
+    fr: 'Ajouter des articles à la caisse',
+    el: 'Προσθέστε μερικά αντικείμενα',
+    nb: 'Legg til noen ting å sjekke ut'
   },
   offersTitle: {
     en: 'Offers',
