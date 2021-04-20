@@ -2,7 +2,7 @@
   <div
     class="flex flex-shrink-0 w-full overflow-hidden bg-white rounded shadow pointer-events-none focus-visible:outline-none whitespace-nowrap focus-visible:ring-2 focus-visible:ring-blue-500 group focus:outline-none"
   >
-    <div class="flex-shrink-0 w-24 h-24 bg-center bg-cover" :style="{ backgroundImage: `url(${image})` }" />
+    <div class="flex-shrink-0 w-24 h-24 bg-center bg-cover rounded-l" :style="{ backgroundImage: `url(${image})` }" />
     <div class="flex flex-col items-start justify-center w-full px-4 overflow-hidden">
       <p class="text-sm font-medium text-gray-900">{{ title }}</p>
       <p class="flex mt-1 text-xs">

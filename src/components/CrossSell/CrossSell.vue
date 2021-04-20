@@ -2,7 +2,7 @@
   <button
     class="relative flex flex-shrink-0 w-full overflow-hidden bg-white rounded shadow whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none group"
   >
-    <div class="flex-shrink-0 w-24 h-24 bg-center bg-cover" :style="{ backgroundImage: `url(${resizeImage(image, 400)})` }" />
+    <div class="flex-shrink-0 w-24 h-24 bg-center bg-cover rounded-l" :style="{ backgroundImage: `url(${resizeImage(image, 400)})` }" />
     <div class="flex self-center justify-between w-full px-4 overflow-hidden">
       <div class="relative flex flex-col w-full space-y-1 overflow-hidden text-left">
         <p class="text-sm font-medium leading-5 text-gray-900 transition duration-150 ease-in-out group-hover:text-gray-500">{{ title }}</p>
