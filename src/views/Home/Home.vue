@@ -29,9 +29,9 @@
         <div v-if="cart" class="grid flex-shrink-0 gap-4 p-5 border-t border-gray-300 border-dashed xs:p-6 bg-gray">
           <template v-if="lineItems.length">
             <Balance :subtotal="cart && formatter.currency(cart.total_price / 100, cart.currency)" />
-            <Button :text="$copy.checkoutButton" @click="parentFrame.openRelativeLink('/checkout')" class="w-full" />
+            <Button :text="$copy.checkoutButton" @click="openRelativeLink('/checkout')" class="w-full" />
           </template>
-          <Button @click="handleClose()" class="w-full" :text="$copy.continueShoppingButton" v-else />
+          <Button @click="close" class="w-full" :text="$copy.continueShoppingButton" v-else />
         </div>
       </Fade>
     </div>
@@ -48,7 +48,7 @@ import useFormatter from '@/composables/useFormatter'
 import Balance from '@/components/Balance/Balance.vue'
 import Scroller from '@/components/Scroller/Scroller.vue'
 import LineItem from '@/components/LineItem/LineItem.vue'
-import useParentFrame from '@/composables/useParentFrame'
+import { getParentFrame } from '@/composables/useParentFrame'
 import { computed, defineComponent, PropType, ref } from 'vue'
 import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
 import EmptyBag from '@/components/EmptyBag/EmptyBag.vue'
@@ -72,12 +72,11 @@ export default defineComponent({
   },
   setup(props) {
     const { formatter } = useFormatter()
-    const { parentFrame } = useParentFrame()
     const cart = ref((props.initialCart || null) as null | AjaxCart)
     const lineItems = computed(() => cart.value?.items || [])
-    const fetchCart = async () => (cart.value = await parentFrame.value.getCart())
+    const fetchCart = async () => (cart.value = await getParentFrame().getCart())
     if (!cart.value) fetchCart()
-    return { cart, lineItems, formatter, handleClose: parentFrame.value.close, parentFrame }
+    return { cart, lineItems, formatter, close: getParentFrame().close, openRelativeLink: getParentFrame().openRelativeLink }
   },
   computed: {
     itemsCopy(): string {

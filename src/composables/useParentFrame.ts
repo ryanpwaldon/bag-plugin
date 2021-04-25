@@ -1,4 +1,3 @@
-import { ref } from 'vue'
 import { connectToParent } from 'penpal'
 import { ParentMethods } from '../../script/start'
 
@@ -7,15 +6,22 @@ export type ChildMethods = {
   close: () => void
 }
 
-const parentFrame = ref({} as ParentMethods)
+let parentFrame = null as ParentMethods | null
 
-const connect = async (childMethods: ChildMethods) => {
-  parentFrame.value = await (connectToParent({ methods: childMethods }).promise as Promise<ParentMethods>)
+let resolveConnectedToParentFrame: () => void
+export const connectedToParentFrame = new Promise(resolve => (resolveConnectedToParentFrame = resolve as () => void))
+
+export const getParentFrame = () => {
+  if (parentFrame) return parentFrame
+  throw Error('Method not in parent frame.')
 }
 
-export default () => {
-  return {
-    connect,
-    parentFrame
+export const connectToParentFrame = async (childMethods: ChildMethods) => {
+  try {
+    parentFrame = (await connectToParent({ methods: childMethods }).promise) as ParentMethods
+    resolveConnectedToParentFrame()
+  } catch (err) {
+    console.error(err)
+    throw Error('Could not connect to parent frame.')
   }
 }

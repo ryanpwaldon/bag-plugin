@@ -1,6 +1,5 @@
-import useParentFrame from '@/composables/useParentFrame'
+import { getParentFrame } from '@/composables/useParentFrame'
 
 export default async (id: string) => {
-  const { parentFrame } = useParentFrame()
-  return parentFrame.value.getProductById(id)
+  return getParentFrame().getProductById(id)
 }

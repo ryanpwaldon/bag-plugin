@@ -18,7 +18,7 @@
             :options="selectedVariantOptions"
             :hide-options="hasOnlyDefaultVariant"
             :price="selectedVariant && formatter.currency((selectedVariant.price / 100) * fields.quantity.value.value, currencyCode)"
-            @click="parentFrame.openRelativeLink(`/products/${product.handle}?variant=${selectedVariant?.id}`)"
+            @click="openRelativeLink(`/products/${product.handle}?variant=${selectedVariant?.id}`)"
             :link-copy="$copy.viewItem"
           />
           <Card>
@@ -57,7 +57,7 @@ import useForm from '@/composables/useForm'
 import { number, object, string } from 'yup'
 import { defineComponent, PropType } from 'vue'
 import { AjaxCart, AjaxProduct, AjaxVariant } from '@/types/ajaxApi'
-import useParentFrame from '@/composables/useParentFrame'
+import { getParentFrame } from '@/composables/useParentFrame'
 export default defineComponent({
   components: {
     Card,
@@ -94,11 +94,9 @@ export default defineComponent({
     const { fields, modified, getValues, handleSubmit } = useForm(schema)
     const { formatter } = useFormatter()
     const returnToCart = (cart?: AjaxCart) => emit('route', { name: 'Home', props: { initialCart: cart } })
-    const { parentFrame } = useParentFrame()
     const onSubmit = async () => {
-      const { parentFrame } = useParentFrame()
       const { variantId, quantity } = getValues()
-      await parentFrame.value.addToCart(variantId, quantity)
+      await getParentFrame().addToCart(variantId, quantity)
       returnToCart()
     }
     return {
@@ -106,9 +104,9 @@ export default defineComponent({
       modified,
       formatter,
       getValues,
-      parentFrame,
       returnToCart,
-      handleSubmit: handleSubmit(onSubmit)
+      handleSubmit: handleSubmit(onSubmit),
+      openRelativeLink: getParentFrame().openRelativeLink
     }
   },
   async created() {

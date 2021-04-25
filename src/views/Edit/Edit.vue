@@ -11,7 +11,7 @@
             :options="selectedVariantOptions"
             :hide-options="lineItem.product_has_only_default_variant"
             :price="selectedVariant && formatter.currency((selectedVariant.price / 100) * fields.quantity.value.value, currencyCode)"
-            @click="parentFrame.openRelativeLink(lineItem.url)"
+            @click="openRelativeLink(lineItem.url)"
             :link-copy="$copy.viewItem"
           />
           <Card>
@@ -51,7 +51,7 @@ import Button from '@/components/Button/Button.vue'
 import useFormatter from '@/composables/useFormatter'
 import Scroller from '@/components/Scroller/Scroller.vue'
 import LineItem from '@/components/LineItem/LineItem.vue'
-import useParentFrame from '@/composables/useParentFrame'
+import { getParentFrame } from '@/composables/useParentFrame'
 import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
 import InputNumber from '@/components/InputNumber/InputNumber.vue'
 import { AjaxCart, AjaxLineItem, AjaxProduct, AjaxVariant } from '@/types/ajaxApi'
@@ -93,15 +93,14 @@ export default defineComponent({
     }).defined()
     const { fields, handleSubmit } = useForm(schema)
     const returnToCart = (cart?: AjaxCart) => emit('route', { name: 'Home', props: { initialCart: cart } })
-    const { parentFrame } = useParentFrame()
     const onSubmit = async () => {
       const { variantId, quantity } = fields
       if (variantId.modified.value) {
-        await parentFrame.value.addToCart(variantId.value.value, quantity.value.value)
-        const cart = await parentFrame.value.changeLineItemQuantity(props.lineItem.key, 0)
+        await getParentFrame().addToCart(variantId.value.value, quantity.value.value)
+        const cart = await getParentFrame().changeLineItemQuantity(props.lineItem.key, 0)
         returnToCart(cart)
       } else if (quantity.modified.value) {
-        const cart = await parentFrame.value.changeLineItemQuantity(props.lineItem.key, quantity.value.value)
+        const cart = await getParentFrame().changeLineItemQuantity(props.lineItem.key, quantity.value.value)
         returnToCart(cart)
       } else {
         returnToCart()
@@ -111,13 +110,13 @@ export default defineComponent({
     return {
       fields,
       formatter,
-      parentFrame,
       returnToCart,
-      handleSubmit: handleSubmit(onSubmit)
+      handleSubmit: handleSubmit(onSubmit),
+      openRelativeLink: getParentFrame().openRelativeLink
     }
   },
   async created() {
-    this.product = await this.parentFrame.getProductByHandle(this.lineItem.handle)
+    this.product = await getParentFrame().getProductByHandle(this.lineItem.handle)
   },
   data: () => ({
     product: null as AjaxProduct | null
@@ -146,7 +145,7 @@ export default defineComponent({
   },
   methods: {
     async removeFromCart() {
-      const cart = await this.parentFrame.changeLineItemQuantity(this.lineItem.key, 0)
+      const cart = await getParentFrame().changeLineItemQuantity(this.lineItem.key, 0)
       this.returnToCart(cart)
     }
   }
