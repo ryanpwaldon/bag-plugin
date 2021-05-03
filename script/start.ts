@@ -3,6 +3,7 @@
 import { connectToChild } from 'penpal'
 import getFormData from 'get-form-data'
 import axios, { AxiosResponse } from 'axios'
+import { lock, unlock } from 'tua-body-scroll-lock'
 import { ChildMethods } from '../src/composables/useParentFrame'
 import { AjaxCart, AjaxProduct, AjaxLineItem } from '../src/types/ajaxApi'
 
@@ -81,6 +82,7 @@ class App {
 
   async open() {
     if (this.transitioning) return
+    lock()
     this.transitioning = true
     this.frame.style.display = 'block'
     await this.childFrame.open()
@@ -89,6 +91,7 @@ class App {
 
   async close() {
     if (this.transitioning) return
+    unlock()
     this.transitioning = true
     await this.childFrame.close()
     this.frame.style.display = 'none'
