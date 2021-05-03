@@ -31,7 +31,7 @@
             <Balance :subtotal="cart && formatter.currency(cart.total_price / 100, cart.currency)" />
             <Button :text="$copy.checkoutButton" @click="openRelativeLink('/checkout')" class="w-full" />
           </template>
-          <Button @click="close" class="w-full" :text="$copy.continueShoppingButton" v-else />
+          <Button @click="handleClose" class="w-full" :text="$copy.continueShoppingButton" v-else />
         </div>
       </Fade>
     </div>
@@ -76,13 +76,18 @@ export default defineComponent({
     const lineItems = computed(() => cart.value?.items || [])
     const fetchCart = async () => (cart.value = await getParentFrame().getCart())
     if (!cart.value) fetchCart()
-    return { cart, lineItems, formatter, close: getParentFrame().close, openRelativeLink: getParentFrame().openRelativeLink }
+    return { cart, lineItems, formatter, openRelativeLink: getParentFrame().openRelativeLink }
   },
   computed: {
     itemsCopy(): string {
       if (!this.cart) return ''
       if (this.cart.item_count === 1) return this.$copy.itemSingular
       return this.$copy.itemPlural(this.cart.item_count)
+    }
+  },
+  methods: {
+    handleClose() {
+      getParentFrame().close()
     }
   }
 })

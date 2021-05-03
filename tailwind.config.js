@@ -7,7 +7,7 @@ module.exports = {
   theme: {
     extend: {
       screens: {
-        xs: '400px'
+        xs: '415px'
       },
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans]
@@ -20,6 +20,13 @@ module.exports = {
         '124': '31rem',
         '112': '28rem',
         '18': '4.5rem'
+      },
+      width: {
+        '22': '5.5rem'
+      },
+      minHeight: {
+        '22': '5.5rem',
+        '24': '6rem'
       }
     }
   },

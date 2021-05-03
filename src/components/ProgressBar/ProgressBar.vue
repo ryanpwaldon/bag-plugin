@@ -1,14 +1,14 @@
 <template>
   <div
-    class="flex flex-shrink-0 w-full overflow-hidden bg-white rounded shadow pointer-events-none focus-visible:outline-none whitespace-nowrap focus-visible:ring-2 focus-visible:ring-blue-500 group focus:outline-none"
+    class="flex flex-shrink-0 w-full overflow-hidden bg-white rounded shadow pointer-events-none focus-visible:outline-none whitespace-nowrap focus-visible:ring-2 focus-visible:ring-blue-500 group focus:outline-none xs:min-h-24 min-h-22"
   >
-    <div class="flex-shrink-0 w-24 h-24 bg-center bg-cover rounded-l" :style="{ backgroundImage: `url(${image})` }" />
-    <div class="flex flex-col items-start justify-center w-full px-4 overflow-hidden">
-      <p class="text-sm font-medium text-gray-900">{{ title }}</p>
-      <p class="flex mt-1 text-xs">
-        <span v-if="cartEmpty || (goalReached && !completionMessage)" class="text-gray-500">{{ $copy.spendMoreThan(goalFormatted) }}</span>
-        <span v-if="goalReached && completionMessage" class="text-gray-500">{{ completionMessage }}</span>
-        <span v-if="!cartEmpty && !goalReached" class="text-gray-500">{{ $copy.amountRemaining(remainingSpendFormatted) }}</span>
+    <div class="self-stretch flex-shrink-0 bg-center bg-cover rounded-l w-22 xs:w-24" :style="{ backgroundImage: `url(${image})` }" />
+    <div class="flex flex-col items-start justify-center w-full p-3 overflow-hidden">
+      <p class="w-full text-sm font-medium text-gray-900 truncate">{{ title }}</p>
+      <p class="flex w-full mt-1 text-xs">
+        <span v-if="cartEmpty || (goalReached && !completionMessage)" class="text-gray-500 truncate">{{ $copy.spendMoreThan(goalFormatted) }}</span>
+        <span v-if="goalReached && completionMessage" class="text-gray-500 truncate">{{ completionMessage }}</span>
+        <span v-if="!cartEmpty && !goalReached" class="text-gray-500 truncate">{{ $copy.amountRemaining(remainingSpendFormatted) }}</span>
       </p>
       <div class="flex items-center w-full mt-2 space-x-2">
         <div class="relative flex-1 h-4 rounded-sm bg-gradient-to-r from-gray-100 to-gray-200">

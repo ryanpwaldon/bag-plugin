@@ -1,26 +1,25 @@
 <template>
   <button
     type="button"
-    class="flex flex-shrink-0 w-full overflow-hidden bg-white rounded shadow focus-visible:outline-none whitespace-nowrap focus-visible:ring-2 focus-visible:ring-blue-500 group focus:outline-none"
+    class="flex flex-shrink-0 w-full overflow-hidden bg-white rounded shadow focus-visible:outline-none whitespace-nowrap focus-visible:ring-2 focus-visible:ring-blue-500 group focus:outline-none xs:min-h-24 min-h-22"
   >
-    <div class="flex-shrink-0 w-24 h-24 bg-center bg-cover" :style="{ backgroundImage: `url(${resizeImage(image, 400)})` }" />
-    <div class="flex self-center justify-between w-full px-4 overflow-hidden text-xs leading-4 text-gray-500">
+    <div class="self-stretch flex-shrink-0 bg-center bg-cover w-22 xs:w-24" :style="{ backgroundImage: `url(${resizeImage(image, 400)})` }" />
+    <div class="flex self-center justify-between w-full p-3 overflow-hidden text-xs leading-4 text-gray-500">
       <div class="relative flex flex-col w-full space-y-1 overflow-hidden text-left">
-        <p class="text-sm font-medium leading-5 text-gray-900 transition duration-150 ease-in-out group-hover:text-gray-500">
+        <p class="text-sm font-medium leading-5 text-gray-900 truncate transition duration-150 ease-in-out group-hover:text-gray-500">
           {{ title }}
         </p>
-        <p v-if="!hideOptions && options.length">
+        <p class="truncate" v-if="!hideOptions && options.length">
           <span v-for="({ name, value }, i) of options" :key="i">
             {{ name }}: {{ value }}
             <span v-if="options && i !== options.length - 1"> · </span>
           </span>
         </p>
-        <p>
+        <p class="truncate">
           {{ $copy.quantity }}: {{ quantity }} · <span class="text-blue-700">{{ linkCopy }}</span>
         </p>
       </div>
       <div class="relative flex flex-col items-end pl-4 text-right">
-        <GradientSpacer />
         <p class="text-sm font-medium leading-5 text-gray-900 transition duration-150 ease-in-out group-hover:text-gray-500">
           {{ price }}
         </p>
@@ -31,9 +30,8 @@
 </template>
 
 <script lang="ts">
-import useResizeImage from '@/composables/useResizeImage'
 import { defineComponent, PropType } from 'vue'
-import GradientSpacer from '../GradientSpacer/GradientSpacer.vue'
+import useResizeImage from '@/composables/useResizeImage'
 
 interface Option {
   name: string
@@ -41,9 +39,6 @@ interface Option {
 }
 
 export default defineComponent({
-  components: {
-    GradientSpacer
-  },
   props: {
     title: {
       type: String,
