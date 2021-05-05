@@ -1,12 +1,6 @@
 <template>
-  <button
-    class="relative flex flex-shrink-0 w-full overflow-hidden bg-white rounded shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none group xs:min-h-24 min-h-22"
-  >
-    <div
-      class="self-stretch flex-shrink-0 bg-center bg-cover rounded-l w-22 xs:w-24"
-      :style="{ backgroundImage: `url(${resizeImage(image, 400)})` }"
-    />
-    <div class="flex self-center justify-between w-full p-3 overflow-hidden">
+  <Card :image="resizeImage(image, 400)" type="button">
+    <div class="flex items-center justify-between w-full p-3 overflow-hidden">
       <div class="relative flex flex-col w-full space-y-1 overflow-hidden text-left">
         <p
           class="text-sm font-medium leading-5 text-gray-900 transition duration-150 ease-in-out group-hover:text-gray-500"
@@ -27,14 +21,16 @@
         </svg>
       </div>
     </div>
-  </button>
+  </Card>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import Card from '@/components/Card/Card.vue'
 import useResizeImage from '@/composables/useResizeImage'
 import eventService from '@/services/api/services/eventService'
 export default defineComponent({
+  components: { Card },
   props: {
     id: {
       type: String,

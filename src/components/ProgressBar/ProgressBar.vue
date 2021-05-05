@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="flex flex-shrink-0 w-full overflow-hidden bg-white rounded shadow pointer-events-none focus-visible:outline-none whitespace-nowrap focus-visible:ring-2 focus-visible:ring-blue-500 group focus:outline-none xs:min-h-24 min-h-22"
-  >
-    <div class="self-stretch flex-shrink-0 bg-center bg-cover rounded-l w-22 xs:w-24" :style="{ backgroundImage: `url(${image})` }" />
+  <Card :image="image">
     <div class="flex flex-col items-start justify-center w-full p-3 overflow-hidden">
       <p class="w-full text-sm font-medium text-gray-900 truncate">{{ title }}</p>
       <p class="flex w-full mt-1 text-xs">
@@ -21,15 +18,16 @@
         <Check v-if="goalReached" class="flex-shrink-0 w-4" />
       </div>
     </div>
-  </div>
+  </Card>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 import Check from '@/icons/Check.vue'
 import useFormatter from '@/composables/useFormatter'
+import Card from '@/components/Card/Card.vue'
 export default defineComponent({
-  components: { Check },
+  components: { Check, Card },
   props: {
     title: {
       type: String,
