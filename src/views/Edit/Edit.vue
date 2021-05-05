@@ -14,7 +14,7 @@
             @click="openRelativeLink(lineItem.url)"
             :link-copy="$copy.viewItem"
           />
-          <Card>
+          <div class="flex flex-col p-4 space-y-4 bg-white rounded shadow">
             <InputListbox
               :label="$copy.type"
               class="z-10"
@@ -28,7 +28,7 @@
               <p class="block text-sm font-medium leading-5 text-gray-700">{{ $copy.remove }}</p>
               <Button class="w-full mt-1" :text="$copy.removeButton" theme="white" size="md" @click="removeFromCart" />
             </div>
-          </Card>
+          </div>
         </div>
         <LoaderCard class="absolute top-0 left-0" v-else />
       </Fade>
@@ -43,7 +43,6 @@
 <script lang="ts">
 import useForm from '@/composables/useForm'
 import { number, object, string } from 'yup'
-import Card from '@/components/Card/Card.vue'
 import Fade from '@/components/Fade/Fade.vue'
 import { defineComponent, PropType } from 'vue'
 import Header from '@/components/Header/Header.vue'
@@ -59,7 +58,6 @@ import InputListbox, { ListboxOption } from '@/components/InputListbox/InputList
 export default defineComponent({
   components: {
     Fade,
-    Card,
     Button,
     Header,
     Scroller,

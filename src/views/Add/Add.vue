@@ -21,7 +21,7 @@
             @click="openRelativeLink(`/products/${product.handle}?variant=${selectedVariant?.id}`)"
             :link-copy="$copy.viewItem"
           />
-          <Card>
+          <div class="flex flex-col p-4 space-y-4 bg-white rounded shadow">
             <InputListbox
               class="z-10"
               :label="$copy.type"
@@ -31,7 +31,7 @@
               v-model="fields.variantId.value.value"
             />
             <InputNumber name="quantity" :label="$copy.quantity" v-model="fields.quantity.value.value" :error="fields.quantity.error.value" />
-          </Card>
+          </div>
         </div>
         <LoaderCard class="absolute top-0 left-0" v-else />
       </transition>
@@ -44,7 +44,6 @@
 </template>
 
 <script lang="ts">
-import Card from '@/components/Card/Card.vue'
 import Header from '@/components/Header/Header.vue'
 import Button from '@/components/Button/Button.vue'
 import Scroller from '@/components/Scroller/Scroller.vue'
@@ -60,7 +59,6 @@ import { AjaxCart, AjaxProduct, AjaxVariant } from '@/types/ajaxApi'
 import { getParentFrame } from '@/composables/useParentFrame'
 export default defineComponent({
   components: {
-    Card,
     Button,
     Header,
     Scroller,
