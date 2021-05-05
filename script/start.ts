@@ -3,8 +3,8 @@
 import { connectToChild } from 'penpal'
 import getFormData from 'get-form-data'
 import axios, { AxiosResponse } from 'axios'
-import { lock, unlock } from 'tua-body-scroll-lock'
 import { ChildMethods } from '../src/composables/useParentFrame'
+import { enableScrollLock, disableScrollLock } from 'scroll-lock-body'
 import { AjaxCart, AjaxProduct, AjaxLineItem } from '../src/types/ajaxApi'
 
 const querystring = (params: Record<string, string | boolean | number | undefined>) => {
@@ -20,6 +20,7 @@ class App {
   cartReady = false
   transitioning = false
   childFrame = {} as ChildMethods
+  scrollLockStyleTag = document.createElement('style')
   debug = new URLSearchParams(window.location.search).get('debug') === 'true'
   frame = this.createFrame()
   parentMethods = {
@@ -48,6 +49,7 @@ class App {
   }
 
   async init() {
+    this.setupScrollLock()
     this.overrideCartButtons()
     this.overrideAddToCartSubmit()
     this.overrideAddToCartButtonClicks()
@@ -55,6 +57,37 @@ class App {
     this.childFrame = await this.connect()
     this.cartReady = true
     this.logger('Cart ready.')
+  }
+
+  async setupScrollLock() {
+    this.scrollLockStyleTag = document.createElement('style')
+    document.head.appendChild(this.scrollLockStyleTag)
+  }
+
+  lockScroll() {
+    this.scrollLockStyleTag.innerHTML = `
+      html {
+        overflow-y: scroll;
+      }
+      html[scroll-lock-is-active] > body {
+        overflow: hidden;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        position: fixed;
+      }
+      body {
+        margin: 0;
+        overflow-y: auto; /* overflow-y: scroll -> shows double scroll */
+      }
+    `
+    enableScrollLock()
+  }
+
+  unlockScroll() {
+    this.scrollLockStyleTag.innerHTML = ''
+    disableScrollLock()
   }
 
   createFrame(): HTMLIFrameElement {
@@ -82,7 +115,7 @@ class App {
 
   async open() {
     if (this.transitioning) return
-    lock()
+    this.lockScroll()
     this.transitioning = true
     this.frame.style.display = 'block'
     await this.childFrame.open()
@@ -91,7 +124,7 @@ class App {
 
   async close() {
     if (this.transitioning) return
-    unlock()
+    this.unlockScroll()
     this.transitioning = true
     await this.childFrame.close()
     this.frame.style.display = 'none'

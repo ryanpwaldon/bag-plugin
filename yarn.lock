@@ -7971,6 +7971,11 @@ schema-utils@^2.0.0, schema-utils@^2.5.0, schema-utils@^2.6.5, schema-utils@^2.6
     ajv "^6.12.4"
     ajv-keywords "^3.5.2"
 
+scroll-lock-body@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/scroll-lock-body/-/scroll-lock-body-0.0.6.tgz#db9f7248b1da74815a205eb653e46c96f1e985ad"
+  integrity sha512-T0FAW3AXrYKwmhBj3YQDpQ99Y3dAsL7hWHZ8UOUMxEYPMqKG1LDgwIXMURW3hhaEtzF4MW2yvyjrbWdufdKcPA==
+
 select-hose@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/select-hose/-/select-hose-2.0.0.tgz#625d8658f865af43ec962bfc376a37359a4994ca"
@@ -8869,11 +8874,6 @@ tty-browserify@0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/tty-browserify/-/tty-browserify-0.0.0.tgz#a157ba402da24e9bf957f9aa69d524eed42901a6"
   integrity sha1-oVe6QC2iTpv5V/mqadUk7tQpAaY=
-
-tua-body-scroll-lock@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/tua-body-scroll-lock/-/tua-body-scroll-lock-1.2.1.tgz#a45b428a61ff41e7cccded11c2095d44ac02536e"
-  integrity sha512-DuGbQxIBSbz7/aAwh0oMThOwCwDdYzsU8nF5XQPAvoeOBWp/qhjrZfOtc84gj6CQLZu5L1+TgMNX6fW3OuafHA==
 
 tunnel-agent@^0.6.0:
   version "0.6.0"
