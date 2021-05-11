@@ -1,7 +1,7 @@
 <template>
   <transition @enter="animate" appear>
     <div class="space-y-5 xs:space-y-6" v-if="triggeredOffers.length">
-      <p class="z-20 font-medium leading-6 text-gray-900 pointer-events-none">
+      <p class="z-20 font-medium text-gray-800 pointer-events-none">
         {{ $copy.offersTitle }}
       </p>
       <template v-for="(offer, i) in triggeredOffers" :key="i">
