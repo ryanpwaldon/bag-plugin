@@ -19,7 +19,7 @@
         <p class="text-sm font-medium leading-5 text-gray-900 transition duration-150 ease-in-out group-hover:text-gray-500">
           {{ price }}
         </p>
-        <p v-if="originalPrice" class="mt-1 line-through">{{ originalPrice }}</p>
+        <p v-if="displayOriginalPrice" class="mt-1 line-through">{{ originalPrice }}</p>
       </div>
     </div>
   </Card>
@@ -45,6 +45,10 @@ export default defineComponent({
     price: {
       type: [String, Number],
       required: false
+    },
+    displayOriginalPrice: {
+      type: Boolean,
+      default: false
     },
     originalPrice: {
       type: [String, Number],
