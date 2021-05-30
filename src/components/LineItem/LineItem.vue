@@ -19,7 +19,7 @@
         <p class="text-sm font-medium leading-5 text-gray-900 transition duration-150 ease-in-out group-hover:text-gray-500">
           {{ price }}
         </p>
-        <p v-if="false" class="line-through">{{ compareAtPrice }}</p>
+        <p v-if="originalPrice" class="mt-1 line-through">{{ originalPrice }}</p>
       </div>
     </div>
   </Card>
@@ -46,7 +46,7 @@ export default defineComponent({
       type: [String, Number],
       required: false
     },
-    compareAtPrice: {
+    originalPrice: {
       type: [String, Number],
       required: false
     },

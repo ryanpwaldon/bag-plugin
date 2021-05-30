@@ -15,6 +15,7 @@
               :options="lineItem.options_with_values"
               :hide-options="lineItem.product_has_only_default_variant"
               :price="cart && formatter.currency(lineItem.final_line_price / 100, cart.currency)"
+              :original-price="cart && formatter.currency(lineItem.original_line_price / 100, cart.currency)"
               @click="$emit('route', { name: 'Edit', props: { lineItem, currencyCode: cart && cart.currency } })"
               :link-copy="$copy.edit"
             />
@@ -49,7 +50,7 @@ import Balance from '@/components/Balance/Balance.vue'
 import Scroller from '@/components/Scroller/Scroller.vue'
 import LineItem from '@/components/LineItem/LineItem.vue'
 import { getParentFrame } from '@/composables/useParentFrame'
-import { computed, defineComponent, PropType, ref } from 'vue'
+import { computed, defineComponent, PropType, ref, watch } from 'vue'
 import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
 import EmptyBag from '@/components/EmptyBag/EmptyBag.vue'
 export default defineComponent({
