@@ -9,7 +9,10 @@
       leave-from-class="opacity-100"
       leave-to-class="opacity-0"
     >
-      <p v-if="subtotal">{{ subtotal }}</p>
+      <div v-if="subtotal" class="flex space-x-3">
+        <p v-if="displayOriginalSubtotal" class="font-normal text-gray-500 line-through">{{ originalSubtotal }}</p>
+        <p>{{ subtotal }}</p>
+      </div>
       <div v-else class="absolute right-0 w-20 h-4 transform -translate-y-1/2 top-1/2">
         <div class="w-full h-full bg-gray-200 animate-pulse" />
       </div>
@@ -21,6 +24,14 @@
 import { defineComponent } from 'vue'
 export default defineComponent({
   props: {
+    displayOriginalSubtotal: {
+      type: Boolean,
+      required: false
+    },
+    originalSubtotal: {
+      type: String,
+      required: false
+    },
     subtotal: {
       type: String,
       required: false
