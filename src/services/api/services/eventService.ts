@@ -1,12 +1,12 @@
 import api from '@/services/api/api'
 
-type CrossSellImpression = {
+type CrossSellClick = {
   cartToken: string
   crossSell: string
 }
 
 export default {
-  createCrossSellImpression(crossSellImpression: CrossSellImpression): void {
-    api({ url: `/event/cross-sell-impression`, method: 'post', data: crossSellImpression })
+  createCrossSellClick(crossSellClick: CrossSellClick): void {
+    api({ url: `/event/cross-sell-click`, method: 'post', data: crossSellClick })
   }
 }

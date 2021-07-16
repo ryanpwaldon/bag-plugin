@@ -28,7 +28,6 @@
 import { defineComponent } from 'vue'
 import Card from '@/components/Card/Card.vue'
 import useResizeImage from '@/composables/useResizeImage'
-import eventService from '@/services/api/services/eventService'
 export default defineComponent({
   components: { Card },
   props: {
@@ -57,12 +56,8 @@ export default defineComponent({
       required: true
     }
   },
-  setup(props) {
+  setup() {
     const resizeImage = useResizeImage()
-    eventService.createCrossSellImpression({
-      cartToken: props.cartToken,
-      crossSell: props.id
-    })
     return { resizeImage }
   }
 })

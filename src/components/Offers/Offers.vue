@@ -20,7 +20,7 @@
           :cartToken="cart.token"
           :subtitle="offer.subtitle"
           :productId="offer.productId"
-          @click="handleCrossSellClick(offer.product)"
+          @click="handleCrossSellClick(offer, cart.token)"
           v-if="offer.type === 'crossSell'"
           :image="offer.product.featured_image"
         />
@@ -31,14 +31,15 @@
 
 <script lang="ts">
 import anime from 'animejs'
-import { Offer } from '@/types/serverApi'
+import { AjaxCart } from '@/types/ajaxApi'
 import useOffers from '@/composables/useOffers'
 import { defineComponent, PropType } from 'vue'
 import useFormatter from '@/composables/useFormatter'
-import { AjaxCart, AjaxProduct } from '@/types/ajaxApi'
 import CrossSell from '@/components/CrossSell/CrossSell.vue'
 import fetchProductByHandle from '@/utils/fetchProductByHandle'
+import eventService from '@/services/api/services/eventService'
 import ProgressBar from '@/components/ProgressBar/ProgressBar.vue'
+import { CrossSell as CrossSellType, Offer } from '@/types/serverApi'
 import useFilterOffers, { TriggerData } from '@/composables/useFilterOffers'
 export default defineComponent({
   components: {
@@ -106,8 +107,12 @@ export default defineComponent({
       for (const product of lineItemProducts) tags.push(...product.tags)
       return [...new Set(tags)]
     },
-    handleCrossSellClick(product: AjaxProduct) {
-      this.$emit('route', { name: 'Add', props: { product, currencyCode: this.cart.currency } })
+    handleCrossSellClick(crossSell: CrossSellType, cartToken: string) {
+      eventService.createCrossSellClick({
+        cartToken: cartToken,
+        crossSell: crossSell.id
+      })
+      this.$emit('route', { name: 'Add', props: { product: crossSell.product, currencyCode: this.cart.currency } })
     }
   }
 })
