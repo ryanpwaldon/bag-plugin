@@ -12,7 +12,7 @@ import Spinner from '@/components/Spinner/Spinner.vue'
 import { defineComponent, PropType } from 'vue'
 
 type Sizes = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-type Themes = 'white' | 'black'
+type Themes = 'white' | 'white-outline' | 'black'
 type Classes<T extends string> = { [K in T]: string }
 
 export default defineComponent({
@@ -45,7 +45,7 @@ export default defineComponent({
     // prettier-ignore
     containerClasses(): string {
       const sizeClasses: Classes<Sizes> = { xs: '', sm: '', md: '', lg: '', xl: '' }
-      const themeClasses: Classes<Themes> = { white: 'shadow-sm', black: 'shadow' }
+      const themeClasses: Classes<Themes> = { white: 'shadow', black: 'shadow', 'white-outline': 'shadow-sm', }
       return `${sizeClasses[this.size]} ${themeClasses[this.theme]}`
     },
     // prettier-ignore
@@ -58,7 +58,8 @@ export default defineComponent({
         xl: 'px-6 py-3 text-base font-medium'
       }
       const themeClasses: Classes<Themes> = {
-        white: 'rounded bg-white text-gray-900 hover:bg-gray-50 border border-gray-300 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
+        white: 'rounded bg-white text-gray-900 hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
+        'white-outline': 'rounded bg-white text-gray-900 border border-gray-300 hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
         black: 'rounded text-white bg-gray-900 hover:bg-black focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2'
       }
       return `${sizeClasses[this.size]} ${themeClasses[this.theme]}`

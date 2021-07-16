@@ -26,7 +26,7 @@
             <InputNumber name="quantity" :label="$copy.quantity" v-model="fields.quantity.value.value" :error="fields.quantity.error.value" />
             <div class="flex flex-col items-start">
               <p class="block text-sm font-medium leading-5 text-gray-700">{{ $copy.remove }}</p>
-              <Button class="w-full mt-1" :text="$copy.removeButton" theme="white" size="md" @click="removeFromCart" />
+              <Button class="w-full mt-1" :text="$copy.removeButton" theme="white-outline" size="md" @click="removeFromCart" />
             </div>
           </div>
         </div>
