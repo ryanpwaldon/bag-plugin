@@ -32,6 +32,7 @@ class App {
     openRelativeLink: this.openRelativeLink.bind(this),
     getProductByHandle: this.getProductByHandle.bind(this),
     getWindowInnerWidth: this.getWindowInnerWidth.bind(this),
+    getUserCartSettings: this.getUserCartSettings.bind(this),
     changeLineItemQuantity: this.changeLineItemQuantity.bind(this)
   }
 
@@ -57,6 +58,10 @@ class App {
     this.childFrame = await this.connect()
     this.cartReady = true
     this.logger('Cart ready.')
+  }
+
+  getUserCartSettings() {
+    return window.bagCartSettings
   }
 
   async setupScrollLock() {

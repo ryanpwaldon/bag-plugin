@@ -13,7 +13,11 @@ module.exports = {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans]
       },
       colors: {
-        gray: colors.trueGray
+        gray: colors.trueGray,
+        'text-color-primary': 'var(--text-color-primary)',
+        'text-color-secondary': 'var(--text-color-secondary)',
+        'button-color-primary': 'var(--button-color-primary)',
+        'button-color-secondary': 'var(--button-color-secondary)'
       },
       spacing: {
         '130': '32.5rem',

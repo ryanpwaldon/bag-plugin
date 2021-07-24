@@ -7,6 +7,7 @@ import useOffers from '@/composables/useOffers'
 import { intlPolyfill } from '@/polyfills/intl'
 import honeybadger from '@/plugins/honeybadger'
 import 'focus-visible/dist/focus-visible.min.js'
+import applyCartSettings from '@/utils/applyCartSettings'
 
 intlPolyfill()
 
@@ -16,4 +17,5 @@ export default createApp(App)
   .use(honeybadger, { apiKey: process.env.VUE_APP_HONEYBADGER_API_KEY, environment: process.env.VUE_APP_ENV })
   .mount('#app')
 
+applyCartSettings()
 useOffers().fetchOffers()
