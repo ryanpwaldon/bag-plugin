@@ -37,7 +37,7 @@
             />
             <Button :text="$copy.checkoutButton" @click="openRelativeLink('/checkout')" class="w-full" />
           </template>
-          <Button @click="handleClose" class="w-full" :text="$copy.continueShoppingButton" :theme="lineItems.length ? 'white' : 'black'" />
+          <Button @click="handleClose" class="w-full" :text="$copy.continueShoppingButton" :theme="lineItems.length ? 'white' : 'primary'" />
         </div>
       </Fade>
     </div>

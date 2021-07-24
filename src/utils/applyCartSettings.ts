@@ -4,12 +4,13 @@ import { connectedToParentFrame, getParentFrame } from '@/composables/useParentF
 
 const applyStyles = (cssVariables: typeof defaultCartSettings.cssVariables) => {
   const root = document.documentElement
-  Object.entries(cssVariables).forEach(([key, value]) => root.style.setProperty(key, value))
+  Object.entries(cssVariables).forEach(([key, value]) => root.style.setProperty(`--${key}`, value))
 }
 
 export default async () => {
   await connectedToParentFrame
-  const userCartSettings = getParentFrame().getUserCartSettings()
+  const userCartSettings = await getParentFrame().getUserCartSettings()
   const cartSettings = merge(defaultCartSettings, userCartSettings)
+  console.log(cartSettings)
   applyStyles(cartSettings.cssVariables)
 }

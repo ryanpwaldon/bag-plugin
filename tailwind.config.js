@@ -13,19 +13,23 @@ module.exports = {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans]
       },
       colors: {
-        gray: colors.trueGray,
-        'text-color-primary': 'var(--text-color-primary)',
-        'text-color-secondary': 'var(--text-color-secondary)',
-        'button-color-primary': 'var(--button-color-primary)',
-        'button-color-secondary': 'var(--button-color-secondary)'
+        colorBackdrop: 'var(--colorBackdrop)',
+        colorBackground: 'var(--colorBackground)',
+        colorProgressBarPrimary: 'var(--colorProgressBarPrimary)',
+        colorProgressBarSecondary: 'var(--colorProgressBarSecondary)',
+        colorButtonPrimaryBackground: 'var(--colorButtonPrimaryBackground)',
+        colorButtonPrimaryText: 'var(--colorButtonPrimaryText)',
+        colorAccentPrimary: 'var(--colorAccentPrimary)',
+        gray: colors.trueGray
+      },
+      borderRadius: {
+        borderRadiusCart: 'var(--borderRadiusCart)'
       },
       spacing: {
-        '130': '32.5rem',
-        '124': '31rem',
-        '112': '28rem',
-        '18': '4.5rem'
+        paddingCart: 'var(--paddingCart)'
       },
       width: {
+        '130': '32.5rem',
         '22': '5.5rem'
       },
       minHeight: {

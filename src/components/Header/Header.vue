@@ -7,7 +7,7 @@
     <button
       type="button"
       @click="handleClose"
-      class="inline-flex items-center justify-center w-8 h-8 -m-1 text-gray-500 transition duration-150 ease-in-out bg-transparent rounded-full hover:text-gray-700 focus:outline-none hover:bg-gray-100 focus:bg-gray-100 focus:text-gray-700"
+      class="inline-flex items-center justify-center w-12 h-12 -m-4 text-gray-500 transition ease-out rounded hover:text-gray-700 focus:outline-none focus:text-gray-700"
     >
       <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />

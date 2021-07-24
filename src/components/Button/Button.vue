@@ -12,7 +12,7 @@ import Spinner from '@/components/Spinner/Spinner.vue'
 import { defineComponent, PropType } from 'vue'
 
 type Sizes = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-type Themes = 'white' | 'white-outline' | 'black'
+type Themes = 'white' | 'white-outline' | 'primary'
 type Classes<T extends string> = { [K in T]: string }
 
 export default defineComponent({
@@ -34,7 +34,7 @@ export default defineComponent({
     },
     theme: {
       type: String as PropType<Themes>,
-      default: 'black'
+      default: 'primary'
     },
     loading: {
       type: Boolean,
@@ -45,7 +45,7 @@ export default defineComponent({
     // prettier-ignore
     containerClasses(): string {
       const sizeClasses: Classes<Sizes> = { xs: '', sm: '', md: '', lg: '', xl: '' }
-      const themeClasses: Classes<Themes> = { white: 'shadow', black: 'shadow', 'white-outline': 'shadow-sm', }
+      const themeClasses: Classes<Themes> = { white: 'shadow', primary: 'shadow', 'white-outline': 'shadow-sm', }
       return `${sizeClasses[this.size]} ${themeClasses[this.theme]}`
     },
     // prettier-ignore
@@ -58,9 +58,9 @@ export default defineComponent({
         xl: 'px-6 py-3 text-base font-medium'
       }
       const themeClasses: Classes<Themes> = {
-        white: 'rounded bg-white text-gray-900 hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
+        white: 'transition ease-out rounded bg-white text-gray-900 hover:opacity-90 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
         'white-outline': 'rounded bg-white text-gray-900 border border-gray-300 hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
-        black: 'rounded text-white bg-gray-900 hover:bg-black focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2'
+        primary: 'transition ease-out rounded text-colorButtonPrimaryText bg-colorButtonPrimaryBackground hover:opacity-90 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2'
       }
       return `${sizeClasses[this.size]} ${themeClasses[this.theme]}`
     }

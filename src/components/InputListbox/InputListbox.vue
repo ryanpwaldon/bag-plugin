@@ -40,16 +40,9 @@
                   class="flex justify-between py-2 pl-3 pr-4 space-x-4 cursor-default select-none"
                   :class="[active && 'bg-gray-100', disabled ? 'text-gray-400' : 'text-gray-900']"
                 >
-                  <span :class="`${selected ? 'font-medium' : 'font-normal'} flex-1 block truncate`">{{ option.title }}</span>
+                  <span :class="`${selected ? 'font-semibold' : 'font-normal'} flex-1 block truncate`">{{ option.title }}</span>
                   <span class="flex items-center flex-shrink-0">
-                    <svg v-if="selected" class="w-5 h-5 text-blue-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                      <path
-                        fill-rule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                    <Badge v-if="!selected" :text="option.meta" :theme="active ? 'white' : 'gray'" />
+                    <Badge :text="option.meta" :theme="active ? 'white' : 'gray'" />
                   </span>
                 </div>
               </ListboxOption>
