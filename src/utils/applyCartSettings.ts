@@ -1,4 +1,4 @@
-import { merge } from 'lodash'
+import merge from 'lodash/merge'
 import defaultCartSettings from '@/settings/defaultCartSettings'
 import { connectedToParentFrame, getParentFrame } from '@/composables/useParentFrame'
 
