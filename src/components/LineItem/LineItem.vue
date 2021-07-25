@@ -30,7 +30,7 @@ import { defineComponent, PropType } from 'vue'
 import useResizeImage from '@/composables/useResizeImage'
 import Card from '@/components/Card/Card.vue'
 
-interface Option {
+export interface Option {
   name: string
   value: string
 }

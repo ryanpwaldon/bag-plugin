@@ -18,9 +18,7 @@
             <span v-else :class="error ? 'text-red-300' : 'text-colorTextSecondary'">{{ placeholder }}</span>
           </span>
           <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-            <svg class="w-5 h-5 text-colorTextSecondary" viewBox="0 0 20 20" fill="none" stroke="currentColor">
-              <path d="M7 7l3-3 3 3m0 6l-3 3-3-3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
+            <Selector />
           </span>
         </ListboxButton>
       </span>
@@ -57,10 +55,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
-import { Listbox, ListboxLabel, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
-import Badge from '@/components/Badge/Badge.vue'
+import Selector from '@/icons/Selector.vue'
 import useModel from '@/composables/useModel'
+import { defineComponent, PropType } from 'vue'
+import Badge from '@/components/Badge/Badge.vue'
+import { Listbox, ListboxLabel, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue'
 
 export interface ListboxOption {
   id: string
@@ -73,6 +72,7 @@ export default defineComponent({
   components: {
     Badge,
     Listbox,
+    Selector,
     ListboxLabel,
     ListboxButton,
     ListboxOptions,

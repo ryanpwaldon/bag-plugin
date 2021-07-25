@@ -5,22 +5,22 @@
       <Fade>
         <div class="space-y-5 xs:space-y-6" v-if="product">
           <LineItem
-            :hide-options="hasOnlyDefaultVariant"
             :image="lineItemImage"
+            :title="product.title"
             :link-copy="$copy.viewItem"
             :options="selectedVariantOptions"
-            :price="selectedVariant && formatter.currency((selectedVariant.price / 100) * fields.quantity.value.value, currencyCode)"
+            :hide-options="hasOnlyDefaultVariant"
             :quantity="fields.quantity.value.value"
-            :title="product.title"
-            @click="openRelativeLink(`/products/${product.handle}?variant=${selectedVariant?.id}`)"
+            @click="openRelativeLink(`/products/${product?.handle}?variant=${selectedVariant?.id}`)"
+            :price="selectedVariant && formatter.currency((selectedVariant.price / 100) * fields.quantity.value.value, currencyCode)"
           />
           <div class="flex flex-col p-4 space-y-4 bg-white border rounded shadow-shadowPrimary border-colorBorderPrimary">
             <InputListbox
-              :error="fields.variantId.error.value"
-              :label="$copy.type"
-              :options="variantIdListboxOptions"
               class="z-10"
+              :label="$copy.type"
               v-if="!hasOnlyDefaultVariant"
+              :options="variantIdListboxOptions"
+              :error="fields.variantId.error.value"
               v-model="fields.variantId.value.value"
             />
             <InputNumber name="quantity" :label="$copy.quantity" v-model="fields.quantity.value.value" :error="fields.quantity.error.value" />
@@ -48,10 +48,10 @@ import Header from '@/components/Header/Header.vue'
 import Button from '@/components/Button/Button.vue'
 import useFormatter from '@/composables/useFormatter'
 import Scroller from '@/components/Scroller/Scroller.vue'
-import LineItem from '@/components/LineItem/LineItem.vue'
 import { getParentFrame } from '@/composables/useParentFrame'
 import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
 import InputNumber from '@/components/InputNumber/InputNumber.vue'
+import LineItem, { Option } from '@/components/LineItem/LineItem.vue'
 import { computed, defineComponent, onMounted, PropType, Ref, ref } from 'vue'
 import { AjaxCart, AjaxLineItem, AjaxProduct, AjaxVariant } from '@/types/ajaxApi'
 import InputListbox, { ListboxOption } from '@/components/InputListbox/InputListbox.vue'
@@ -88,7 +88,7 @@ export default defineComponent({
     if (props.mode === 'edit' && !props.lineItem) throw Error('Line item is required when mode is "edit".')
     if (props.mode === 'add' && !props.initialProduct) throw Error('Product is required when mode is "add".')
     const { formatter } = useFormatter()
-    const product = ref() as Ref<AjaxProduct>
+    const product = ref() as Ref<AjaxProduct | undefined>
     const returnToCart = (cart?: AjaxCart) => emit('route', { name: 'Home', props: { initialCart: cart } })
     const removeFromCart = async () => {
       const cart = await getParentFrame().changeLineItemQuantity(props.lineItem.key, 0)
@@ -155,8 +155,8 @@ export default defineComponent({
     }
   },
   computed: {
-    lineItemImage(): string | null {
-      return this.selectedVariant?.featured_image?.src || this.product?.featured_image || null
+    lineItemImage(): string {
+      return this.selectedVariant?.featured_image?.src || this.product?.featured_image || ''
     },
     hasOnlyDefaultVariant(): boolean {
       return this.product?.options.length === 1 && this.product?.options[0].values[0] === 'Default Title'
@@ -166,8 +166,9 @@ export default defineComponent({
         ? this.product?.variants[0]
         : this.product?.variants.find(item => item.id.toString() === this.fields.variantId.value.value)
     },
-    selectedVariantOptions(): Record<string, string | undefined>[] {
-      return this.product?.options.map(({ name }, i) => ({ name, value: this.selectedVariant?.options[i] })) || []
+    selectedVariantOptions(): Option[] {
+      if (!this.product || !this.selectedVariant) return []
+      return this.product.options.map(({ name }, i) => ({ name, value: (this.selectedVariant as AjaxVariant).options[i] })) || []
     },
     variantIdListboxOptions(): ListboxOption[] {
       if (!this.product) return []

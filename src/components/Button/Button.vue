@@ -18,7 +18,7 @@ export default defineComponent({
       required: true
     },
     type: {
-      type: String,
+      type: String as PropType<'submit' | 'button'>,
       default: 'button'
     },
     size: {

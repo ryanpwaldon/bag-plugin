@@ -16,9 +16,7 @@
         </p>
       </div>
       <div class="relative flex items-center pl-4 transition duration-150 ease-in-out">
-        <svg class="w-5 h-5 text-colorTextSecondary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
+        <ChevronRight />
       </div>
     </div>
   </Card>
@@ -27,9 +25,10 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import Card from '@/components/Card/Card.vue'
+import ChevronRight from '@/icons/ChevronRight.vue'
 import useResizeImage from '@/composables/useResizeImage'
 export default defineComponent({
-  components: { Card },
+  components: { Card, ChevronRight },
   props: {
     id: {
       type: String,

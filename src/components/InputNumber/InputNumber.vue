@@ -8,16 +8,14 @@
         aria-label="Minus"
         @click="decrement"
       >
-        <svg class="w-6 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clip-rule="evenodd" />
-        </svg>
+        <Minus class="w-6 h-4" />
       </button>
       <input
         :id="name"
         type="text"
         :value="modelValue"
         :placeholder="placeholder"
-        @input="this.update($event.target.value)"
+        @input="update($event)"
         class="flex-1 min-w-0 -mx-px text-sm font-medium text-center focus:z-10 focus:outline-none"
         :class="
           error
@@ -31,9 +29,7 @@
         aria-label="Plus"
         @click="increment"
       >
-        <svg class="w-6 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
-        </svg>
+        <Plus class="w-6 h-4" />
       </button>
     </div>
     <p v-if="error" class="mt-2 text-sm" :class="[error ? 'text-red-600' : 'text-colorTextSecondary']">{{ error }}</p>
@@ -41,8 +37,11 @@
 </template>
 
 <script lang="ts">
+import Plus from '@/icons/Plus.vue'
+import Minus from '@/icons/Minus.vue'
 import { defineComponent } from 'vue'
 export default defineComponent({
+  components: { Minus, Plus },
   props: {
     name: {
       type: String,
@@ -66,8 +65,9 @@ export default defineComponent({
     }
   },
   methods: {
-    update<T>(value: T) {
-      this.$emit('update:modelValue', value)
+    /* eslint-disable */
+    update(event: any) {
+      this.$emit('update:modelValue', event.target.value)
     },
     ensureInt(value: string | number) {
       return typeof value === 'string' ? parseInt(value) : value
