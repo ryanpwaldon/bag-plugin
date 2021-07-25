@@ -9,9 +9,6 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@formatjs/intl-getcanonicallocales": "^1.5.8",
-    "@formatjs/intl-locale": "^2.4.21",
-    "@formatjs/intl-numberformat": "^6.2.5",
     "@headlessui/vue": "^0.2.0",
     "@honeybadger-io/js": "^3.2.0",
     "@shopify/admin-graphql-api-utilities": "^0.1.1",

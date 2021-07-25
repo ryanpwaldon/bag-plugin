@@ -4,12 +4,9 @@ import copy from '@/plugins/copy'
 import '@/assets/styles/index.css'
 import analytics from 'vue-gtag-next'
 import useOffers from '@/composables/useOffers'
-import { intlPolyfill } from '@/polyfills/intl'
 import honeybadger from '@/plugins/honeybadger'
 import 'focus-visible/dist/focus-visible.min.js'
 import applyCartSettings from '@/utils/applyCartSettings'
-
-intlPolyfill()
 
 export default createApp(App)
   .use(copy)
