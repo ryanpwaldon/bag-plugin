@@ -110,7 +110,7 @@ export default defineComponent({
           .default(defaultVariantId.value)
       }).defined()
     )
-    const { fields, handleSubmit, getValues } = useForm(schema.value)
+    const { fields, handleSubmit, getValues } = useForm(schema)
     onMounted(async () => {
       if (props.mode === 'edit') {
         product.value = await getParentFrame().getProductByHandle(props.lineItem.handle)
@@ -124,7 +124,8 @@ export default defineComponent({
       }
     })
     const onEditSubmit = async () => {
-      const { variantId, quantity } = fields
+      const variantId = fields.value.variantId
+      const quantity = fields.value.quantity
       if (variantId.modified.value) {
         console.log('variantId.modified.value')
         await getParentFrame().addToCart(variantId.value.value, quantity.value.value)
