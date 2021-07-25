@@ -22,8 +22,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import Check from '@/icons/Check.vue'
-import useFormatter from '@/composables/useFormatter'
 import Card from '@/components/Card/Card.vue'
+import useFormatter from '@/composables/useFormatter'
 export default defineComponent({
   components: { Check, Card },
   props: {

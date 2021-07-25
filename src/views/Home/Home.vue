@@ -8,9 +8,10 @@
             <EmptyBag v-if="!lineItems.length" />
             <LineItem
               :key="i"
-              v-for="(lineItem, i) in lineItems"
-              :title="lineItem.product_title"
+              :link-copy="$copy.edit"
               :quantity="lineItem.quantity"
+              :title="lineItem.product_title"
+              v-for="(lineItem, i) in lineItems"
               :image="lineItem.featured_image.url"
               :options="lineItem.options_with_values"
               :hide-options="lineItem.product_has_only_default_variant"
@@ -18,7 +19,6 @@
               :price="cart && formatter.currency(lineItem.final_line_price / 100, cart.currency)"
               :original-price="cart && formatter.currency(lineItem.original_line_price / 100, cart.currency)"
               @click="$emit('route', { name: 'Edit', props: { lineItem, currencyCode: cart?.currency, mode: 'edit' } })"
-              :link-copy="$copy.edit"
             />
             <Offers :cart="cart" @route="$emit('route', $event)" />
           </div>
@@ -54,21 +54,21 @@ import useFormatter from '@/composables/useFormatter'
 import Balance from '@/components/Balance/Balance.vue'
 import Scroller from '@/components/Scroller/Scroller.vue'
 import LineItem from '@/components/LineItem/LineItem.vue'
+import EmptyBag from '@/components/EmptyBag/EmptyBag.vue'
 import { getParentFrame } from '@/composables/useParentFrame'
 import { computed, defineComponent, PropType, ref } from 'vue'
 import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
-import EmptyBag from '@/components/EmptyBag/EmptyBag.vue'
 export default defineComponent({
   components: {
     Fade,
     Header,
     Button,
-    Balance,
     Offers,
+    Balance,
+    EmptyBag,
     Scroller,
     LineItem,
-    LoaderCard,
-    EmptyBag
+    LoaderCard
   },
   props: {
     initialCart: {

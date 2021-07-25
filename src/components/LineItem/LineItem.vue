@@ -26,9 +26,9 @@
 </template>
 
 <script lang="ts">
+import Card from '@/components/Card/Card.vue'
 import { defineComponent, PropType } from 'vue'
 import useResizeImage from '@/composables/useResizeImage'
-import Card from '@/components/Card/Card.vue'
 
 export interface Option {
   name: string
