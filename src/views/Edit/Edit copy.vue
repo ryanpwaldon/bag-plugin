@@ -1,41 +1,41 @@
 <template>
   <form class="flex flex-col h-full" @submit="handleSubmit">
-    <Header :title="$copy.addToCartTitle" :close="returnToCart" />
+    <Header :title="$copy.editTitle" :close="returnToCart" />
     <Scroller>
       <Fade>
         <div class="space-y-5 xs:space-y-6" v-if="product">
           <LineItem
-            :hide-options="hasOnlyDefaultVariant"
-            :image="lineItemImage"
-            :link-copy="$copy.viewItem"
-            :options="selectedVariantOptions"
-            :price="selectedVariant && formatter.currency((selectedVariant.price / 100) * fields.quantity.value.value, currencyCode)"
+            :title="lineItem.product_title"
             :quantity="fields.quantity.value.value"
-            :title="product.title"
-            @click="openRelativeLink(`/products/${product.handle}?variant=${selectedVariant?.id}`)"
+            :image="lineItemImage"
+            :options="selectedVariantOptions"
+            :hide-options="lineItem.product_has_only_default_variant"
+            :price="selectedVariant && formatter.currency((selectedVariant.price / 100) * fields.quantity.value.value, currencyCode)"
+            @click="openRelativeLink(lineItem.url)"
+            :link-copy="$copy.viewItem"
           />
           <div class="flex flex-col p-4 space-y-4 bg-white border rounded shadow-shadowPrimary border-colorBorderPrimary">
             <InputListbox
-              :error="fields.variantId.error.value"
               :label="$copy.type"
-              :options="variantIdListboxOptions"
               class="z-10"
-              v-if="!hasOnlyDefaultVariant"
+              :options="variantIdListboxOptions"
+              :error="fields.variantId.error.value"
               v-model="fields.variantId.value.value"
+              v-if="!lineItem.product_has_only_default_variant"
             />
             <InputNumber name="quantity" :label="$copy.quantity" v-model="fields.quantity.value.value" :error="fields.quantity.error.value" />
-
-
-
-
+            <div class="flex flex-col items-start">
+              <p class="block text-sm font-medium text-colorTextSecondary">{{ $copy.remove }}</p>
+              <Button class="w-full mt-1" :text="$copy.removeButton" theme="white-outline" size="md" @click="removeFromCart" />
+            </div>
           </div>
         </div>
         <LoaderCard class="absolute top-0 left-0" v-else />
       </Fade>
     </Scroller>
     <div class="grid flex-shrink-0 gap-4 p-5 mt-auto border-t border-dashed border-colorBorderPrimary xs:p-6">
-      <Button type="submit" :text="$copy.addToCartButton" />
-      <Button :text="$copy.cancelButton" theme="white" @click="$emit('route', { name: 'Home' })" />
+      <Button type="submit" :text="$copy.saveButton" />
+      <Button :text="$copy.backToCartButton" theme="white" @click="$emit('route', { name: 'Home' })" />
     </div>
   </form>
 </template>
@@ -53,7 +53,7 @@ import LineItem from '@/components/LineItem/LineItem.vue'
 import { getParentFrame } from '@/composables/useParentFrame'
 import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
 import InputNumber from '@/components/InputNumber/InputNumber.vue'
-import { AjaxCart, AjaxProduct, AjaxVariant } from '@/types/ajaxApi'
+import { AjaxCart, AjaxLineItem, AjaxProduct, AjaxVariant } from '@/types/ajaxApi'
 import InputListbox, { ListboxOption } from '@/components/InputListbox/InputListbox.vue'
 export default defineComponent({
   components: {
@@ -67,8 +67,8 @@ export default defineComponent({
     InputListbox
   },
   props: {
-    product: {
-      type: Object as PropType<AjaxProduct>,
+    lineItem: {
+      type: Object as PropType<AjaxLineItem>,
       required: true
     },
     currencyCode: {
@@ -83,47 +83,48 @@ export default defineComponent({
         .required('Quantity is required.')
         .integer('Quantity cannot be a decimal.')
         .min(1, 'Quantity must be equal to 1 or more.')
-        .default(1),
+        .default(props.lineItem.quantity),
       variantId: string()
         .typeError('Type is required.')
         .required('Type is required.')
-
+        .default(props.lineItem.variant_id)
     }).defined()
-    const { fields, getValues, handleSubmit } = useForm(schema)
-    const { formatter } = useFormatter()
+    const { fields, handleSubmit } = useForm(schema)
     const returnToCart = (cart?: AjaxCart) => emit('route', { name: 'Home', props: { initialCart: cart } })
     const onSubmit = async () => {
-      const { variantId, quantity } = getValues()
-      await getParentFrame().addToCart(variantId, quantity)
-      returnToCart()
+      const { variantId, quantity } = fields
+      if (variantId.modified.value) {
+        await getParentFrame().addToCart(variantId.value.value, quantity.value.value)
+        const cart = await getParentFrame().changeLineItemQuantity(props.lineItem.key, 0)
+        returnToCart(cart)
+      } else if (quantity.modified.value) {
+        const cart = await getParentFrame().changeLineItemQuantity(props.lineItem.key, quantity.value.value)
+        returnToCart(cart)
+      } else {
+        returnToCart()
+      }
     }
+    const { formatter } = useFormatter()
     return {
       fields,
       formatter,
-      getValues,
       returnToCart,
       handleSubmit: handleSubmit(onSubmit),
       openRelativeLink: getParentFrame().openRelativeLink
     }
   },
-
-
-
-
-
-
   async created() {
-    this.fields.variantId.value.value = this.product.variants.find(variant => variant.available)?.id.toString()
+    this.product = await getParentFrame().getProductByHandle(this.lineItem.handle)
   },
+  data: () => ({
+    product: null as AjaxProduct | null
+  }),
   computed: {
     lineItemImage(): string | null {
       return this.selectedVariant?.featured_image?.src || this.product?.featured_image || null
     },
-    hasOnlyDefaultVariant(): boolean {
-      return this.product?.options.length === 1 && this.product?.options[0].values[0] === 'Default Title'
-    },
     selectedVariant(): AjaxVariant | undefined {
-      return this.hasOnlyDefaultVariant
+      return this.lineItem?.product_has_only_default_variant
         ? this.product?.variants[0]
         : this.product?.variants.find(item => item.id.toString() === this.fields.variantId.value.value)
     },
@@ -138,6 +139,12 @@ export default defineComponent({
         meta: item.available ? this.formatter.currency(item.price / 100, this.currencyCode) : this.$copy.soldOut,
         disabled: !item.available
       }))
+    }
+  },
+  methods: {
+    async removeFromCart() {
+      const cart = await getParentFrame().changeLineItemQuantity(this.lineItem.key, 0)
+      this.returnToCart(cart)
     }
   }
 })

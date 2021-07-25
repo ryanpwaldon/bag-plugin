@@ -17,7 +17,7 @@
               :display-original-price="lineItem.original_line_price > lineItem.final_line_price"
               :price="cart && formatter.currency(lineItem.final_line_price / 100, cart.currency)"
               :original-price="cart && formatter.currency(lineItem.original_line_price / 100, cart.currency)"
-              @click="$emit('route', { name: 'Edit', props: { lineItem, currencyCode: cart && cart.currency } })"
+              @click="$emit('route', { name: 'Edit', props: { lineItem, currencyCode: cart?.currency, mode: 'edit' } })"
               :link-copy="$copy.edit"
             />
             <Offers :cart="cart" @route="$emit('route', $event)" />
@@ -28,7 +28,7 @@
         </div>
       </Fade>
       <Fade>
-        <div v-if="cart" class="grid flex-shrink-0 gap-4 p-5 border-t border-gray-300 border-dashed xs:p-6 bg-gray">
+        <div v-if="cart" class="grid flex-shrink-0 gap-4 p-5 border-t border-dashed border-colorBorderPrimary xs:p-6 bg-gray">
           <template v-if="lineItems.length">
             <Balance
               :subtotal="formatter.currency(cart.total_price / 100, cart.currency)"

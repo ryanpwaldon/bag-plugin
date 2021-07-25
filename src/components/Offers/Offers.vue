@@ -1,7 +1,7 @@
 <template>
   <transition @enter="animate" appear>
     <div class="space-y-5 xs:space-y-6" v-if="triggeredOffers.length">
-      <p class="z-20 font-medium text-gray-800 pointer-events-none">
+      <p class="z-20 font-medium pointer-events-none">
         {{ $copy.offersTitle }}
       </p>
       <template v-for="(offer, i) in triggeredOffers" :key="i">
@@ -85,7 +85,7 @@ export default defineComponent({
     }
   },
   methods: {
-    animate(el: HTMLElement) {
+    animate(el: Element) {
       anime({
         opacity: {
           value: [0, 1],
@@ -112,7 +112,7 @@ export default defineComponent({
         cartToken: cartToken,
         crossSell: crossSell.id
       })
-      this.$emit('route', { name: 'Add', props: { product: crossSell.product, currencyCode: this.cart.currency } })
+      this.$emit('route', { name: 'Edit', props: { initialProduct: crossSell.product, currencyCode: this.cart.currency, mode: 'add' } })
     }
   }
 })

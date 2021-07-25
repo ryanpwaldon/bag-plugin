@@ -10,17 +10,25 @@ module.exports = {
         xs: '415px'
       },
       fontFamily: {
-        sans: ['Inter var', ...defaultTheme.fontFamily.sans]
+        sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+        fontFamilyPrimary: 'var(--fontFamilyPrimary)',
+        fontFamilySecondary: 'var(--fontFamilySecondary)'
       },
       colors: {
+        colorTextPrimary: 'var(--colorTextPrimary)',
+        colorTextSecondary: 'var(--colorTextSecondary)',
         colorBackdrop: 'var(--colorBackdrop)',
         colorBackground: 'var(--colorBackground)',
+        colorBorderPrimary: 'var(--colorBorderPrimary)',
         colorProgressBarPrimary: 'var(--colorProgressBarPrimary)',
         colorProgressBarSecondary: 'var(--colorProgressBarSecondary)',
         colorButtonPrimaryBackground: 'var(--colorButtonPrimaryBackground)',
         colorButtonPrimaryText: 'var(--colorButtonPrimaryText)',
         colorAccentPrimary: 'var(--colorAccentPrimary)',
         gray: colors.trueGray
+      },
+      boxShadow: {
+        shadowPrimary: 'var(--shadowPrimary)'
       },
       borderRadius: {
         borderRadiusCart: 'var(--borderRadiusCart)'

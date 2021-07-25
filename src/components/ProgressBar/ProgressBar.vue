@@ -1,11 +1,13 @@
 <template>
   <Card :image="image">
     <div class="flex flex-col items-start justify-center w-full p-3 overflow-hidden">
-      <p class="w-full text-sm font-medium text-gray-900 truncate">{{ title }}</p>
+      <p class="w-full text-sm font-medium truncate">{{ title }}</p>
       <p class="flex w-full mt-1 text-xs">
-        <span v-if="cartEmpty || (goalReached && !completionMessage)" class="text-gray-500 truncate">{{ $copy.spendMoreThan(goalFormatted) }}</span>
-        <span v-if="goalReached && completionMessage" class="text-gray-500 truncate">{{ completionMessage }}</span>
-        <span v-if="!cartEmpty && !goalReached" class="text-gray-500 truncate">{{ $copy.amountRemaining(remainingSpendFormatted) }}</span>
+        <span v-if="cartEmpty || (goalReached && !completionMessage)" class="truncate text-colorTextSecondary">{{
+          $copy.spendMoreThan(goalFormatted)
+        }}</span>
+        <span v-if="goalReached && completionMessage" class="truncate text-colorTextSecondary">{{ completionMessage }}</span>
+        <span v-if="!cartEmpty && !goalReached" class="truncate text-colorTextSecondary">{{ $copy.amountRemaining(remainingSpendFormatted) }}</span>
       </p>
       <div class="flex items-center w-full mt-2 space-x-2">
         <div class="relative flex-1 h-4 rounded-sm bg-colorProgressBarSecondary">

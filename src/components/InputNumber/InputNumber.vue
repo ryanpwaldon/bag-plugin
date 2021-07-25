@@ -1,10 +1,10 @@
 <template>
   <div>
-    <label :for="name" class="inline-block text-sm font-medium leading-5 text-gray-700">{{ label }}</label>
-    <div class="flex mt-1 shadow-sm">
+    <label :for="name" class="inline-block text-sm font-medium text-colorTextSecondary">{{ label }}</label>
+    <div class="flex mt-1 rounded shadow-shadowPrimary">
       <button
         type="button"
-        class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 border border-gray-300 rounded-l bg-gray-50 hover:bg-gray-100 focus:z-20 focus:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:border-blue-500"
+        class="relative inline-flex items-center px-2 py-2 text-sm font-medium bg-white border rounded-l text-colorTextSecondary border-colorBorderPrimary focus:z-20 focus:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:border-blue-500"
         aria-label="Minus"
         @click="decrement"
       >
@@ -18,16 +18,16 @@
         :value="modelValue"
         :placeholder="placeholder"
         @input="this.update($event.target.value)"
-        class="flex-1 min-w-0 -mx-px text-sm text-center focus:z-10 focus:outline-none"
+        class="flex-1 min-w-0 -mx-px text-sm font-medium text-center focus:z-10 focus:outline-none"
         :class="
           error
             ? 'text-red-900 placeholder-red-300 border-red-300 focus-visible:ring-red-500 focus-visible:border-red-500 z-10'
-            : 'border-gray-300 focus-visible:ring-blue-500 focus-visible:border-blue-500'
+            : 'border-colorBorderPrimary focus-visible:ring-blue-500 focus-visible:border-blue-500'
         "
       />
       <button
         type="button"
-        class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 border border-gray-300 rounded-r bg-gray-50 hover:bg-gray-100 focus:z-20 focus:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:border-blue-500"
+        class="relative inline-flex items-center px-2 py-2 text-sm font-medium bg-white border rounded-r text-colorTextSecondary border-colorBorderPrimary focus:z-20 focus:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:border-blue-500"
         aria-label="Plus"
         @click="increment"
       >
@@ -36,7 +36,7 @@
         </svg>
       </button>
     </div>
-    <p v-if="error" class="mt-2 text-sm" :class="[error ? 'text-red-600' : 'text-gray-500']">{{ error }}</p>
+    <p v-if="error" class="mt-2 text-sm" :class="[error ? 'text-red-600' : 'text-colorTextSecondary']">{{ error }}</p>
   </div>
 </template>
 

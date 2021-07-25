@@ -1,32 +1,32 @@
 <template>
   <Listbox as="div" class="flex flex-col items-start space-y-1" v-model="valueModelled" v-slot="{ open }">
-    <ListboxLabel class="block text-sm font-medium leading-5 text-gray-700">
+    <ListboxLabel class="block text-sm font-medium text-colorTextSecondary">
       {{ label }}
     </ListboxLabel>
     <div class="relative w-full">
-      <span class="inline-block w-full shadow-sm">
+      <span class="inline-block w-full rounded shadow-shadowPrimary">
         <ListboxButton
-          class="relative w-full py-2 pl-3 pr-10 text-sm text-left bg-white border rounded cursor-default focus:outline-none"
+          class="relative w-full py-2 pl-3 pr-10 text-sm font-medium text-left bg-white border rounded cursor-default focus:outline-none"
           :class="
             error
               ? 'border-red-300 focus-visible:ring-1 focus-visible:ring-red-400'
-              : 'border-gray-300 focus-visible:border-blue-500 focus-visible:ring-1 focus-visible:ring-blue-500'
+              : 'border-colorBorderPrimary focus-visible:border-blue-500 focus-visible:ring-1 focus-visible:ring-blue-500'
           "
         >
           <span class="block truncate">
             <span v-if="selectedOption">{{ selectedOption.title }}</span>
-            <span v-else :class="error ? 'text-red-300' : 'text-gray-400'">{{ placeholder }}</span>
+            <span v-else :class="error ? 'text-red-300' : 'text-colorTextSecondary'">{{ placeholder }}</span>
           </span>
           <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+            <svg class="w-5 h-5 text-colorTextSecondary" viewBox="0 0 20 20" fill="none" stroke="currentColor">
               <path d="M7 7l3-3 3 3m0 6l-3 3-3-3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           </span>
         </ListboxButton>
       </span>
       <transition leave-active-class="transition duration-100 ease-in" leave-from-class="opacity-100" leave-to-class="opacity-0">
-        <ListboxOptions static v-if="open" class="absolute w-full mt-1 focus:outline-none">
-          <div class="overflow-hidden bg-white rounded shadow-lg ring-1 ring-black ring-opacity-5">
+        <ListboxOptions static v-if="open" class="absolute z-10 w-full mt-1 focus:outline-none">
+          <div class="overflow-hidden bg-white border rounded shadow-shadowPrimary border-colorBorderPrimary">
             <div class="py-1 overflow-auto text-sm leading-6 max-h-56 sm:max-h-60 sm:leading-5">
               <ListboxOption
                 v-for="option in options"
@@ -38,9 +38,9 @@
               >
                 <div
                   class="flex justify-between py-2 pl-3 pr-4 space-x-4 cursor-default select-none"
-                  :class="[active && 'bg-gray-100', disabled ? 'text-gray-400' : 'text-gray-900']"
+                  :class="[active && 'bg-gray-100', disabled && 'text-colorTextSecondary']"
                 >
-                  <span :class="`${selected ? 'font-semibold' : 'font-normal'} flex-1 block truncate`">{{ option.title }}</span>
+                  <span :class="`${selected ? 'font-medium' : 'font-normal'} flex-1 block truncate`">{{ option.title }}</span>
                   <span class="flex items-center flex-shrink-0">
                     <Badge :text="option.meta" :theme="active ? 'white' : 'gray'" />
                   </span>

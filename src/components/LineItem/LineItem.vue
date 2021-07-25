@@ -1,22 +1,22 @@
 <template>
   <Card type="button" :image="resizeImage(image, 400)">
-    <div class="flex self-center justify-between w-full p-3 overflow-hidden text-xs leading-4 text-gray-500">
+    <div class="flex self-center justify-between w-full p-3 overflow-hidden text-xs">
       <div class="relative flex flex-col w-full space-y-1 overflow-hidden text-left">
-        <p class="text-sm font-medium leading-5 text-gray-900 truncate transition duration-150 ease-in-out group-hover:text-gray-500">
+        <p class="text-sm font-medium truncate transition duration-150 ease-in-out group-hover:text-colorTextSecondary">
           {{ title }}
         </p>
-        <p class="truncate" v-if="!hideOptions && options.length">
+        <p class="truncate font-fontFamilySecondary text-colorTextSecondary" v-if="!hideOptions && options.length">
           <span v-for="({ name, value }, i) of options" :key="i">
             {{ name }}: {{ value }}
             <span v-if="options && i !== options.length - 1"> · </span>
           </span>
         </p>
-        <p class="truncate">
+        <p class="truncate font-fontFamilySecondary text-colorTextSecondary">
           {{ $copy.quantity }}: {{ quantity }} · <span class="text-colorAccentPrimary">{{ linkCopy }}</span>
         </p>
       </div>
       <div class="relative flex flex-col items-end pl-4 text-right">
-        <p class="text-sm font-medium leading-5 text-gray-900 transition duration-150 ease-in-out group-hover:text-gray-500">
+        <p class="text-sm font-medium leading-5 transition duration-150 ease-in-out group-hover:text-colorTextSecondary">
           {{ price }}
         </p>
         <p v-if="displayOriginalPrice" class="mt-1 line-through">{{ originalPrice }}</p>

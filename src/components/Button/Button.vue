@@ -1,24 +1,17 @@
 <template>
-  <span class="inline-flex rounded-md select-none" :class="[containerClasses, loading && 'cursor-not-allowed pointer-events-none']">
-    <button :type="type" :class="[buttonClasses, 'inline-flex items-center justify-center w-full focus:outline-none']">
-      <Spinner v-if="loading" class="w-4 h-4 mr-1 -ml-1" />
-      <template v-else>{{ text }}</template>
-    </button>
+  <span class="inline-flex rounded-md select-none" :class="containerClasses">
+    <button :type="type" :class="[buttonClasses, 'inline-flex items-center justify-center w-full focus:outline-none']">{{ text }}</button>
   </span>
 </template>
 
 <script lang="ts">
-import Spinner from '@/components/Spinner/Spinner.vue'
 import { defineComponent, PropType } from 'vue'
 
-type Sizes = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+type Sizes = 'md' | 'lg'
 type Themes = 'white' | 'white-outline' | 'primary'
 type Classes<T extends string> = { [K in T]: string }
 
 export default defineComponent({
-  components: {
-    Spinner
-  },
   props: {
     text: {
       type: String,
@@ -35,34 +28,29 @@ export default defineComponent({
     theme: {
       type: String as PropType<Themes>,
       default: 'primary'
-    },
-    loading: {
-      type: Boolean,
-      required: false
     }
   },
   computed: {
     // prettier-ignore
-    containerClasses(): string {
-      const sizeClasses: Classes<Sizes> = { xs: '', sm: '', md: '', lg: '', xl: '' }
-      const themeClasses: Classes<Themes> = { white: 'shadow', primary: 'shadow', 'white-outline': 'shadow-sm', }
-      return `${sizeClasses[this.size]} ${themeClasses[this.theme]}`
-    },
-    // prettier-ignore
     buttonClasses(): string {
       const sizeClasses: Classes<Sizes> = {
-        xs: 'px-2.5 py-1.5 text-xs font-medium leading-4',
-        sm: 'px-3 py-2 text-sm font-medium leading-4',
-        md: 'px-4 py-2 text-sm font-medium leading-5',
-        lg: 'px-5 py-3 text-base font-medium',
-        xl: 'px-6 py-3 text-base font-medium'
+        md: 'px-4 py-2 text-sm font-medium',
+        lg: 'px-5 py-3 text-base font-medium'
       }
       const themeClasses: Classes<Themes> = {
-        white: 'transition ease-out rounded bg-white text-gray-900 hover:opacity-90 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
-        'white-outline': 'rounded bg-white text-gray-900 border border-gray-300 hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
-        primary: 'transition ease-out rounded text-colorButtonPrimaryText bg-colorButtonPrimaryBackground hover:opacity-90 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2'
+        primary: 'transition ease-out rounded text-colorButtonPrimaryText bg-colorButtonPrimaryBackground hover:opacity-90 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
+        white: 'transition ease-out rounded bg-white border border-colorBorderPrimary text-colorTextPrimary hover:opacity-90 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
+        'white-outline': 'rounded bg-white text-colorTextPrimary border border-colorBorderPrimary hover:opacity-90 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
       }
       return `${sizeClasses[this.size]} ${themeClasses[this.theme]}`
+    },
+    containerClasses(): string {
+      const themeClasses: Classes<Themes> = {
+        primary: 'shadow-shadowPrimary',
+        white: 'shadow-shadowPrimary',
+        'white-outline': 'shadow-shadowPrimary'
+      }
+      return `${themeClasses[this.theme]}`
     }
   }
 })

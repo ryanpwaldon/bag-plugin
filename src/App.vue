@@ -9,7 +9,6 @@
 <script lang="ts">
 import anime from 'animejs'
 import { defineComponent } from 'vue'
-import Add from './views/Add/Add.vue'
 import Home from './views/Home/Home.vue'
 import Edit from './views/Edit/Edit.vue'
 import Layout from './components/Layout/Layout.vue'
@@ -17,8 +16,7 @@ export default defineComponent({
   components: {
     Layout,
     Home,
-    Edit,
-    Add
+    Edit
   },
   data: () => ({
     name: 'Home',
@@ -29,7 +27,7 @@ export default defineComponent({
       this.name = name
       this.props = props
     },
-    enter(el: HTMLElement, done: undefined) {
+    enter(el: Element, done: () => void) {
       const translateX = this.name === 'Home' ? [-4, 0] : [4, 0]
       anime({
         targets: el,
@@ -40,7 +38,7 @@ export default defineComponent({
         complete: done
       })
     },
-    leave(el: HTMLElement, done: undefined) {
+    leave(el: Element, done: () => void) {
       const translateX = this.name === 'Home' ? [0, 4] : [0, -4]
       anime({
         targets: el,

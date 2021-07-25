@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center w-full bg-white rounded shadow">
+  <div class="flex items-center w-full bg-white border rounded shadow-shadowPrimary border-colorBorderPrimary">
     <div class="flex flex-shrink-0 p-3 xs:min-h-24 min-h-22 w-22 xs:w-24 animate-pulse">
       <div class="w-full bg-gray-100 rounded" />
     </div>

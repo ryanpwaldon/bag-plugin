@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full overflow-hidden bg-white rounded shadow group">
+  <div class="w-full overflow-hidden bg-white border rounded shadow-shadowPrimary group border-colorBorderPrimary">
     <component
       :is="type"
       v-bind="type === 'button' ? { type: 'button' } : {}"
