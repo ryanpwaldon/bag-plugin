@@ -11,6 +11,5 @@ export default async () => {
   await connectedToParentFrame
   const userCartSettings = await getParentFrame().getUserCartSettings()
   const cartSettings = merge(defaultCartSettings, userCartSettings)
-  console.log(cartSettings)
   applyStyles(cartSettings.cssVariables)
 }
