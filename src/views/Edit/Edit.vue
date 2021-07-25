@@ -73,11 +73,11 @@ export default defineComponent({
     },
     lineItem: {
       type: Object as PropType<AjaxLineItem>,
-      required: true
+      required: false
     },
     initialProduct: {
       type: Object as PropType<AjaxProduct>,
-      required: true
+      required: false
     },
     currencyCode: {
       type: String,
@@ -91,6 +91,7 @@ export default defineComponent({
     const product = ref() as Ref<AjaxProduct | undefined>
     const returnToCart = (cart?: AjaxCart) => emit('route', { name: 'Home', props: { initialCart: cart } })
     const removeFromCart = async () => {
+      if (!props.lineItem) return
       const cart = await getParentFrame().changeLineItemQuantity(props.lineItem.key, 0)
       returnToCart(cart)
     }
@@ -113,27 +114,25 @@ export default defineComponent({
     const { fields, handleSubmit, getValues } = useForm(schema)
     onMounted(async () => {
       if (props.mode === 'edit') {
-        product.value = await getParentFrame().getProductByHandle(props.lineItem.handle)
-        defaultQuantity.value = props.lineItem.quantity
-        defaultVariantId.value = props.lineItem.variant_id
+        product.value = await getParentFrame().getProductByHandle((props.lineItem as AjaxLineItem).handle)
+        defaultQuantity.value = (props.lineItem as AjaxLineItem).quantity
+        defaultVariantId.value = (props.lineItem as AjaxLineItem).variant_id
       }
       if (props.mode === 'add') {
         product.value = props.initialProduct
         defaultQuantity.value = 1
-        defaultVariantId.value = product.value.variants.find(variant => variant.available)?.id.toString()
+        defaultVariantId.value = (product.value as AjaxProduct).variants.find(variant => variant.available)?.id.toString()
       }
     })
     const onEditSubmit = async () => {
       const variantId = fields.value.variantId
       const quantity = fields.value.quantity
       if (variantId.modified.value) {
-        console.log('variantId.modified.value')
         await getParentFrame().addToCart(variantId.value.value, quantity.value.value)
-        const cart = await getParentFrame().changeLineItemQuantity(props.lineItem.key, 0)
+        const cart = await getParentFrame().changeLineItemQuantity((props.lineItem as AjaxLineItem).key, 0)
         returnToCart(cart)
       } else if (quantity.modified.value) {
-        console.log('quantity.modified.value')
-        const cart = await getParentFrame().changeLineItemQuantity(props.lineItem.key, quantity.value.value)
+        const cart = await getParentFrame().changeLineItemQuantity((props.lineItem as AjaxLineItem).key, quantity.value.value)
         returnToCart(cart)
       } else {
         returnToCart()

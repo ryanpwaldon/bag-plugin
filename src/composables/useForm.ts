@@ -3,6 +3,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import { AnySchema, Asserts, ObjectSchema } from 'yup'
 import { computed, ComputedRef, Ref, ref, watch } from 'vue'
 
+/* eslint-disable */
 type Field = {
   initial: any
   value: Ref<any>
