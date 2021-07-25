@@ -4,9 +4,9 @@
     <div class="flex mt-1 rounded shadow-shadowPrimary">
       <button
         type="button"
-        class="relative inline-flex items-center px-2 py-2 text-sm font-medium bg-white border rounded-l text-colorTextSecondary border-colorBorderPrimary focus:z-20 focus:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:border-blue-500"
         aria-label="Minus"
         @click="decrement"
+        class="relative inline-flex items-center px-2 py-2 text-sm font-medium bg-white border rounded-l text-colorTextSecondary border-colorBorderPrimary focus:z-20 focus:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:border-blue-500"
       >
         <Minus class="w-6 h-4" />
       </button>
@@ -14,8 +14,8 @@
         :id="name"
         type="text"
         :value="modelValue"
+        @input="handleInput"
         :placeholder="placeholder"
-        @input="update($event)"
         class="flex-1 min-w-0 -mx-px text-sm font-medium text-center focus:z-10 focus:outline-none"
         :class="
           error
@@ -25,9 +25,9 @@
       />
       <button
         type="button"
-        class="relative inline-flex items-center px-2 py-2 text-sm font-medium bg-white border rounded-r text-colorTextSecondary border-colorBorderPrimary focus:z-20 focus:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:border-blue-500"
         aria-label="Plus"
         @click="increment"
+        class="relative inline-flex items-center px-2 py-2 text-sm font-medium bg-white border rounded-r text-colorTextSecondary border-colorBorderPrimary focus:z-20 focus:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:border-blue-500"
       >
         <Plus class="w-6 h-4" />
       </button>
@@ -66,8 +66,11 @@ export default defineComponent({
   },
   methods: {
     /* eslint-disable */
-    update(event: any) {
-      this.$emit('update:modelValue', event.target.value)
+    update(value: number) {
+      this.$emit('update:modelValue', value)
+    },
+    handleInput(event: any) {
+      this.update(event.target.value)
     },
     ensureInt(value: string | number) {
       return typeof value === 'string' ? parseInt(value) : value
