@@ -17,7 +17,7 @@
             class="h-full rounded-borderRadiusPrimary bg-colorProgressBarPrimary"
           />
         </div>
-        <Check v-if="goalReached" class="flex-shrink-0 w-4" />
+        <Check v-if="goalReached" class="flex-shrink-0 w-4 text-colorProgressBarPrimary" />
       </div>
     </div>
   </Card>

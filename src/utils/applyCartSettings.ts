@@ -2,24 +2,25 @@ import { merge } from 'lodash'
 import { connectedToParentFrame, getParentFrame } from '@/composables/useParentFrame'
 
 // default
-// const defaultCartSettings = {
-//   borderRadiusCart: '4px',
-//   colorAccentPrimary: '#2563EB',
-//   colorBackdrop: 'rgba(0, 0, 0, 0.5)',
-//   colorBackground: '#F5F5F5',
-//   colorBorderPrimary: '#D4D4D4',
-//   colorButtonPrimaryBackground: '#171717',
-//   colorButtonPrimaryText: '#FFFFFF',
-//   colorProgressBarPrimary: '#404040',
-//   colorProgressBarSecondary: '#F5F5F5',
-//   colorTextPrimary: '#171717',
-//   colorTextSecondary: '#737373',
-//   fontFamilyPrimary: 'Inter',
-//   fontFamilySecondary: 'Inter',
-//   paddingCart: '12px',
-//   displayShadows: true,
-//   displayBorders: false,
-// }
+const defaultCartSettings = {
+  borderRadiusCart: '4px',
+  colorAccentPrimary: '#2563EB',
+  colorBackdrop: 'rgba(0, 0, 0, 0.5)',
+  colorBackground: '#F5F5F5',
+  colorBorderPrimary: '#D4D4D4',
+  colorButtonPrimaryBackground: '#171717',
+  colorButtonPrimaryText: '#FFFFFF',
+  colorProgressBarPrimary: '#404040',
+  colorProgressBarSecondary: '#F5F5F5',
+  colorTextPrimary: '#171717',
+  colorTextSecondary: '#737373',
+  fontFamilyPrimary: 'Inter',
+  fontFamilySecondary: 'Inter',
+  paddingCart: '12px',
+  displayShadows: true,
+  displayBorders: false,
+  roundedCorners: true
+}
 
 // molleni
 // const defaultCartSettings = {
@@ -42,25 +43,25 @@ import { connectedToParentFrame, getParentFrame } from '@/composables/useParentF
 //   roundedCorners: false
 // }
 
-const defaultCartSettings = {
-  borderRadiusCart: '0px',
-  colorAccentPrimary: '#6ba8d4',
-  colorBackdrop: 'rgba(0, 0, 0, 0.5)',
-  colorBackground: '#fafafa',
-  colorBorderPrimary: '#e8e9eb',
-  colorButtonPrimaryBackground: '#6ba8d4',
-  colorButtonPrimaryText: '#ffffff',
-  colorProgressBarPrimary: '#6ba8d4',
-  colorProgressBarSecondary: '#f5f5f5',
-  colorTextPrimary: '#000000',
-  colorTextSecondary: '#8d8d8d',
-  fontFamilyPrimary: 'Inter, sans',
-  fontFamilySecondary: 'Inter, sans',
-  paddingCart: '0px',
-  displayShadows: false,
-  displayBorders: true,
-  roundedCorners: false
-}
+// const defaultCartSettings = {
+//   borderRadiusCart: '0px',
+//   colorAccentPrimary: '#6ba8d4',
+//   colorBackdrop: 'rgba(0, 0, 0, 0.5)',
+//   colorBackground: '#fafafa',
+//   colorBorderPrimary: '#e8e9eb',
+//   colorButtonPrimaryBackground: '#6ba8d4',
+//   colorButtonPrimaryText: '#ffffff',
+//   colorProgressBarPrimary: '#6ba8d4',
+//   colorProgressBarSecondary: '#f5f5f5',
+//   colorTextPrimary: '#000000',
+//   colorTextSecondary: '#8d8d8d',
+//   fontFamilyPrimary: 'Inter, sans',
+//   fontFamilySecondary: 'Inter, sans',
+//   paddingCart: '0px',
+//   displayShadows: false,
+//   displayBorders: true,
+//   roundedCorners: false
+// }
 
 type CartSettings = typeof defaultCartSettings
 
