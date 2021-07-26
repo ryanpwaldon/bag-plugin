@@ -1,5 +1,5 @@
 <template>
-  <span class="inline-flex rounded-md select-none" :class="containerClasses">
+  <span class="inline-flex select-none rounded-borderRadiusPrimary" :class="containerClasses">
     <button :type="type" :class="[buttonClasses, 'inline-flex items-center justify-center w-full focus:outline-none']">{{ text }}</button>
   </span>
 </template>
@@ -38,9 +38,9 @@ export default defineComponent({
         lg: 'px-5 py-3 text-base font-medium'
       }
       const themeClasses: Classes<Themes> = {
-        primary: 'transition ease-out rounded text-colorButtonPrimaryText bg-colorButtonPrimaryBackground hover:opacity-90 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
-        white: 'transition ease-out rounded bg-white border border-colorBorderPrimary text-colorTextPrimary hover:opacity-90 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
-        'white-outline': 'rounded bg-white text-colorTextPrimary border border-colorBorderPrimary hover:opacity-90 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
+        primary: 'transition ease-out rounded-borderRadiusPrimary border-borderWidthPrimary border-colorBorderPrimary text-colorButtonPrimaryText bg-colorButtonPrimaryBackground hover:opacity-90 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
+        white: 'transition ease-out rounded-borderRadiusPrimary bg-white border-borderWidthPrimary border-colorBorderPrimary text-colorTextPrimary hover:opacity-90 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
+        'white-outline': 'rounded-borderRadiusPrimary bg-white text-colorTextPrimary border border-colorBorderPrimary hover:opacity-90 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
       }
       return `${sizeClasses[this.size]} ${themeClasses[this.theme]}`
     },
@@ -48,7 +48,7 @@ export default defineComponent({
       const themeClasses: Classes<Themes> = {
         primary: 'shadow-shadowPrimary',
         white: 'shadow-shadowPrimary',
-        'white-outline': 'shadow-shadowPrimary'
+        'white-outline': 'shadow-shadowSecondary'
       }
       return `${themeClasses[this.theme]}`
     }

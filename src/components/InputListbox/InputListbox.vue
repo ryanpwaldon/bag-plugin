@@ -4,9 +4,9 @@
       {{ label }}
     </ListboxLabel>
     <div class="relative w-full">
-      <span class="inline-block w-full rounded shadow-shadowPrimary">
+      <span class="inline-block w-full rounded-borderRadiusPrimary shadow-shadowSecondary">
         <ListboxButton
-          class="relative w-full py-2 pl-3 pr-10 text-sm font-medium text-left bg-white border rounded cursor-default focus:outline-none"
+          class="relative w-full py-2 pl-3 pr-10 text-sm font-medium text-left bg-white border cursor-default rounded-borderRadiusPrimary focus:outline-none"
           :class="
             error
               ? 'border-red-300 focus-visible:ring-1 focus-visible:ring-red-400'
@@ -24,7 +24,7 @@
       </span>
       <transition leave-active-class="transition duration-100 ease-in" leave-from-class="opacity-100" leave-to-class="opacity-0">
         <ListboxOptions static v-if="open" class="absolute z-10 w-full mt-1 focus:outline-none">
-          <div class="overflow-hidden bg-white border rounded shadow-shadowPrimary border-colorBorderPrimary">
+          <div class="overflow-hidden bg-white rounded-borderRadiusPrimary border-borderWidthPrimary shadow-shadowPrimary border-colorBorderPrimary">
             <div class="py-1 overflow-auto text-sm leading-6 max-h-56 sm:max-h-60 sm:leading-5">
               <ListboxOption
                 v-for="option in options"

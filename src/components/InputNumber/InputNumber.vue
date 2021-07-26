@@ -1,12 +1,12 @@
 <template>
   <div>
     <label :for="name" class="inline-block text-sm font-medium text-colorTextSecondary">{{ label }}</label>
-    <div class="flex mt-1 rounded shadow-shadowPrimary">
+    <div class="flex mt-1 rounded-borderRadiusPrimary shadow-shadowSecondary">
       <button
         type="button"
         aria-label="Minus"
         @click="decrement"
-        class="relative inline-flex items-center px-2 py-2 text-sm font-medium bg-white border rounded-l text-colorTextSecondary border-colorBorderPrimary focus:z-20 focus:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:border-blue-500"
+        class="relative inline-flex items-center px-2 py-2 text-sm font-medium bg-white border rounded-l-borderRadiusPrimary text-colorTextSecondary border-colorBorderPrimary focus:z-20 focus:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:border-blue-500"
       >
         <Minus class="w-6 h-4" />
       </button>
@@ -16,7 +16,7 @@
         :value="modelValue"
         @input="handleInput"
         :placeholder="placeholder"
-        class="flex-1 min-w-0 -mx-px text-sm font-medium text-center focus:z-10 focus:outline-none"
+        class="flex-1 min-w-0 -mx-px text-sm font-medium text-center border focus:z-10 focus:outline-none"
         :class="
           error
             ? 'text-red-900 placeholder-red-300 border-red-300 focus-visible:ring-red-500 focus-visible:border-red-500 z-10'
@@ -27,7 +27,7 @@
         type="button"
         aria-label="Plus"
         @click="increment"
-        class="relative inline-flex items-center px-2 py-2 text-sm font-medium bg-white border rounded-r text-colorTextSecondary border-colorBorderPrimary focus:z-20 focus:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:border-blue-500"
+        class="relative inline-flex items-center px-2 py-2 text-sm font-medium bg-white border rounded-r-borderRadiusPrimary text-colorTextSecondary border-colorBorderPrimary focus:z-20 focus:outline-none focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:border-blue-500"
       >
         <Plus class="w-6 h-4" />
       </button>

@@ -10,8 +10,12 @@
         <span v-if="!cartEmpty && !goalReached" class="truncate text-colorTextSecondary">{{ $copy.amountRemaining(remainingSpendFormatted) }}</span>
       </p>
       <div class="flex items-center w-full mt-2 space-x-2">
-        <div class="relative flex-1 h-4 rounded-sm bg-colorProgressBarSecondary">
-          <div class="h-full rounded-sm bg-colorProgressBarPrimary" :class="!goalReached && 'animate-pulse'" :style="{ width: progressFormatted }" />
+        <div class="relative flex-1 h-4 rounded-borderRadiusPrimary bg-colorProgressBarSecondary">
+          <div
+            :style="{ width: progressFormatted }"
+            :class="!goalReached && 'animate-pulse'"
+            class="h-full rounded-borderRadiusPrimary bg-colorProgressBarPrimary"
+          />
         </div>
         <Check v-if="goalReached" class="flex-shrink-0 w-4" />
       </div>

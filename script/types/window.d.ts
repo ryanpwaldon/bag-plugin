@@ -1,11 +1,10 @@
-import defaultCartSettings from '@/settings/defaultCartSettings'
-
+/* eslint-disable */
 export declare global {
   interface Window {
     Shopify: {
       shop: string
       locale: string
     }
-    bagCartSettings: typeof defaultCartSettings
+    bagCartSettings: any
   }
 }

@@ -14,7 +14,9 @@
             @click="openRelativeLink(`/products/${product?.handle}?variant=${selectedVariant?.id}`)"
             :price="selectedVariant && formatter.currency((selectedVariant.price / 100) * fields.quantity.value.value, currencyCode)"
           />
-          <div class="flex flex-col p-4 space-y-4 bg-white border rounded shadow-shadowPrimary border-colorBorderPrimary">
+          <div
+            class="flex flex-col p-4 space-y-4 bg-white rounded-borderRadiusPrimary border-borderWidthPrimary shadow-shadowPrimary border-colorBorderPrimary"
+          >
             <InputListbox
               class="z-10"
               :label="$copy.type"
@@ -33,7 +35,7 @@
         <LoaderCard class="absolute top-0 left-0" v-else />
       </Fade>
     </Scroller>
-    <div class="grid flex-shrink-0 gap-4 p-5 mt-auto border-t border-dashed border-colorBorderPrimary xs:p-6">
+    <div class="grid flex-shrink-0 gap-4 p-5 mt-auto border-t border-colorBorderPrimary xs:p-6">
       <Button type="submit" :text="mode === 'edit' ? $copy.saveButton : $copy.addToCartButton" />
       <Button :text="$copy.backToCartButton" theme="white" @click="$emit('route', { name: 'Home' })" />
     </div>

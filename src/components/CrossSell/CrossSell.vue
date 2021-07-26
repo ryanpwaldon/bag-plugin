@@ -3,7 +3,7 @@
     <div class="flex items-center justify-between w-full p-3 overflow-hidden">
       <div class="relative flex flex-col w-full space-y-1 overflow-hidden text-left">
         <p
-          class="text-sm font-medium leading-5 transition duration-150 ease-in-out group-hover:text-colorTextSecondary"
+          class="text-sm font-medium leading-5 transition duration-150 ease-in-out"
           style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"
         >
           {{ title }}

@@ -28,7 +28,7 @@
         </div>
       </Fade>
       <Fade>
-        <div v-if="cart" class="grid flex-shrink-0 gap-4 p-5 border-t border-dashed border-colorBorderPrimary xs:p-6 bg-gray">
+        <div v-if="cart" class="grid flex-shrink-0 gap-4 p-5 border-t border-colorBorderPrimary xs:p-6 bg-gray">
           <template v-if="lineItems.length">
             <Balance
               :subtotal="formatter.currency(cart.total_price / 100, cart.currency)"

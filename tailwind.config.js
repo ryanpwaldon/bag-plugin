@@ -27,10 +27,15 @@ module.exports = {
         colorAccentPrimary: 'var(--colorAccentPrimary)',
         gray: colors.trueGray
       },
+      borderWidth: {
+        borderWidthPrimary: 'var(--borderWidthPrimary)'
+      },
       boxShadow: {
-        shadowPrimary: 'var(--shadowPrimary)'
+        shadowPrimary: 'var(--shadowPrimary)',
+        shadowSecondary: 'var(--shadowSecondary)'
       },
       borderRadius: {
+        borderRadiusPrimary: 'var(--borderRadiusPrimary)',
         borderRadiusCart: 'var(--borderRadiusCart)'
       },
       spacing: {
