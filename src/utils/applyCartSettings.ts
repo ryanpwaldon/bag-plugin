@@ -1,67 +1,22 @@
 import { merge } from 'lodash'
 import { connectedToParentFrame, getParentFrame } from '@/composables/useParentFrame'
 
-// default
 const defaultCartSettings = {
-  borderRadiusCart: '4px',
-  colorAccentPrimary: '#2563EB',
-  colorBackdrop: 'rgba(0, 0, 0, 0.5)',
+  colorBackdrop: '#000000',
   colorBackground: '#F5F5F5',
-  colorBorderPrimary: '#D4D4D4',
+  colorBorderPrimary: '#E5E5E5',
   colorButtonPrimaryBackground: '#171717',
   colorButtonPrimaryText: '#FFFFFF',
   colorProgressBarPrimary: '#404040',
-  colorProgressBarSecondary: '#F5F5F5',
+  colorTextLink: '#2563EB',
   colorTextPrimary: '#171717',
   colorTextSecondary: '#737373',
-  fontFamilyPrimary: 'Inter',
-  fontFamilySecondary: 'Inter',
-  paddingCart: '12px',
-  displayShadows: true,
   displayBorders: false,
+  displayShadows: true,
+  opacityBackdrop: 0.5,
+  paddingCart: 0,
   roundedCorners: true
 }
-
-// molleni
-// const defaultCartSettings = {
-//   borderRadiusCart: '0px',
-//   colorAccentPrimary: '#f94c43',
-//   colorBackdrop: 'rgba(0, 0, 0, 0.5)',
-//   colorBackground: '#ffffff',
-//   colorBorderPrimary: '#e7e7e7',
-//   colorButtonPrimaryBackground: '#f94c43',
-//   colorButtonPrimaryText: '#ffffff',
-//   colorProgressBarPrimary: '#f94c43',
-//   colorProgressBarSecondary: '#ffffff',
-//   colorTextPrimary: '#5c5c5c',
-//   colorTextSecondary: '#939393',
-//   fontFamilyPrimary: 'Inter, sans',
-//   fontFamilySecondary: 'Inter, sans',
-//   paddingCart: '0px',
-//   displayShadows: false,
-//   displayBorders: true,
-//   roundedCorners: false
-// }
-
-// const defaultCartSettings = {
-//   borderRadiusCart: '0px',
-//   colorAccentPrimary: '#6ba8d4',
-//   colorBackdrop: 'rgba(0, 0, 0, 0.5)',
-//   colorBackground: '#fafafa',
-//   colorBorderPrimary: '#e8e9eb',
-//   colorButtonPrimaryBackground: '#6ba8d4',
-//   colorButtonPrimaryText: '#ffffff',
-//   colorProgressBarPrimary: '#6ba8d4',
-//   colorProgressBarSecondary: '#f5f5f5',
-//   colorTextPrimary: '#000000',
-//   colorTextSecondary: '#8d8d8d',
-//   fontFamilyPrimary: 'Inter, sans',
-//   fontFamilySecondary: 'Inter, sans',
-//   paddingCart: '0px',
-//   displayShadows: false,
-//   displayBorders: true,
-//   roundedCorners: false
-// }
 
 type CartSettings = typeof defaultCartSettings
 
@@ -74,26 +29,25 @@ const getMergedCartSettings = async (): Promise<CartSettings> => {
 // prettier-ignore
 const getCssVariables = (cartSettings: CartSettings) => {
   const staticCssVariables = {
-    borderRadiusCart: defaultCartSettings.borderRadiusCart,
-    colorAccentPrimary: defaultCartSettings.colorAccentPrimary,
     colorBackdrop: defaultCartSettings.colorBackdrop,
     colorBackground: defaultCartSettings.colorBackground,
     colorBorderPrimary: defaultCartSettings.colorBorderPrimary,
     colorButtonPrimaryBackground: defaultCartSettings.colorButtonPrimaryBackground,
     colorButtonPrimaryText: defaultCartSettings.colorButtonPrimaryText,
     colorProgressBarPrimary: defaultCartSettings.colorProgressBarPrimary,
-    colorProgressBarSecondary: defaultCartSettings.colorProgressBarSecondary,
+    colorTextLink: defaultCartSettings.colorTextLink,
     colorTextPrimary: defaultCartSettings.colorTextPrimary,
     colorTextSecondary: defaultCartSettings.colorTextSecondary,
-    fontFamilyPrimary: defaultCartSettings.fontFamilyPrimary,
-    fontFamilySecondary: defaultCartSettings.fontFamilySecondary,
-    paddingCart: defaultCartSettings.paddingCart
+    opacityBackdrop: defaultCartSettings.opacityBackdrop.toString()
   }
   const computedCssVariables = {
-    shadowPrimary: cartSettings.displayShadows ? 'rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px' : 'none',
-    shadowSecondary: cartSettings.displayShadows ? 'rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px' : 'none',
+    borderRadiusCart: defaultCartSettings.paddingCart === 0 ? '0px' : '4px',
+    borderRadiusPrimary: cartSettings.roundedCorners ? '4px' : '0px',
+    borderRadiusSecondary: cartSettings.roundedCorners ? '2px' : '0px',
     borderWidthPrimary: cartSettings.displayBorders ? '1px' : '0px',
-    borderRadiusPrimary: cartSettings.roundedCorners ? '4px' : '0px'
+    paddingCart: `${defaultCartSettings.paddingCart}px`,
+    shadowPrimary: cartSettings.displayShadows ? 'rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px' : 'none',
+    shadowSecondary: cartSettings.displayShadows ? 'rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px' : 'none'
   }
   return { ...staticCssVariables, ...computedCssVariables }
 }
