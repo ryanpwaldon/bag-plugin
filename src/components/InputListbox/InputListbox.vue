@@ -1,21 +1,21 @@
 <template>
   <Listbox as="div" class="flex flex-col items-start space-y-1" v-model="valueModelled" v-slot="{ open }">
-    <ListboxLabel class="block text-sm font-medium text-colorTextSecondary">
+    <ListboxLabel class="block text-sm font-medium text-textColor2">
       {{ label }}
     </ListboxLabel>
     <div class="relative w-full">
-      <span class="inline-block w-full rounded-borderRadiusPrimary shadow-shadowSecondary">
+      <span class="inline-block w-full rounded-roundness1 shadow-shadow2">
         <ListboxButton
-          class="relative w-full py-2 pl-3 pr-10 text-sm font-medium text-left bg-white border cursor-default rounded-borderRadiusPrimary focus:outline-none"
+          class="relative w-full py-2 pl-3 pr-10 text-sm font-medium text-left transition border cursor-default rounded-roundness1 focus:outline-none filter hover:brightness-brightness1 bg-themeColor2"
           :class="
             error
               ? 'border-red-300 focus-visible:ring-1 focus-visible:ring-red-400'
-              : 'border-colorBorderPrimary focus-visible:border-blue-500 focus-visible:ring-1 focus-visible:ring-blue-500'
+              : 'border-borderColor1 focus-visible:border-blue-500 focus-visible:ring-1 focus-visible:ring-blue-500'
           "
         >
           <span class="block truncate">
             <span v-if="selectedOption">{{ selectedOption.title }}</span>
-            <span v-else :class="error ? 'text-red-300' : 'text-colorTextSecondary'">{{ placeholder }}</span>
+            <span v-else :class="error ? 'text-red-300' : 'text-textColor2'">{{ placeholder }}</span>
           </span>
           <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
             <Selector />
@@ -24,7 +24,7 @@
       </span>
       <transition leave-active-class="transition duration-100 ease-in" leave-from-class="opacity-100" leave-to-class="opacity-0">
         <ListboxOptions static v-if="open" class="absolute z-10 w-full mt-1 focus:outline-none">
-          <div class="overflow-hidden bg-white rounded-borderRadiusPrimary border-borderWidthPrimary shadow-shadowPrimary border-colorBorderPrimary">
+          <div class="overflow-hidden bg-themeColor2 rounded-roundness1 border-borderWidth1 shadow-shadow1 border-borderColor1">
             <div class="py-1 overflow-auto text-sm leading-6 max-h-56 sm:max-h-60 sm:leading-5">
               <ListboxOption
                 v-for="option in options"
@@ -35,12 +35,12 @@
                 class="focus:outline-none"
               >
                 <div
-                  class="flex justify-between py-2 pl-3 pr-4 space-x-4 cursor-default select-none"
-                  :class="[active && 'bg-gray-100', disabled && 'text-colorTextSecondary']"
+                  class="flex justify-between py-2 pl-3 pr-4 space-x-4 transition cursor-default select-none bg-themeColor2"
+                  :class="[active && 'filter brightness-brightness1', disabled && 'text-textColor2']"
                 >
                   <span :class="`${selected ? 'font-medium' : 'font-normal'} flex-1 block truncate`">{{ option.title }}</span>
                   <span class="flex items-center flex-shrink-0">
-                    <Badge :text="option.meta" :theme="active ? 'white' : 'gray'" />
+                    <Badge :text="option.meta" />
                   </span>
                 </div>
               </ListboxOption>

@@ -10,38 +10,37 @@ module.exports = {
         xs: '415px'
       },
       fontFamily: {
-        fontFamilyPrimary: ['Inter var', ...defaultTheme.fontFamily.sans],
+        fontFamily1: ['Inter var', ...defaultTheme.fontFamily.sans],
         fontFamilySecondary: ['Inter var', ...defaultTheme.fontFamily.sans]
       },
       opacity: {
-        opacityBackdrop: 'var(--opacityBackdrop)'
+        backdropOpacity: 'var(--backdropOpacity)'
       },
       colors: {
-        colorTextPrimary: 'var(--colorTextPrimary)',
-        colorTextSecondary: 'var(--colorTextSecondary)',
-        colorBackdrop: 'var(--colorBackdrop)',
-        colorBackground: 'var(--colorBackground)',
-        colorBorderPrimary: 'var(--colorBorderPrimary)',
-        colorProgressBarPrimary: 'var(--colorProgressBarPrimary)',
-        colorButtonPrimaryBackground: 'var(--colorButtonPrimaryBackground)',
-        colorButtonPrimaryText: 'var(--colorButtonPrimaryText)',
-        colorTextLink: 'var(--colorTextLink)',
+        backdropColor: 'var(--backdropColor)',
+        borderColor1: 'var(--borderColor1)',
+        textColor1: 'var(--textColor1)',
+        textColor2: 'var(--textColor2)',
+        textColor3: 'var(--textColor3)',
+        themeColor1: 'var(--themeColor1)',
+        themeColor2: 'var(--themeColor2)',
+        themeColor3: 'var(--themeColor3)',
         gray: colors.trueGray
       },
       borderWidth: {
-        borderWidthPrimary: 'var(--borderWidthPrimary)'
+        borderWidth1: 'var(--borderWidth1)'
       },
       boxShadow: {
-        shadowPrimary: 'var(--shadowPrimary)',
-        shadowSecondary: 'var(--shadowSecondary)'
+        shadow1: 'var(--shadow1)',
+        shadow2: 'var(--shadow2)'
       },
       borderRadius: {
-        borderRadiusPrimary: 'var(--borderRadiusPrimary)',
-        borderRadiusSecondary: 'var(--borderRadiusSecondary)',
-        borderRadiusCart: 'var(--borderRadiusCart)'
+        roundness1: 'var(--roundness1)',
+        roundness2: 'var(--roundness2)',
+        cartRoundness: 'var(--cartRoundness)'
       },
       spacing: {
-        paddingCart: 'var(--paddingCart)'
+        cartPadding: 'var(--cartPadding)'
       },
       width: {
         '130': '32.5rem',
@@ -50,6 +49,13 @@ module.exports = {
       minHeight: {
         '22': '5.5rem',
         '24': '6rem'
+      },
+      brightness: {
+        brightness1: 'var(--brightness1)',
+        brightness2: 'var(--brightness2)'
+      },
+      transitionProperty: {
+        filter: 'filter'
       }
     }
   },
@@ -58,7 +64,8 @@ module.exports = {
       borderColor: ['focus-visible'],
       ringOffsetWidth: ['focus-visible'],
       ringColor: ['focus-visible'],
-      ringWidth: ['focus-visible']
+      ringWidth: ['focus-visible'],
+      brightness: ['hover']
     }
   }
 }

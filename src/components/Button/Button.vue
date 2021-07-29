@@ -1,5 +1,5 @@
 <template>
-  <span class="inline-flex select-none rounded-borderRadiusPrimary" :class="containerClasses">
+  <span class="inline-flex select-none rounded-roundness1" :class="containerClasses">
     <button :type="type" :class="[buttonClasses, 'inline-flex items-center justify-center w-full focus:outline-none']">{{ text }}</button>
   </span>
 </template>
@@ -38,17 +38,17 @@ export default defineComponent({
         lg: 'px-5 py-3 text-base font-medium'
       }
       const themeClasses: Classes<Themes> = {
-        primary: 'transition ease-out rounded-borderRadiusPrimary border-borderWidthPrimary border-colorBorderPrimary text-colorButtonPrimaryText bg-colorButtonPrimaryBackground hover:opacity-90 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
-        white: 'transition ease-out rounded-borderRadiusPrimary bg-white border-borderWidthPrimary border-colorBorderPrimary text-colorTextPrimary hover:opacity-90 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
-        'white-outline': 'rounded-borderRadiusPrimary bg-white text-colorTextPrimary border border-colorBorderPrimary hover:opacity-90 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
+        primary: 'transition ease-out rounded-roundness1 border-borderWidth1 border-borderColor1 text-textColor3 bg-themeColor3 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 filter hover:brightness-brightness1',
+        white: 'transition ease-out rounded-roundness1 bg-themeColor2 border-borderWidth1 border-borderColor1 text-textColor1 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 filter hover:brightness-brightness1',
+        'white-outline': 'transition rounded-roundness1 bg-themeColor2 text-textColor1 border border-borderColor1 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 filter hover:brightness-brightness1',
       }
       return `${sizeClasses[this.size]} ${themeClasses[this.theme]}`
     },
     containerClasses(): string {
       const themeClasses: Classes<Themes> = {
-        primary: 'shadow-shadowPrimary',
-        white: 'shadow-shadowPrimary',
-        'white-outline': 'shadow-shadowSecondary'
+        primary: 'shadow-shadow1',
+        white: 'shadow-shadow1',
+        'white-outline': 'shadow-shadow2'
       }
       return `${themeClasses[this.theme]}`
     }

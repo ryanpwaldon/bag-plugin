@@ -2,7 +2,7 @@
   <Card :image="require('@/assets/img/empty-bag.svg')">
     <div class="flex flex-col items-start justify-center w-full px-4 overflow-hidden">
       <p class="text-sm font-medium truncate">{{ $copy.emptyCartLine1 }}</p>
-      <p class="mt-1 text-xs truncate text-colorTextSecondary">{{ $copy.emptyCartLine2 }}</p>
+      <p class="mt-1 text-xs truncate text-textColor2">{{ $copy.emptyCartLine2 }}</p>
     </div>
   </Card>
 </template>

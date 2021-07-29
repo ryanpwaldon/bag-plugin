@@ -1,13 +1,13 @@
 <template>
-  <div class="flex items-center justify-between flex-shrink-0 p-5 border-b select-none border-colorBorderPrimary xs:p-6">
+  <div class="flex items-center justify-between flex-shrink-0 p-5 border-b select-none border-borderColor1 xs:p-6">
     <div class="text-lg font-medium leading-6">{{ title }}</div>
     <transition enter-from-class="opacity-0" enter-to-class="opacity-100">
-      <div v-if="meta" class="ml-auto mr-5 text-sm leading-5 transition duration-150 ease-in-out text-colorTextSecondary">{{ meta }}</div>
+      <div v-if="meta" class="ml-auto mr-5 text-sm leading-5 transition duration-150 ease-in-out text-textColor2">{{ meta }}</div>
     </transition>
     <button
       type="button"
       @click="handleClose"
-      class="inline-flex items-center justify-center w-12 h-12 -m-4 transition ease-out rounded-borderRadiusPrimary text-colorTextSecondary hover:opacity-90 focus:outline-none focus:opacity-90"
+      class="inline-flex items-center justify-center w-12 h-12 -m-4 transition ease-out rounded-roundness1 text-textColor2 filter hover:brightness-brightness1 focus:outline-none focus:brightness-brightness1"
     >
       <Cross />
     </button>

@@ -5,14 +5,14 @@
         <p class="text-sm font-medium truncate transition duration-150 ease-in-out">
           {{ title }}
         </p>
-        <p class="truncate font-fontFamilySecondary text-colorTextSecondary" v-if="!hideOptions && options.length">
+        <p class="truncate font-fontFamilySecondary text-textColor2" v-if="!hideOptions && options.length">
           <span v-for="({ name, value }, i) of options" :key="i">
             {{ name }}: {{ value }}
             <span v-if="options && i !== options.length - 1"> · </span>
           </span>
         </p>
-        <p class="truncate font-fontFamilySecondary text-colorTextSecondary">
-          {{ $copy.quantity }}: {{ quantity }} · <span class="text-colorTextLink">{{ linkCopy }}</span>
+        <p class="truncate font-fontFamilySecondary text-textColor2">
+          {{ $copy.quantity }}: {{ quantity }} · <span class="text-themeColor3">{{ linkCopy }}</span>
         </p>
       </div>
       <div class="relative flex flex-col items-end pl-4 text-right">

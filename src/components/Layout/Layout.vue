@@ -1,10 +1,10 @@
 <template>
-  <div ref="container" class="relative flex items-end justify-end w-full h-full antialiased sm:p-paddingCart">
-    <div class="absolute top-0 left-0 w-full h-full bg-colorBackdrop opacity-opacityBackdrop" @click="handleBackdropClick" />
+  <div ref="container" class="relative flex items-end justify-end w-full h-full antialiased sm:p-cartPadding">
+    <div class="absolute top-0 left-0 w-full h-full bg-backdropColor opacity-backdropOpacity" @click="handleBackdropClick" />
     <div
       ref="cart"
       style="will-change: transform;"
-      class="relative w-full h-full overflow-hidden bg-colorBackground sm:shadow-shadowPrimary sm:w-130 sm:rounded-borderRadiusCart border-borderWidthPrimary border-colorBorderPrimary"
+      class="box-content relative w-full h-full overflow-hidden bg-themeColor1 sm:shadow-shadow1 sm:w-130 sm:rounded-cartRoundness border-borderWidth1 border-borderColor1"
     >
       <slot v-if="open" />
     </div>

@@ -5,8 +5,8 @@
 
 html {
   font-size: 14px;
-  @apply text-colorTextPrimary;
-  @apply font-fontFamilyPrimary;
+  @apply text-textColor1;
+  @apply font-fontFamily1;
 }
 
 @screen xs {

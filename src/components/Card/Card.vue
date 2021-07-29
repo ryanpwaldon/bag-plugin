@@ -1,5 +1,8 @@
 <template>
-  <div class="w-full overflow-hidden bg-white rounded-borderRadiusPrimary border-borderWidthPrimary shadow-shadowPrimary border-colorBorderPrimary">
+  <div
+    class="w-full overflow-hidden bg-themeColor2 rounded-roundness1 border-borderWidth1 shadow-shadow1 border-borderColor1"
+    :class="type === 'button' && 'filter hover:brightness-brightness1 transition-filter'"
+  >
     <component
       :is="type"
       v-bind="type === 'button' ? { type: 'button' } : {}"
@@ -8,7 +11,7 @@
       <div class="flex items-stretch w-full">
         <div
           :style="{ backgroundImage: `url(${image})` }"
-          class="flex-shrink-0 bg-center bg-cover rounded-l-borderRadiusPrimary xs:min-h-24 min-h-22 w-22 xs:w-24"
+          class="flex-shrink-0 bg-center bg-cover rounded-l-roundness1 xs:min-h-24 min-h-22 w-22 xs:w-24"
         />
         <slot />
       </div>

@@ -14,9 +14,7 @@
             @click="openRelativeLink(`/products/${product?.handle}?variant=${selectedVariant?.id}`)"
             :price="selectedVariant && formatter.currency((selectedVariant.price / 100) * fields.quantity.value.value, currencyCode)"
           />
-          <div
-            class="flex flex-col p-4 space-y-4 bg-white rounded-borderRadiusPrimary border-borderWidthPrimary shadow-shadowPrimary border-colorBorderPrimary"
-          >
+          <div class="flex flex-col p-4 space-y-4 bg-themeColor2 rounded-roundness1 border-borderWidth1 shadow-shadow1 border-borderColor1">
             <InputListbox
               class="z-10"
               :label="$copy.type"
@@ -27,7 +25,7 @@
             />
             <InputNumber name="quantity" :label="$copy.quantity" v-model="fields.quantity.value.value" :error="fields.quantity.error.value" />
             <div v-if="mode === 'edit'" class="flex flex-col items-start">
-              <p class="block text-sm font-medium text-colorTextSecondary">{{ $copy.remove }}</p>
+              <p class="block text-sm font-medium text-textColor2">{{ $copy.remove }}</p>
               <Button class="w-full mt-1" :text="$copy.removeButton" theme="white-outline" size="md" @click="removeFromCart" />
             </div>
           </div>
@@ -35,7 +33,7 @@
         <LoaderCard class="absolute top-0 left-0" v-else />
       </Fade>
     </Scroller>
-    <div class="grid flex-shrink-0 gap-4 p-5 mt-auto border-t border-colorBorderPrimary xs:p-6">
+    <div class="grid flex-shrink-0 gap-4 p-5 mt-auto border-t border-borderColor1 xs:p-6">
       <Button type="submit" :text="mode === 'edit' ? $copy.saveButton : $copy.addToCartButton" />
       <Button :text="$copy.backToCartButton" theme="white" @click="$emit('route', { name: 'Home' })" />
     </div>

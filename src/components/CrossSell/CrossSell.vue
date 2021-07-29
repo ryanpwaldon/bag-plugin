@@ -9,7 +9,7 @@
           {{ title }}
         </p>
         <p
-          class="text-xs leading-4 text-colorTextSecondary"
+          class="text-xs leading-4 text-textColor2"
           style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"
         >
           {{ subtitle }}
