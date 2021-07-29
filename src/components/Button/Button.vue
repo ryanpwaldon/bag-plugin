@@ -38,7 +38,7 @@ export default defineComponent({
         lg: 'px-5 py-3 text-base font-medium'
       }
       const themeClasses: Classes<Themes> = {
-        primary: 'transition ease-out rounded-roundness1 border-borderWidth1 border-borderColor1 text-textColor3 bg-themeColor3 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 filter hover:brightness-brightness1',
+        primary: 'transition ease-out rounded-roundness1 border-borderWidth1 border-borderColor1 text-checkoutButtonTextColor bg-checkoutButtonColor focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 filter hover:brightness-brightness1',
         white: 'transition ease-out rounded-roundness1 bg-themeColor2 border-borderWidth1 border-borderColor1 text-textColor1 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 filter hover:brightness-brightness1',
         'white-outline': 'transition rounded-roundness1 bg-themeColor2 text-textColor1 border border-borderColor1 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 filter hover:brightness-brightness1',
       }

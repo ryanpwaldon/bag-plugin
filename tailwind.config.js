@@ -19,12 +19,14 @@ module.exports = {
       colors: {
         backdropColor: 'var(--backdropColor)',
         borderColor1: 'var(--borderColor1)',
+        checkoutButtonColor: 'var(--checkoutButtonColor)',
+        checkoutButtonTextColor: 'var(--checkoutButtonTextColor)',
+        progressBarColor: 'var(--progressBarColor)',
         textColor1: 'var(--textColor1)',
         textColor2: 'var(--textColor2)',
         textColor3: 'var(--textColor3)',
         themeColor1: 'var(--themeColor1)',
         themeColor2: 'var(--themeColor2)',
-        themeColor3: 'var(--themeColor3)',
         gray: colors.trueGray
       },
       borderWidth: {

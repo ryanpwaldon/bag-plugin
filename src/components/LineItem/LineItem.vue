@@ -12,7 +12,7 @@
           </span>
         </p>
         <p class="truncate font-fontFamilySecondary text-textColor2">
-          {{ $copy.quantity }}: {{ quantity }} · <span class="text-themeColor3">{{ linkCopy }}</span>
+          {{ $copy.quantity }}: {{ quantity }} · <span class="text-textColor3">{{ linkCopy }}</span>
         </p>
       </div>
       <div class="relative flex flex-col items-end pl-4 text-right">

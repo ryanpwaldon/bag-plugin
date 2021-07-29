@@ -13,10 +13,10 @@
           <div
             :style="{ width: progressFormatted }"
             :class="!goalReached && 'animate-pulse'"
-            class="absolute top-0 left-0 z-10 h-full rounded-roundness2 bg-themeColor3"
+            class="absolute top-0 left-0 z-10 h-full rounded-roundness2 bg-progressBarColor"
           />
         </div>
-        <Check v-if="goalReached" class="flex-shrink-0 w-4 text-themeColor3" />
+        <Check v-if="goalReached" class="flex-shrink-0 w-4 text-progressBarColor" />
       </div>
     </div>
   </Card>
