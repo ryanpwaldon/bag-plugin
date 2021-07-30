@@ -36,11 +36,11 @@ export class App {
     this.init()
   }
 
-  logger(data: any) {
+  logger(...args: unknown[]) {
     if (this.debug) {
       const timeElapsed = new Date().getTime() - window.performance.timing.navigationStart
       console.log(`[Bag Script] Time: ${timeElapsed}`)
-      console.log('[Bag Script] Data:', data)
+      console.log('[Bag Script] Data:', ...args)
     }
   }
 

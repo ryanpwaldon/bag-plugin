@@ -15,6 +15,7 @@ export class PageMonitor {
   }
 
   overrideAllActions() {
+    this.app.logger('Override all actions.')
     this.overrideCartButtonClicks()
     this.overrideAddToCartForms()
   }
@@ -22,9 +23,11 @@ export class PageMonitor {
   overrideElement(element: HTMLElement, eventType: string, listener: EventListenerOrEventListenerObject) {
     if (element.dataset.overridden) return
     element.dataset.overridden = true.toString()
-    const clone = element.cloneNode(true)
+    const clone = element.cloneNode(false) as Element
     clone.addEventListener(eventType, listener)
+    clone.append(...element.childNodes)
     element.replaceWith(clone)
+    this.app.logger('Element cloned: ', clone)
   }
 
   overrideCartButtonClicks() {
@@ -36,10 +39,10 @@ export class PageMonitor {
     const forms: NodeListOf<HTMLFormElement> = document.querySelectorAll('form[action$="/cart/add"]')
     const addToCartButtonKeywords = ['add to cart', 'add_to_cart', 'add-to-cart', 'addtocart', 'submit', 'cart']
     for (const form of forms) {
-      this.overrideElement(form, 'submit', this.addToCartFormSubmissionHandler.bind(this))
       const buttons: HTMLElement[] = Array.from(form.querySelectorAll('button, input'))
       const scores = buttons.map(button => (button.outerHTML.toLowerCase().match(new RegExp(addToCartButtonKeywords.join('|'), 'g')) || []).length)
       const button = buttons[scores.indexOf(Math.max(...scores))]
+      this.overrideElement(form, 'submit', this.addToCartFormSubmissionHandler.bind(this))
       this.overrideElement(button, 'click', this.addToCartFormSubmissionHandler.bind(this))
     }
   }
@@ -57,7 +60,8 @@ export class PageMonitor {
     const form = target.closest('form')
     const values = getFormData(form)
     const id = values.id
-    const quantity = values.quantity || 1
+    // if quantity is an array (very rare), select item with the highest value
+    const quantity = Array.isArray(values.quantity) ? Math.max(...values.quantity.map((item: string) => parseInt(item))) : values.quantity || 1
     await this.app.addToCart(id, quantity)
     this.app.open()
   }
