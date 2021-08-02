@@ -11,7 +11,8 @@ const fetchOffers = async () => {
   try {
     const { crossSells, progressBars } = await pluginService.findOffers()
     await Promise.all(crossSells.map(async crossSell => (crossSell.product = await fetchProductById(parseGid(crossSell.productId)))))
-    offers.value = [...crossSells, ...progressBars]
+    const filteredCrossSells = crossSells.filter(crossSell => !!crossSell.product)
+    offers.value = [...filteredCrossSells, ...progressBars]
   } catch (err) {
     console.log(err)
   }
