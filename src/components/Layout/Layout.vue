@@ -4,7 +4,7 @@
     <div
       ref="cart"
       style="will-change: transform;"
-      class="box-content relative w-full h-full overflow-hidden bg-themeColor1 sm:shadow-shadow1 sm:w-130 sm:rounded-cartRoundness border-borderWidth1 border-borderColor1"
+      class="relative w-full h-full overflow-hidden bg-themeColor1 sm:shadow-shadow1 sm:w-130 sm:rounded-cartRoundness border-borderWidth1 border-borderColor1"
     >
       <slot v-if="open" />
     </div>
