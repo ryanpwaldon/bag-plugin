@@ -23,7 +23,9 @@ const defaultCartSettings = {
   termsTitle: 'Terms & Conditions',
   termsAgreement: 'I agree to the terms and conditions.',
   termsLinkText: 'View full terms.',
-  termsLinkUrl: ''
+  termsLinkUrl: '',
+  autoCloseEnabled: false,
+  autoCloseDelay: 3
 }
 
 type CartSettings = typeof defaultCartSettings

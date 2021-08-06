@@ -1,8 +1,8 @@
 import { connectToParent } from 'penpal'
-import { ParentMethods } from '../../script/start'
+import { CartOpenMethod, ParentMethods } from '../../script/start'
 
 export type ChildMethods = {
-  open: () => void
+  open: (cartOpenMethod: CartOpenMethod) => void
   close: () => void
 }
 

@@ -3,6 +3,7 @@
     <div class="absolute top-0 left-0 w-full h-full bg-backdropColor opacity-backdropOpacity" @click="handleBackdropClick" />
     <div
       ref="cart"
+      @click="userInteracted = true"
       style="will-change: transform;"
       class="relative w-full h-full overflow-hidden bg-themeColor1 sm:shadow-shadow1 sm:w-130 sm:rounded-cartRoundness border-borderWidth1 border-borderColor1"
     >
@@ -14,19 +15,23 @@
 <script lang="ts">
 import anime from 'animejs'
 import { defineComponent } from 'vue'
+import { CartOpenMethod } from 'script/start'
 import useScreens from '@/composables/useScreens'
+import useCartSettings from '@/composables/useCartSettings'
 import { connectToParentFrame, getParentFrame } from '@/composables/useParentFrame'
 export default defineComponent({
   setup: () => {
     const screens = useScreens()
-    return { screens }
+    const { cartSettings } = useCartSettings()
+    return { screens, cartSettings }
   },
   mounted() {
     connectToParentFrame({ open: this.handleOpen, close: this.handleClose })
     this.set()
   },
   data: () => ({
-    open: false
+    open: false,
+    userInteracted: false
   }),
   methods: {
     set() {
@@ -34,7 +39,7 @@ export default defineComponent({
       anime.set(container, { opacity: 0 })
     },
     // prettier-ignore
-    async handleOpen() {
+    async handleOpen(cartOpenMethod: CartOpenMethod) {
       this.open = true
       const tl = anime.timeline()
       const screens = await this.screens()
@@ -42,8 +47,10 @@ export default defineComponent({
       tl.add({ targets: container, easing: 'easeInOutQuad', duration: 200, opacity: [0, 1] })
       if (screens.includes('sm')) tl.add({ targets: cart, duration: 200, translateX: [20, 0], easing: 'easeOutQuad' }, 0)
       await tl.finished
+      if (this.cartSettings.autoCloseEnabled && cartOpenMethod === 'add-to-cart-form') this.startAutoClose()
     },
     async handleClose() {
+      this.userInteracted = false
       const tl = anime.timeline()
       const { container } = this.$refs
       tl.add({ targets: container, easing: 'easeInOutQuad', duration: 200, opacity: [1, 0] })
@@ -53,6 +60,10 @@ export default defineComponent({
     },
     async handleBackdropClick() {
       getParentFrame().close()
+    },
+    async startAutoClose() {
+      await new Promise(resolve => setTimeout(resolve, this.cartSettings.autoCloseDelay * 1000))
+      if (!this.userInteracted) getParentFrame().close()
     }
   }
 })

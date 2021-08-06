@@ -7,6 +7,8 @@ import { ChildMethods } from '../src/composables/useParentFrame'
 import { enableScrollLock, disableScrollLock } from 'scroll-lock-body'
 import { AjaxCart, AjaxProduct, AjaxLineItem } from '../src/types/ajaxApi'
 
+export type CartOpenMethod = 'cart-button' | 'add-to-cart-form'
+
 const querystring = (params: Record<string, string | boolean | number | undefined>) => {
   return Object.entries(params).reduce((qs, [key, value]) => (value ? (qs += `${qs && '&'}${key}=${encodeURIComponent(value)}`) : qs), '')
 }
@@ -111,12 +113,12 @@ export class App {
     return connectToChild({ iframe: this.frame, methods: this.parentMethods }).promise as Promise<ChildMethods>
   }
 
-  async open() {
+  async open(cartOpenMethod: CartOpenMethod) {
     if (this.transitioning) return
     this.lockScroll()
     this.transitioning = true
     this.frame.style.display = 'block'
-    await this.childFrame.open()
+    await this.childFrame.open(cartOpenMethod)
     this.transitioning = false
   }
 

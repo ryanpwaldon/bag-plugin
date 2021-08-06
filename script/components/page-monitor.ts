@@ -50,7 +50,7 @@ export class PageMonitor {
   async cartButtonClickHandler(e: Event) {
     if (!this.app.cartReady) return
     this.cancelEvent(e)
-    this.app.open()
+    this.app.open('cart-button')
   }
 
   async addToCartFormSubmissionHandler(e: Event) {
@@ -63,7 +63,7 @@ export class PageMonitor {
     // if quantity is an array (very rare), select item with the highest value
     const quantity = Array.isArray(values.quantity) ? Math.max(...values.quantity.map((item: string) => parseInt(item))) : values.quantity || 1
     await this.app.addToCart(id, quantity)
-    this.app.open()
+    this.app.open('add-to-cart-form')
   }
 
   debounce(fn: Function, ms = 0) {
