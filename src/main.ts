@@ -6,7 +6,7 @@ import analytics from 'vue-gtag-next'
 import useOffers from '@/composables/useOffers'
 import honeybadger from '@/plugins/honeybadger'
 import 'focus-visible/dist/focus-visible.min.js'
-import { applyCartSettings } from '@/utils/applyCartSettings'
+import useCartSettings from '@/composables/useCartSettings'
 
 export default createApp(App)
   .use(copy)
@@ -14,5 +14,5 @@ export default createApp(App)
   .use(honeybadger, { apiKey: process.env.VUE_APP_HONEYBADGER_API_KEY, environment: process.env.VUE_APP_ENV })
   .mount('#app')
 
-applyCartSettings()
+useCartSettings().init()
 useOffers().fetchOffers()

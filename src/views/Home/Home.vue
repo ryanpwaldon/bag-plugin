@@ -28,17 +28,18 @@
         </div>
       </Fade>
       <Fade>
-        <div v-if="cart" class="grid flex-shrink-0 gap-4 p-5 border-t border-borderColor1 xs:p-6 bg-gray">
+        <form @submit.prevent="handleCheckout" v-if="cart" class="grid flex-shrink-0 gap-4 p-5 border-t border-borderColor1 xs:p-6 bg-gray">
           <template v-if="lineItems.length">
             <Balance
               :subtotal="formatter.currency(cart.total_price / 100, cart.currency)"
               :display-original-subtotal="cart.original_total_price > cart.total_price"
               :original-subtotal="formatter.currency(cart.original_total_price / 100, cart.currency)"
             />
-            <Button :text="$copy.checkoutButton" @click="openRelativeLink('/checkout')" class="w-full" />
+            <Terms v-if="cartSettings.termsEnabled" v-model:checked="termsChecked" v-model:display-error="displayTermsError" />
+            <Button type="submit" :text="$copy.checkoutButton" class="w-full" />
           </template>
           <Button @click="handleClose" class="w-full" :text="$copy.continueShoppingButton" :theme="lineItems.length ? 'white' : 'primary'" />
-        </div>
+        </form>
       </Fade>
     </div>
   </div>
@@ -47,6 +48,7 @@
 <script lang="ts">
 import { AjaxCart } from '@/types/ajaxApi'
 import Fade from '@/components/Fade/Fade.vue'
+import Terms from '@/components/Terms/Terms.vue'
 import Header from '@/components/Header/Header.vue'
 import Button from '@/components/Button/Button.vue'
 import Offers from '@/components/Offers/Offers.vue'
@@ -55,12 +57,14 @@ import Balance from '@/components/Balance/Balance.vue'
 import Scroller from '@/components/Scroller/Scroller.vue'
 import LineItem from '@/components/LineItem/LineItem.vue'
 import EmptyBag from '@/components/EmptyBag/EmptyBag.vue'
+import useCartSettings from '@/composables/useCartSettings'
 import { getParentFrame } from '@/composables/useParentFrame'
 import { computed, defineComponent, PropType, ref } from 'vue'
 import LoaderCard from '@/components/LoaderCard/LoaderCard.vue'
 export default defineComponent({
   components: {
     Fade,
+    Terms,
     Header,
     Button,
     Offers,
@@ -77,12 +81,19 @@ export default defineComponent({
     }
   },
   setup(props) {
+    const termsChecked = ref(false)
+    const displayTermsError = ref(false)
     const { formatter } = useFormatter()
+    const { cartSettings } = useCartSettings()
     const cart = ref((props.initialCart || null) as null | AjaxCart)
     const lineItems = computed(() => cart.value?.items || [])
     const fetchCart = async () => (cart.value = await getParentFrame().getCart())
+    const handleCheckout = () => {
+      if (cartSettings.value.termsEnabled && !termsChecked.value) return (displayTermsError.value = true)
+      getParentFrame().openRelativeLink('/checkout')
+    }
     if (!cart.value) fetchCart()
-    return { cart, lineItems, formatter, openRelativeLink: getParentFrame().openRelativeLink }
+    return { cart, lineItems, formatter, cartSettings, handleCheckout, termsChecked, displayTermsError }
   },
   computed: {
     itemsCopy(): string {

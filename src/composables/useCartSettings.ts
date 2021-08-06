@@ -1,3 +1,4 @@
+import { ref } from 'vue'
 import { merge } from 'lodash'
 import { connectedToParentFrame, getParentFrame } from '@/composables/useParentFrame'
 
@@ -17,16 +18,15 @@ const defaultCartSettings = {
   textColor2: '#737373',
   textColor3: '#2563EB',
   themeColor1: '#F5F5F5',
-  themeColor2: '#ffffff'
+  themeColor2: '#ffffff',
+  termsEnabled: false,
+  termsTitle: 'Terms & Conditions',
+  termsAgreement: 'I agree to the terms and conditions.',
+  termsLinkText: 'View full terms.',
+  termsLinkUrl: ''
 }
 
 type CartSettings = typeof defaultCartSettings
-
-const getMergedCartSettings = async (): Promise<CartSettings> => {
-  await connectedToParentFrame
-  const userCartSettings = await getParentFrame().getUserCartSettings()
-  return merge(defaultCartSettings, userCartSettings)
-}
 
 // prettier-ignore
 const getCssVariables = (cartSettings: CartSettings) => ({
@@ -57,8 +57,20 @@ const setCssVariables = (cssVariables: Record<string, string>) => {
   Object.entries(cssVariables).forEach(([key, value]) => root.style.setProperty(`--${key}`, value))
 }
 
-export const applyCartSettings = async () => {
-  const mergedCartSettings = await getMergedCartSettings()
-  const cssVariables = getCssVariables(mergedCartSettings)
-  setCssVariables(cssVariables)
+const getMergedCartSettings = async (): Promise<CartSettings> => {
+  await connectedToParentFrame
+  const userCartSettings = await getParentFrame().getUserCartSettings()
+  return merge(defaultCartSettings, userCartSettings)
 }
+
+const cartSettings = ref(defaultCartSettings)
+
+export const init = async () => {
+  cartSettings.value = await getMergedCartSettings()
+  setCssVariables(getCssVariables(cartSettings.value))
+}
+
+export default () => ({
+  cartSettings,
+  init
+})
