@@ -21,8 +21,8 @@ export class PageMonitor {
   }
 
   overrideElement(element: HTMLElement, eventType: string, listener: EventListenerOrEventListenerObject) {
-    if (element.dataset.overridden) return
-    element.dataset.overridden = true.toString()
+    if (element.hasAttribute('data-bag-attached') || element.hasAttribute('data-bag-ignore')) return
+    element.setAttribute('data-bag-attached', '')
     const clone = element.cloneNode(false) as Element
     clone.addEventListener(eventType, listener)
     clone.append(...element.childNodes)
