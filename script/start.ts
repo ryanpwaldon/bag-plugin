@@ -14,6 +14,7 @@ const querystring = (params: Record<string, string | boolean | number | undefine
 }
 
 export class App {
+  isOpen = false
   cartReady = false
   transitioning = false
   childFrame = {} as ChildMethods
@@ -47,9 +48,9 @@ export class App {
   }
 
   async init() {
-    this.setupScrollLock()
-    new PageMonitor(this)
     document.body.appendChild(this.frame)
+    new PageMonitor(this, this.frame)
+    this.setupScrollLock()
     this.childFrame = await this.connect()
     this.cartReady = true
     this.logger('Cart ready.')
@@ -105,7 +106,7 @@ export class App {
     frame.style.width = '100%'
     frame.style.bottom = '0'
     frame.style.left = '0'
-    frame.style.zIndex = '2147483001'
+    frame.style.zIndex = '2147483647'
     return frame
   }
 
@@ -114,21 +115,23 @@ export class App {
   }
 
   async open(cartOpenMethod: CartOpenMethod) {
-    if (this.transitioning) return
+    if (this.transitioning || this.isOpen) return
     this.lockScroll()
     this.transitioning = true
     this.frame.style.display = 'block'
     await this.childFrame.open(cartOpenMethod)
     this.transitioning = false
+    this.isOpen = true
   }
 
   async close() {
-    if (this.transitioning) return
+    if (this.transitioning || !this.isOpen) return
     this.unlockScroll()
     this.transitioning = true
     await this.childFrame.close()
     this.frame.style.display = 'none'
     this.transitioning = false
+    this.isOpen = false
   }
 
   getWindowInnerWidth() {

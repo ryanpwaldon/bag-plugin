@@ -3,15 +3,31 @@ import getFormData from 'get-form-data'
 
 export class PageMonitor {
   app: App
+  iframe: HTMLIFrameElement
 
-  constructor(app: App) {
+  constructor(app: App, iframe: HTMLIFrameElement) {
     this.app = app
+    this.iframe = iframe
     this.startPageMonitor()
   }
 
   startPageMonitor() {
     this.overrideAllActions()
     new MutationObserver(this.debounce(this.overrideAllActions.bind(this), 250)).observe(document.body, { childList: true, subtree: true })
+    new MutationObserver(this.shuffleElements.bind(this)).observe(document.body, { childList: true })
+  }
+
+  // Ensure Bag appears at bottom of <body>
+  shuffleElements(mutations: MutationRecord[]) {
+    for (const mutation of mutations) {
+      const elements = [...mutation.addedNodes]
+      for (const element of elements) {
+        if (this.iframe.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING) {
+          this.iframe.before(element)
+          this.app.logger(`Shuffled element: ${element}`)
+        }
+      }
+    }
   }
 
   overrideAllActions() {
