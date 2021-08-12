@@ -5,7 +5,8 @@ export default {
     el: 'Το καλάθι σας',
     nb: 'Handlekurven din',
     de: 'Warenkorb',
-    da: 'Din kurv'
+    da: 'Din kurv',
+    'pt-PT': 'Seu carrinho'
   },
   itemSingular: {
     en: '1 item',
@@ -13,7 +14,8 @@ export default {
     el: '1 τεμάχιο',
     nb: '1 vare',
     de: '1 artikel',
-    da: '1 produkt'
+    da: '1 produkt',
+    'pt-PT': '1 item'
   },
   itemPlural: {
     en: (quantity: string | number) => `${quantity} items`,
@@ -21,7 +23,8 @@ export default {
     el: (quantity: string | number) => `${quantity} τεμάχια`,
     nb: (quantity: string | number) => `${quantity} varer`,
     de: (quantity: string | number) => `${quantity} artikel`,
-    da: (quantity: string | number) => `${quantity} produkter`
+    da: (quantity: string | number) => `${quantity} produkter`,
+    'pt-PT': (quantity: string | number) => `${quantity} itens`
   },
   emptyCartLine1: {
     en: 'Your cart is empty',
@@ -29,7 +32,8 @@ export default {
     el: 'Το καλάθι σας είναι άδειο',
     nb: 'Handlekurven din er tom',
     de: 'Dein warenkorb ist leer',
-    da: 'Din kurv er tom'
+    da: 'Din kurv er tom',
+    'pt-PT': 'Seu carrinho está vazio'
   },
   emptyCartLine2: {
     en: 'Add some items to check out',
@@ -37,7 +41,8 @@ export default {
     el: 'Προσθέστε μερικά αντικείμενα',
     nb: 'Legg til noen ting å sjekke ut',
     de: 'Leg los und fülle deinen warenkorb',
-    da: 'Tilføj nogle produkter for at checke ud'
+    da: 'Tilføj nogle produkter for at checke ud',
+    'pt-PT': 'Adicione mais itens'
   },
   offersTitle: {
     en: 'Offers',
@@ -45,7 +50,8 @@ export default {
     el: 'Προσφορές',
     nb: 'Tilbud',
     de: 'Angebote',
-    da: 'Tilbud'
+    da: 'Tilbud',
+    'pt-PT': 'Ofertas'
   },
   quantity: {
     en: 'Quantity',
@@ -53,7 +59,8 @@ export default {
     el: 'Ποσότητα',
     nb: 'Antall',
     de: 'Anzahl',
-    da: 'Antal'
+    da: 'Antal',
+    'pt-PT': 'Quantidade'
   },
   edit: {
     en: 'Edit',
@@ -61,7 +68,8 @@ export default {
     el: 'Επεξεργασία',
     nb: 'Rediger',
     de: 'Bearbeiten',
-    da: 'Ret'
+    da: 'Ret',
+    'pt-PT': 'Editar'
   },
   subtotal: {
     en: 'Subtotal',
@@ -69,7 +77,8 @@ export default {
     el: 'Υποσύνολο',
     nb: 'Delsum',
     de: 'Gesamt',
-    da: 'Subtotal'
+    da: 'Subtotal',
+    'pt-PT': 'Subtotal'
   },
   continueShoppingButton: {
     en: 'Continue shopping',
@@ -77,7 +86,8 @@ export default {
     el: 'Συνεχίστε τις αγορές σας',
     nb: 'Fortsett å handle',
     de: 'Einkauf fortsetzen',
-    da: 'Fortsæt med at shoppe'
+    da: 'Fortsæt med at shoppe',
+    'pt-PT': 'Continuar comprando'
   },
   checkoutButton: {
     en: 'Checkout',
@@ -85,7 +95,8 @@ export default {
     el: 'ΟΛΟΚΛΗΡΩΣΗ ΑΓΟΡΑΣ',
     nb: 'Fortsett til kassen',
     de: 'Zur Kasse',
-    da: 'Køb nu'
+    da: 'Køb nu',
+    'pt-PT': 'Checkout'
   },
   editTitle: {
     en: 'Edit item',
@@ -93,7 +104,8 @@ export default {
     el: 'Επεξεργασία',
     nb: 'Rediger vare',
     de: 'Artikel bearbeiten',
-    da: 'Ret produkt'
+    da: 'Ret produkt',
+    'pt-PT': 'Editar item'
   },
   addToCartTitle: {
     en: 'Add to cart',
@@ -101,7 +113,8 @@ export default {
     el: 'Προσθήκη στο καλάθι',
     nb: 'Legg i handlekurven',
     de: 'Zum warenkorb hinzufügen',
-    da: 'Tilføj til kurv'
+    da: 'Tilføj til kurv',
+    'pt-PT': 'Adicionar ao carrinho'
   },
   viewItem: {
     en: 'View item',
@@ -109,7 +122,8 @@ export default {
     el: 'Προβολή',
     nb: 'Se vare',
     de: 'Artikel ansehen',
-    da: 'Vis produkt'
+    da: 'Vis produkt',
+    'pt-PT': 'Ver item'
   },
   type: {
     en: 'Type',
@@ -117,7 +131,8 @@ export default {
     el: 'Επιλέξτε Χρώμα & Μέγεθος',
     nb: 'Variant',
     de: 'Kategorie',
-    da: 'Type'
+    da: 'Type',
+    'pt-PT': 'Tipo'
   },
   remove: {
     en: 'Remove',
@@ -125,7 +140,8 @@ export default {
     el: 'Αφαίρεση',
     nb: 'Fjern',
     de: 'Entfernen',
-    da: 'Fjern'
+    da: 'Fjern',
+    'pt-PT': 'Remover'
   },
   removeButton: {
     en: 'Remove from cart',
@@ -133,7 +149,8 @@ export default {
     el: 'Αφαίρεση από το Καλάθι',
     nb: 'Fjern fra handlekurven',
     de: 'Vom warenkorb entfernen',
-    da: 'Fjern fra kurv'
+    da: 'Fjern fra kurv',
+    'pt-PT': 'Remover do carrinho'
   },
   saveButton: {
     en: 'Save',
@@ -141,7 +158,8 @@ export default {
     el: 'Αποθήκευση Αλλαγών',
     nb: 'Lagre',
     de: 'Speichern',
-    da: 'Gem'
+    da: 'Gem',
+    'pt-PT': 'Salvar'
   },
   backToCartButton: {
     en: 'Back to cart',
@@ -149,7 +167,8 @@ export default {
     el: 'Επιστροφή στο καλάθι',
     nb: 'Tilbake til handlekurven',
     de: 'Zurück zum warenkorb',
-    da: 'Tilbage til kurv'
+    da: 'Tilbage til kurv',
+    'pt-PT': 'Voltar ao carrinho'
   },
   addToCartButton: {
     en: 'Add to cart',
@@ -157,7 +176,8 @@ export default {
     el: 'Προσθήκη στο καλάθι',
     nb: 'Legg i handlekurven',
     de: 'Zum warenkorb hinzufügen',
-    da: 'Tilføj til kurv'
+    da: 'Tilføj til kurv',
+    'pt-PT': 'Adicionar ao carrinho'
   },
   cancelButton: {
     en: 'Cancel',
@@ -165,7 +185,8 @@ export default {
     el: 'Διαγραφή',
     nb: 'Avbryt',
     de: 'Abbrechen',
-    da: 'Annuller'
+    da: 'Annuller',
+    'pt-PT': 'Cancelar'
   },
   soldOut: {
     en: 'Sold out',
@@ -173,7 +194,8 @@ export default {
     el: 'Εξαντλήθηκε',
     nb: 'Utsolgt',
     de: 'Ausverkauft',
-    da: 'Udsolgt'
+    da: 'Udsolgt',
+    'pt-PT': 'Fora de estoque'
   },
   spendMoreThan: {
     en: (value: string) => `Spend more than ${value}`,
@@ -181,7 +203,8 @@ export default {
     el: (value: string) => `Με αγορές άνω των ${value}`,
     nb: (value: string) => `Handle for mer enn ${value}`,
     de: (value: string) => `Zahle mehr als ${value}`,
-    da: (value: string) => `Brug mere end ${value}`
+    da: (value: string) => `Brug mere end ${value}`,
+    'pt-PT': (value: string) => `Compre mais que ${value}`
   },
   amountRemaining: {
     en: (value: string) => `You're only ${value} away`,
@@ -189,6 +212,7 @@ export default {
     el: (value: string) => `Είστε μόνο ${value} μακριά`,
     nb: (value: string) => `Du mangler kun ${value}`,
     de: (value: string) => `Es fehlen dir noch ${value}`,
-    da: (value: string) => `Du mangler kun ${value}`
+    da: (value: string) => `Du mangler kun ${value}`,
+    'pt-PT': (value: string) => `Falta apenas ${value}`
   }
 }
