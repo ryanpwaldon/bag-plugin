@@ -165,13 +165,7 @@ export class App {
     return data
   }
 
-  // use form data to prevent inventory availability errors
-  async addToCart(variantId: string | number, quantity: string | number): Promise<AjaxLineItem> {
-    if (typeof variantId === 'number') variantId.toString()
-    if (typeof quantity === 'number') quantity.toString()
-    const formData = new FormData()
-    formData.append('id', variantId as string)
-    formData.append('quantity', quantity as string)
+  async addToCart(formData: FormData): Promise<AjaxLineItem> {
     const { data } = (await axios({ url: `/cart/add.js`, method: 'post', data: formData })) as AxiosResponse<AjaxLineItem>
     return data
   }

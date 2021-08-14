@@ -128,7 +128,10 @@ export default defineComponent({
       const variantId = fields.value.variantId
       const quantity = fields.value.quantity
       if (variantId.modified.value) {
-        await getParentFrame().addToCart(variantId.value.value, quantity.value.value)
+        const formData = new FormData()
+        formData.append('id', variantId.value.value.toString())
+        formData.append('quantity', quantity.value.value.toString())
+        await getParentFrame().addToCart(formData)
         const cart = await getParentFrame().changeLineItemQuantity((props.lineItem as AjaxLineItem).key, 0)
         returnToCart(cart)
       } else if (quantity.modified.value) {
@@ -140,7 +143,10 @@ export default defineComponent({
     }
     const onAddSubmit = async () => {
       const { variantId, quantity } = getValues()
-      await getParentFrame().addToCart(variantId, quantity)
+      const formData = new FormData()
+      formData.append('id', variantId.toString())
+      formData.append('quantity', quantity.toString())
+      await getParentFrame().addToCart(formData)
       returnToCart()
     }
     return {

@@ -1,5 +1,4 @@
 import { App } from '../start'
-import getFormData from 'get-form-data'
 
 export class PageMonitor {
   app: App
@@ -71,15 +70,13 @@ export class PageMonitor {
 
   async addToCartFormSubmissionHandler(e: Event) {
     if (!this.app.cartReady) return
-    this.cancelEvent(e)
-    const target = e.target as Element
-    const form = target.closest('form')
-    const values = getFormData(form)
-    const id = values.id
-    // if quantity is an array (very rare), select item with the highest value
-    const quantity = Array.isArray(values.quantity) ? Math.max(...values.quantity.map((item: string) => parseInt(item))) : values.quantity || 1
-    await this.app.addToCart(id, quantity)
-    this.app.open('add-to-cart-form')
+    const form = (e.target as Element).closest('form')
+    if (form) {
+      this.cancelEvent(e)
+      const formData = new FormData(form)
+      await this.app.addToCart(formData)
+      this.app.open('add-to-cart-form')
+    }
   }
 
   debounce(fn: Function, ms = 0) {
