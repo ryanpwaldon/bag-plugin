@@ -6,7 +6,8 @@ export default {
     nb: 'Handlekurven din',
     de: 'Warenkorb',
     da: 'Din kurv',
-    'pt-PT': 'Seu carrinho'
+    'pt-PT': 'Seu carrinho',
+    'lt-LT': 'Jūsų krepšelis'
   },
   itemSingular: {
     en: '1 item',
@@ -15,7 +16,8 @@ export default {
     nb: '1 vare',
     de: '1 artikel',
     da: '1 produkt',
-    'pt-PT': '1 item'
+    'pt-PT': '1 item',
+    'lt-LT': '1 prekė'
   },
   itemPlural: {
     en: (quantity: string | number) => `${quantity} items`,
@@ -24,7 +26,8 @@ export default {
     nb: (quantity: string | number) => `${quantity} varer`,
     de: (quantity: string | number) => `${quantity} artikel`,
     da: (quantity: string | number) => `${quantity} produkter`,
-    'pt-PT': (quantity: string | number) => `${quantity} itens`
+    'pt-PT': (quantity: string | number) => `${quantity} itens`,
+    'lt-LT': (quantity: string | number) => `${quantity} prekių`
   },
   emptyCartLine1: {
     en: 'Your cart is empty',
@@ -33,7 +36,8 @@ export default {
     nb: 'Handlekurven din er tom',
     de: 'Dein warenkorb ist leer',
     da: 'Din kurv er tom',
-    'pt-PT': 'Seu carrinho está vazio'
+    'pt-PT': 'Seu carrinho está vazio',
+    'lt-LT': 'Jūsų krepšelis tuščias'
   },
   emptyCartLine2: {
     en: 'Add some items to check out',
@@ -42,7 +46,8 @@ export default {
     nb: 'Legg til noen ting å sjekke ut',
     de: 'Leg los und fülle deinen warenkorb',
     da: 'Tilføj nogle produkter for at checke ud',
-    'pt-PT': 'Adicione mais itens'
+    'pt-PT': 'Adicione mais itens',
+    'lt-LT': 'Pridėkite prekių, atsiskaitymui'
   },
   offersTitle: {
     en: 'Offers',
@@ -51,7 +56,8 @@ export default {
     nb: 'Tilbud',
     de: 'Angebote',
     da: 'Tilbud',
-    'pt-PT': 'Ofertas'
+    'pt-PT': 'Ofertas',
+    'lt-LT': 'Pasiūlymai'
   },
   quantity: {
     en: 'Quantity',
@@ -60,7 +66,8 @@ export default {
     nb: 'Antall',
     de: 'Anzahl',
     da: 'Antal',
-    'pt-PT': 'Quantidade'
+    'pt-PT': 'Quantidade',
+    'lt-LT': 'Kiekis'
   },
   edit: {
     en: 'Edit',
@@ -69,7 +76,8 @@ export default {
     nb: 'Rediger',
     de: 'Bearbeiten',
     da: 'Ret',
-    'pt-PT': 'Editar'
+    'pt-PT': 'Editar',
+    'lt-LT': 'Koreguoti'
   },
   subtotal: {
     en: 'Subtotal',
@@ -78,7 +86,8 @@ export default {
     nb: 'Delsum',
     de: 'Gesamt',
     da: 'Subtotal',
-    'pt-PT': 'Subtotal'
+    'pt-PT': 'Subtotal',
+    'lt-LT': 'Suma'
   },
   continueShoppingButton: {
     en: 'Continue shopping',
@@ -87,7 +96,8 @@ export default {
     nb: 'Fortsett å handle',
     de: 'Einkauf fortsetzen',
     da: 'Fortsæt med at shoppe',
-    'pt-PT': 'Continuar comprando'
+    'pt-PT': 'Continuar comprando',
+    'lt-LT': 'Tęsti apsipirkimą'
   },
   checkoutButton: {
     en: 'Checkout',
@@ -96,7 +106,8 @@ export default {
     nb: 'Fortsett til kassen',
     de: 'Zur Kasse',
     da: 'Køb nu',
-    'pt-PT': 'Checkout'
+    'pt-PT': 'Checkout',
+    'lt-LT': 'Atsiskaityti'
   },
   editTitle: {
     en: 'Edit item',
@@ -105,7 +116,8 @@ export default {
     nb: 'Rediger vare',
     de: 'Artikel bearbeiten',
     da: 'Ret produkt',
-    'pt-PT': 'Editar item'
+    'pt-PT': 'Editar item',
+    'lt-LT': 'Roreguoti prekę'
   },
   addToCartTitle: {
     en: 'Add to cart',
@@ -114,7 +126,8 @@ export default {
     nb: 'Legg i handlekurven',
     de: 'Zum warenkorb hinzufügen',
     da: 'Tilføj til kurv',
-    'pt-PT': 'Adicionar ao carrinho'
+    'pt-PT': 'Adicionar ao carrinho',
+    'lt-LT': 'Į krepšelį'
   },
   viewItem: {
     en: 'View item',
@@ -123,7 +136,8 @@ export default {
     nb: 'Se vare',
     de: 'Artikel ansehen',
     da: 'Vis produkt',
-    'pt-PT': 'Ver item'
+    'pt-PT': 'Ver item',
+    'lt-LT': 'Peržiūrėti prekę'
   },
   type: {
     en: 'Type',
@@ -132,7 +146,8 @@ export default {
     nb: 'Variant',
     de: 'Kategorie',
     da: 'Type',
-    'pt-PT': 'Tipo'
+    'pt-PT': 'Tipo',
+    'lt-LT': 'Tipas'
   },
   remove: {
     en: 'Remove',
@@ -141,7 +156,8 @@ export default {
     nb: 'Fjern',
     de: 'Entfernen',
     da: 'Fjern',
-    'pt-PT': 'Remover'
+    'pt-PT': 'Remover',
+    'lt-LT': 'Pašalinti'
   },
   removeButton: {
     en: 'Remove from cart',
@@ -150,7 +166,8 @@ export default {
     nb: 'Fjern fra handlekurven',
     de: 'Vom warenkorb entfernen',
     da: 'Fjern fra kurv',
-    'pt-PT': 'Remover do carrinho'
+    'pt-PT': 'Remover do carrinho',
+    'lt-LT': 'Išimti iš krepšelio'
   },
   saveButton: {
     en: 'Save',
@@ -159,7 +176,8 @@ export default {
     nb: 'Lagre',
     de: 'Speichern',
     da: 'Gem',
-    'pt-PT': 'Salvar'
+    'pt-PT': 'Salvar',
+    'lt-LT': 'Sutaupyti'
   },
   backToCartButton: {
     en: 'Back to cart',
@@ -168,7 +186,8 @@ export default {
     nb: 'Tilbake til handlekurven',
     de: 'Zurück zum warenkorb',
     da: 'Tilbage til kurv',
-    'pt-PT': 'Voltar ao carrinho'
+    'pt-PT': 'Voltar ao carrinho',
+    'lt-LT': 'Atgal į krepšelį'
   },
   addToCartButton: {
     en: 'Add to cart',
@@ -177,7 +196,8 @@ export default {
     nb: 'Legg i handlekurven',
     de: 'Zum warenkorb hinzufügen',
     da: 'Tilføj til kurv',
-    'pt-PT': 'Adicionar ao carrinho'
+    'pt-PT': 'Adicionar ao carrinho',
+    'lt-LT': 'Į krepšelį'
   },
   cancelButton: {
     en: 'Cancel',
@@ -186,7 +206,8 @@ export default {
     nb: 'Avbryt',
     de: 'Abbrechen',
     da: 'Annuller',
-    'pt-PT': 'Cancelar'
+    'pt-PT': 'Cancelar',
+    'lt-LT': 'Atšaukti'
   },
   soldOut: {
     en: 'Sold out',
@@ -195,7 +216,8 @@ export default {
     nb: 'Utsolgt',
     de: 'Ausverkauft',
     da: 'Udsolgt',
-    'pt-PT': 'Fora de estoque'
+    'pt-PT': 'Fora de estoque',
+    'lt-LT': 'Išparduota'
   },
   spendMoreThan: {
     en: (value: string) => `Spend more than ${value}`,
@@ -204,7 +226,8 @@ export default {
     nb: (value: string) => `Handle for mer enn ${value}`,
     de: (value: string) => `Zahle mehr als ${value}`,
     da: (value: string) => `Brug mere end ${value}`,
-    'pt-PT': (value: string) => `Compre mais que ${value}`
+    'pt-PT': (value: string) => `Compre mais que ${value}`,
+    'lt-LT': (value: string) => `Išleiskite daugiau nei ${value}`
   },
   amountRemaining: {
     en: (value: string) => `You're only ${value} away`,
@@ -213,6 +236,7 @@ export default {
     nb: (value: string) => `Du mangler kun ${value}`,
     de: (value: string) => `Es fehlen dir noch ${value}`,
     da: (value: string) => `Du mangler kun ${value}`,
-    'pt-PT': (value: string) => `Falta apenas ${value}`
+    'pt-PT': (value: string) => `Falta apenas ${value}`,
+    'lt-LT': (value: string) => `Jūs tik ${value} nuo`
   }
 }
