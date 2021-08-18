@@ -73,6 +73,8 @@ export class PageMonitor {
     const form = (e.target as Element).closest('form')
     if (form) {
       this.cancelEvent(e)
+      const formIsValid = form.checkValidity()
+      if (!formIsValid) return form.reportValidity()
       const formData = new FormData(form)
       await this.app.addToCartFromFormData(formData)
       this.app.open('add-to-cart-form')
