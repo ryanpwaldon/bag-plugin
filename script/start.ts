@@ -1,7 +1,7 @@
 /* eslint @typescript-eslint/no-explicit-any: 0 */
 
+import axios from 'axios'
 import { connectToChild } from 'penpal'
-import axios, { AxiosResponse } from 'axios'
 import { PageMonitor } from './/components/page-monitor'
 import { ChildMethods } from '../src/composables/useParentFrame'
 import { enableScrollLock, disableScrollLock } from 'scroll-lock-body'
@@ -25,12 +25,13 @@ export class App {
     open: this.open.bind(this),
     close: this.close.bind(this),
     getCart: this.getCart.bind(this),
-    addToCart: this.addToCart.bind(this),
     getProductById: this.getProductById.bind(this),
     openRelativeLink: this.openRelativeLink.bind(this),
     getProductByHandle: this.getProductByHandle.bind(this),
     getWindowInnerWidth: this.getWindowInnerWidth.bind(this),
     getUserCartSettings: this.getUserCartSettings.bind(this),
+    addToCartFromParams: this.addToCartFromParams.bind(this),
+    addToCartFromFormData: this.addToCartFromFormData.bind(this),
     changeLineItemQuantity: this.changeLineItemQuantity.bind(this)
   }
 
@@ -165,9 +166,15 @@ export class App {
     return data
   }
 
-  async addToCart(formData: FormData): Promise<AjaxLineItem> {
-    const { data } = (await axios({ url: `/cart/add.js`, method: 'post', data: formData })) as AxiosResponse<AjaxLineItem>
-    return data
+  async addToCartFromFormData(formData: FormData) {
+    return (await axios({ url: `/cart/add.js`, method: 'post', data: formData })).data as AjaxLineItem
+  }
+
+  async addToCartFromParams(variantId: string, quantity: string) {
+    const formData = new FormData()
+    formData.append('id', variantId)
+    formData.append('quantity', quantity)
+    return (await axios({ url: `/cart/add.js`, method: 'post', data: formData })).data as AjaxLineItem
   }
 
   async changeLineItemQuantity(lineItemKey: string, quantity: number): Promise<AjaxCart> {

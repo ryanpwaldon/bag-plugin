@@ -74,7 +74,7 @@ export class PageMonitor {
     if (form) {
       this.cancelEvent(e)
       const formData = new FormData(form)
-      await this.app.addToCart(formData)
+      await this.app.addToCartFromFormData(formData)
       this.app.open('add-to-cart-form')
     }
   }
