@@ -46,7 +46,7 @@ export class PageMonitor {
   }
 
   overrideCartButtonClicks() {
-    const buttons: NodeListOf<HTMLElement> = document.querySelectorAll('[href$="/cart"]')
+    const buttons: NodeListOf<HTMLElement> = document.querySelectorAll('[href$="/cart"], [href$="/cart/"]')
     for (const button of buttons) this.overrideElement(button, 'click', this.cartButtonClickHandler.bind(this))
   }
 
