@@ -38,7 +38,7 @@
             <Terms v-if="cartSettings.termsEnabled" v-model:checked="termsChecked" v-model:display-error="displayTermsError" />
             <Button type="submit" :text="$copy.checkoutButton" class="w-full" />
           </template>
-          <Button @click="handleClose" class="w-full" :text="$copy.continueShoppingButton" :theme="lineItems.length ? 'white' : 'primary'" />
+          <Button @click="handleClose" class="w-full" :text="$copy.continueShoppingButton" v-else />
         </form>
       </Fade>
     </div>
