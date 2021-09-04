@@ -44,7 +44,7 @@ export default {
     fr: 'Ajouter des articles à la caisse',
     el: 'Προσθέστε μερικά αντικείμενα',
     nb: 'Legg til noen ting å sjekke ut',
-    de: 'Leg los und fülle deinen warenkorb',
+    de: 'Leg los und fülle deinen Warenkorb',
     da: 'Tilføj nogle produkter for at checke ud',
     'pt-PT': 'Adicione mais itens',
     'lt-LT': 'Pridėkite prekių, atsiskaitymui'
