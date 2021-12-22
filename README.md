@@ -1,3 +1,3 @@
 # Bag (Plugin)
 
-The customer facing shopping cart rendered via `iframe` on ecommerce storefronts.
+A shopping cart, plus a suite of tools to help ecommerce stores grow their sales. (Customer facing shopping cart).
